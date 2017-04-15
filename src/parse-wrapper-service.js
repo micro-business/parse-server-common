@@ -1,9 +1,9 @@
 import Parse from 'parse/node';
 
-class BaseService {
+class ParseWrapperService {
   static createQuery(object) {
     return new Parse.Query(object);
   }
 }
 
-export default BaseService;
+export default ParseWrapperService;

@@ -29,6 +29,7 @@ var BaseObject = function (_Parse$Object) {
     _this.object = object;
 
     _this.getObject = _this.getObject.bind(_this);
+    _this.saveObject = _this.saveObject.bind(_this);
     _this.getId = _this.getId.bind(_this);
     return _this;
   }
@@ -39,14 +40,14 @@ var BaseObject = function (_Parse$Object) {
       return this.object || this;
     }
   }, {
-    key: 'getId',
-    value: function getId() {
-      return this.getObject().id;
-    }
-  }, {
     key: 'saveObject',
     value: function saveObject() {
       return this.getObject().save();
+    }
+  }, {
+    key: 'getId',
+    value: function getId() {
+      return this.getObject().id;
     }
   }]);
 

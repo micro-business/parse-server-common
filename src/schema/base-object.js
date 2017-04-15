@@ -7,6 +7,7 @@ class BaseObject extends Parse.Object {
     this.object = object;
 
     this.getObject = this.getObject.bind(this);
+    this.saveObject = this.saveObject.bind(this);
     this.getId = this.getId.bind(this);
   }
 
@@ -14,14 +15,14 @@ class BaseObject extends Parse.Object {
     return this.object || this;
   }
 
-  getId() {
-    return this.getObject()
-      .id;
-  }
-
   saveObject() {
     return this.getObject()
       .save();
+  }
+
+  getId() {
+    return this.getObject()
+      .id;
   }
 }
 

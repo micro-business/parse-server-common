@@ -14,19 +14,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var BaseService = function () {
-  function BaseService() {
-    _classCallCheck(this, BaseService);
+var ParseWrapperService = function () {
+  function ParseWrapperService() {
+    _classCallCheck(this, ParseWrapperService);
   }
 
-  _createClass(BaseService, null, [{
+  _createClass(ParseWrapperService, null, [{
     key: 'createQuery',
     value: function createQuery(object) {
       return new _node2.default.Query(object);
     }
   }]);
 
-  return BaseService;
+  return ParseWrapperService;
 }();
 
-exports.default = BaseService;
+exports.default = ParseWrapperService;
