@@ -6,4 +6,8 @@ class ParseWrapperService {
   }
 }
 
+export {
+  ParseWrapperService,
+};
+
 export default ParseWrapperService;

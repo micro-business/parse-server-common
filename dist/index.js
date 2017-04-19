@@ -3,18 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ParseWrapperService = exports.BaseObject = undefined;
 
 var _baseObject = require('./schema/base-object');
 
-var _baseObject2 = _interopRequireDefault(_baseObject);
-
 var _parseWrapperService = require('./parse-wrapper-service');
 
-var _parseWrapperService2 = _interopRequireDefault(_parseWrapperService);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+exports.BaseObject = _baseObject.BaseObject;
+exports.ParseWrapperService = _parseWrapperService.ParseWrapperService;
 exports.default = {
-  BaseObject: _baseObject2.default,
-  ParseWrapperService: _parseWrapperService2.default
+  BaseObject: _baseObject.BaseObject,
+  ParseWrapperService: _parseWrapperService.ParseWrapperService
 };

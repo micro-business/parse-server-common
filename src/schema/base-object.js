@@ -26,4 +26,8 @@ class BaseObject extends Parse.Object {
   }
 }
 
+export {
+  BaseObject,
+};
+
 export default BaseObject;
