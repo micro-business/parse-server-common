@@ -25,6 +25,16 @@ var ParseWrapperService = function () {
     value: function createQuery(object) {
       return new _node2.default.Query(object);
     }
+  }, {
+    key: 'getConfig',
+    value: function getConfig() {
+      return _node2.default.Config.get();
+    }
+  }, {
+    key: 'getCahedConfig',
+    value: function getCahedConfig() {
+      return _node2.default.Config.current();
+    }
   }]);
 
   return ParseWrapperService;
