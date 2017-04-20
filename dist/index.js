@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ParseWrapperService = exports.BaseObject = undefined;
 
-var _baseObject = require('./schema/base-object');
+var _schema = require('./schema');
 
 var _parseWrapperService = require('./parse-wrapper-service');
 
-exports.BaseObject = _baseObject.BaseObject;
+exports.BaseObject = _schema.BaseObject;
 exports.ParseWrapperService = _parseWrapperService.ParseWrapperService;
 exports.default = {
-  BaseObject: _baseObject.BaseObject,
+  BaseObject: _schema.BaseObject,
   ParseWrapperService: _parseWrapperService.ParseWrapperService
 };

@@ -1,6 +1,6 @@
 import {
   BaseObject,
-} from './schema/base-object';
+} from './schema';
 import {
   ParseWrapperService,
 } from './parse-wrapper-service';
