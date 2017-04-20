@@ -31,8 +31,8 @@ var ParseWrapperService = function () {
       return _node2.default.Config.get();
     }
   }, {
-    key: 'getCahedConfig',
-    value: function getCahedConfig() {
+    key: 'getCachedConfig',
+    value: function getCachedConfig() {
       return _node2.default.Config.current();
     }
   }]);

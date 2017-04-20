@@ -9,7 +9,7 @@ class ParseWrapperService {
     return Parse.Config.get();
   }
 
-  static getCahedConfig() {
+  static getCachedConfig() {
     return Parse.Config.current();
   }
 }
