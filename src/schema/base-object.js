@@ -1,4 +1,14 @@
-import Parse from 'parse/node';
+import isNode from 'detect-node';
+
+let Parse;
+
+if (isNode) {
+  Parse = require('parse/node'); // eslint-disable-line global-require
+} else if (typeof window !== 'undefined') {
+  Parse = require('parse'); // eslint-disable-line global-require
+} else {
+  Parse = require('parse/react-native'); // eslint-disable-line global-require
+}
 
 class BaseObject extends Parse.Object {
   constructor(object, className) {
