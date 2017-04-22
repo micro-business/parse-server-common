@@ -1,10 +1,10 @@
-import isNode from 'detect-node';
+import platform from './platform';
 
 let Parse;
 
-if (isNode) {
+if (platform === 'node') {
   Parse = require('parse/node'); // eslint-disable-line global-require
-} else if (typeof window !== 'undefined') {
+} else if (platform === 'browser') {
   Parse = require('parse'); // eslint-disable-line global-require
 } else {
   Parse = require('parse/react-native'); // eslint-disable-line global-require

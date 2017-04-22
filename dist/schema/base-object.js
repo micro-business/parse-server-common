@@ -7,9 +7,9 @@ exports.BaseObject = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _detectNode = require('detect-node');
+var _platform = require('../platform');
 
-var _detectNode2 = _interopRequireDefault(_detectNode);
+var _platform2 = _interopRequireDefault(_platform);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,9 +21,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Parse = void 0;
 
-if (_detectNode2.default) {
+if (_platform2.default === 'node') {
   Parse = require('parse/node'); // eslint-disable-line global-require
-} else if (typeof window !== 'undefined') {
+} else if (_platform2.default === 'browser') {
   Parse = require('parse'); // eslint-disable-line global-require
 } else {
   Parse = require('parse/react-native'); // eslint-disable-line global-require
