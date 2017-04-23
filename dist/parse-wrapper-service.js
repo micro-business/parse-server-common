@@ -45,6 +45,21 @@ var ParseWrapperService = function () {
     value: function getCachedConfig() {
       return Parse.Config.current();
     }
+  }, {
+    key: 'getCurrentUser',
+    value: function getCurrentUser() {
+      return Parse.User.current();
+    }
+  }, {
+    key: 'getCurrentUserAsync',
+    value: function getCurrentUserAsync() {
+      return Parse.User.currentAsync();
+    }
+  }, {
+    key: 'createNewUser',
+    value: function createNewUser() {
+      return new Parse.User();
+    }
   }]);
 
   return ParseWrapperService;

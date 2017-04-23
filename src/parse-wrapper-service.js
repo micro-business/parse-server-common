@@ -22,6 +22,18 @@ class ParseWrapperService {
   static getCachedConfig() {
     return Parse.Config.current();
   }
+
+  static getCurrentUser() {
+    return Parse.User.current();
+  }
+
+  static getCurrentUserAsync() {
+    return Parse.User.currentAsync();
+  }
+
+  static createNewUser() {
+    return new Parse.User();
+  }
 }
 
 export {
