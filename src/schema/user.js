@@ -4,7 +4,7 @@ import {
 
 class User extends BaseObject {
   constructor(object) {
-    super(object, 'User');
+    super(object, '_User');
 
     this.getInfo = this.getInfo.bind(this);
   }

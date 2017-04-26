@@ -21,7 +21,7 @@ var User = function (_BaseObject) {
   function User(object) {
     _classCallCheck(this, User);
 
-    var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, object, 'User'));
+    var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, object, '_User'));
 
     _this.getInfo = _this.getInfo.bind(_this);
     return _this;
