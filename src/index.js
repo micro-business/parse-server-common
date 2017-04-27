@@ -1,6 +1,5 @@
 import {
   BaseObject,
-  User,
 } from './schema';
 import {
   ParseWrapperService,
@@ -11,14 +10,12 @@ import {
 
 export {
   BaseObject,
-  User,
   ParseWrapperService,
   UserService,
 };
 
 export default {
   BaseObject,
-  User,
   ParseWrapperService,
   UserService,
 };

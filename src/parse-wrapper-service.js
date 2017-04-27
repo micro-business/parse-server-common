@@ -34,6 +34,10 @@ class ParseWrapperService {
   static createNewUser() {
     return new Parse.User();
   }
+
+  static createUserWithoutData(userId) {
+    return Parse.User.createWithoutData(userId);
+  }
 }
 
 export {

@@ -1,25 +1,8 @@
 import {
   ParseWrapperService,
 } from './parse-wrapper-service';
-import {
-  User,
-} from './schema';
 
 class UserService {
-  static getCurrentUserInfo() {
-    return new User(ParseWrapperService.getCurrentUser())
-      .getInfo();
-  }
-
-  static getCurrentUserInfoAsync() {
-    return new Promise((resolve, reject) => {
-      ParseWrapperService.getCurrentUserAsync()
-        .then(user => resolve(new User(user)
-          .getInfo()))
-        .catch(error => reject(error));
-    });
-  }
-
   static signUpWithEmailAndPassword(emailAddress, password) {
     const user = ParseWrapperService.createNewUser();
 

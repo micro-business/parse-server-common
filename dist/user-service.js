@@ -9,8 +9,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _parseWrapperService = require('./parse-wrapper-service');
 
-var _schema = require('./schema');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserService = function () {
@@ -19,22 +17,6 @@ var UserService = function () {
   }
 
   _createClass(UserService, null, [{
-    key: 'getCurrentUserInfo',
-    value: function getCurrentUserInfo() {
-      return new _schema.User(_parseWrapperService.ParseWrapperService.getCurrentUser()).getInfo();
-    }
-  }, {
-    key: 'getCurrentUserInfoAsync',
-    value: function getCurrentUserInfoAsync() {
-      return new Promise(function (resolve, reject) {
-        _parseWrapperService.ParseWrapperService.getCurrentUserAsync().then(function (user) {
-          return resolve(new _schema.User(user).getInfo());
-        }).catch(function (error) {
-          return reject(error);
-        });
-      });
-    }
-  }, {
     key: 'signUpWithEmailAndPassword',
     value: function signUpWithEmailAndPassword(emailAddress, password) {
       var user = _parseWrapperService.ParseWrapperService.createNewUser();
