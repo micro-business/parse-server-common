@@ -39,7 +39,7 @@ class ParseWrapperService {
     return Parse.User.createWithoutData(userId);
   }
 
-  static login(emailAddress, password) {
+  static logIn(emailAddress, password) {
     return Parse.User.logIn(emailAddress, password);
   }
 }

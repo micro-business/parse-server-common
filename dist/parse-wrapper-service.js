@@ -66,8 +66,8 @@ var ParseWrapperService = function () {
       return Parse.User.createWithoutData(userId);
     }
   }, {
-    key: 'login',
-    value: function login(emailAddress, password) {
+    key: 'logIn',
+    value: function logIn(emailAddress, password) {
       return Parse.User.logIn(emailAddress, password);
     }
   }]);
