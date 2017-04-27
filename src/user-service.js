@@ -18,8 +18,7 @@ class UserService {
   }
 
   static signOut() {
-    return ParseWrapperService.getCurrentUser()
-      .logOut();
+    return ParseWrapperService.logOut();
   }
 
   static sendEmailVerification() {

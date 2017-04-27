@@ -42,6 +42,10 @@ class ParseWrapperService {
   static logIn(emailAddress, password) {
     return Parse.User.logIn(emailAddress, password);
   }
+
+  static logOut() {
+    return Parse.User.logOut();
+  }
 }
 
 export {

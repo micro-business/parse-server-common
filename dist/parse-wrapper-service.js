@@ -70,6 +70,11 @@ var ParseWrapperService = function () {
     value: function logIn(emailAddress, password) {
       return Parse.User.logIn(emailAddress, password);
     }
+  }, {
+    key: 'logOut',
+    value: function logOut() {
+      return Parse.User.logOut();
+    }
   }]);
 
   return ParseWrapperService;

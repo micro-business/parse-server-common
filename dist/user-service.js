@@ -35,7 +35,7 @@ var UserService = function () {
   }, {
     key: 'signOut',
     value: function signOut() {
-      return _parseWrapperService.ParseWrapperService.getCurrentUser().logOut();
+      return _parseWrapperService.ParseWrapperService.logOut();
     }
   }, {
     key: 'sendEmailVerification',
