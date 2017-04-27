@@ -38,6 +38,10 @@ class ParseWrapperService {
   static createUserWithoutData(userId) {
     return Parse.User.createWithoutData(userId);
   }
+
+  static login(emailAddress, password) {
+    return Parse.User.logIn(emailAddress, password);
+  }
 }
 
 export {

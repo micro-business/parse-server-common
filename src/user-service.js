@@ -14,8 +14,7 @@ class UserService {
   }
 
   static signInWithEmailAndPassword(emailAddress, password) {
-    return ParseWrapperService.getCurrentUser()
-      .logIn(emailAddress, password);
+    return ParseWrapperService.logIn(emailAddress, password);
   }
 
   static signOut() {

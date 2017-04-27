@@ -30,7 +30,7 @@ var UserService = function () {
   }, {
     key: 'signInWithEmailAndPassword',
     value: function signInWithEmailAndPassword(emailAddress, password) {
-      return _parseWrapperService.ParseWrapperService.getCurrentUser().logIn(emailAddress, password);
+      return _parseWrapperService.ParseWrapperService.logIn(emailAddress, password);
     }
   }, {
     key: 'signOut',
