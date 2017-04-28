@@ -1,9 +1,11 @@
+// @flow
+
 import {
   ParseWrapperService,
 } from './parse-wrapper-service';
 
 class UserService {
-  static signUpWithEmailAndPassword(emailAddress, password) {
+  static signUpWithEmailAndPassword(emailAddress: string, password: string) {
     const user = ParseWrapperService.createNewUser();
 
     user.set('username', emailAddress);
@@ -13,7 +15,7 @@ class UserService {
     return user.signUp();
   }
 
-  static signInWithEmailAndPassword(emailAddress, password) {
+  static signInWithEmailAndPassword(emailAddress: string, password: string) {
     return ParseWrapperService.logIn(emailAddress, password);
   }
 
@@ -30,12 +32,12 @@ class UserService {
     return user.save();
   }
 
-  static resetPassword(emailAddress) {
+  static resetPassword(emailAddress: string) {
     return ParseWrapperService.getCurrentUser()
       .requestPasswordReset(emailAddress);
   }
 
-  static updatePassword(newPassword) {
+  static updatePassword(newPassword: string) {
     const user = ParseWrapperService.getCurrentUser();
 
     user.set('password', newPassword);

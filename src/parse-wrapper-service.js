@@ -1,3 +1,5 @@
+// @flow
+
 import platform from './platform';
 
 let Parse;
@@ -35,11 +37,11 @@ class ParseWrapperService {
     return new Parse.User();
   }
 
-  static createUserWithoutData(userId) {
+  static createUserWithoutData(userId: string) {
     return Parse.User.createWithoutData(userId);
   }
 
-  static logIn(emailAddress, password) {
+  static logIn(emailAddress: string, password: string) {
     return Parse.User.logIn(emailAddress, password);
   }
 
