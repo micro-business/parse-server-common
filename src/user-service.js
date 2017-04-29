@@ -9,20 +9,38 @@ import {
 
 class UserService {
   static signUpWithEmailAndPassword(username: string, password: string, emailAddress: ? string) {
-    const user = ParseWrapperService.createNewUser();
+    return new Promise((resolve, reject) => {
+      const user = ParseWrapperService.createNewUser();
 
-    user.setUsername(username);
-    user.setPassword(password);
+      user.setUsername(username);
+      user.setPassword(password);
 
-    if (emailAddress) {
-      user.setEmail(emailAddress);
-    }
+      if (emailAddress) {
+        user.setEmail(emailAddress);
+      }
 
-    return user.signUp();
+      user.signUp()
+        .then(result => resolve(Map({
+          id: result.id,
+          username: result.getUsername(),
+          emailAddress: result.getEmail(),
+          emailAddressVerified: result.get('emailVerified'),
+        })))
+        .catch(error => reject(error));
+    });
   }
 
   static signInWithEmailAndPassword(username: string, password: string) {
-    return ParseWrapperService.logIn(username, password);
+    return new Promise((resolve, reject) => {
+      ParseWrapperService.logIn(username, password)
+        .then(result => resolve(Map({
+          id: result.id,
+          username: result.getUsername(),
+          emailAddress: result.getEmail(),
+          emailAddressVerified: result.get('emailVerified'),
+        })))
+        .catch(error => reject(error));
+    });
   }
 
   static signOut() {

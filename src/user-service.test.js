@@ -11,9 +11,11 @@ describe('signUpWithEmailAndPassword', () => {
 
     UserService.signUpWithEmailAndPassword(username, uuid(), emailAddress)
       .then((result) => {
-        expect(result.getUsername())
+        expect(result.get('id'))
+          .toBeTruthy();
+        expect(result.get('username'))
           .toBe(username);
-        expect(result.getEmail())
+        expect(result.get('emailAddress'))
           .toBe(emailAddress);
         expect(result.get('emailVerified'))
           .toBeFalsy();
@@ -58,9 +60,11 @@ describe('signInWithEmailAndPassword', () => {
     UserService.signUpWithEmailAndPassword(username, password, emailAddress)
       .then(() => UserService.signInWithEmailAndPassword(username, password))
       .then((result) => {
-        expect(result.getUsername())
+        expect(result.get('id'))
+          .toBeTruthy();
+        expect(result.get('username'))
           .toBe(username);
-        expect(result.getEmail())
+        expect(result.get('emailAddress'))
           .toBe(emailAddress);
         expect(result.get('emailVerified'))
           .toBeFalsy();

@@ -16,8 +16,9 @@ describe('signUpWithEmailAndPassword', function () {
     var emailAddress = (0, _v2.default)() + '@email.com';
 
     _userService.UserService.signUpWithEmailAndPassword(username, (0, _v2.default)(), emailAddress).then(function (result) {
-      expect(result.getUsername()).toBe(username);
-      expect(result.getEmail()).toBe(emailAddress);
+      expect(result.get('id')).toBeTruthy();
+      expect(result.get('username')).toBe(username);
+      expect(result.get('emailAddress')).toBe(emailAddress);
       expect(result.get('emailVerified')).toBeFalsy();
       done();
     }).catch(function (error) {
@@ -60,8 +61,9 @@ describe('signInWithEmailAndPassword', function () {
     _userService.UserService.signUpWithEmailAndPassword(username, password, emailAddress).then(function () {
       return _userService.UserService.signInWithEmailAndPassword(username, password);
     }).then(function (result) {
-      expect(result.getUsername()).toBe(username);
-      expect(result.getEmail()).toBe(emailAddress);
+      expect(result.get('id')).toBeTruthy();
+      expect(result.get('username')).toBe(username);
+      expect(result.get('emailAddress')).toBe(emailAddress);
       expect(result.get('emailVerified')).toBeFalsy();
       done();
     }).catch(function (error) {

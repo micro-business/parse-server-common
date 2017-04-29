@@ -21,21 +21,43 @@ var UserService = function () {
   _createClass(UserService, null, [{
     key: 'signUpWithEmailAndPassword',
     value: function signUpWithEmailAndPassword(username, password, emailAddress) {
-      var user = _parseWrapperService.ParseWrapperService.createNewUser();
+      return new Promise(function (resolve, reject) {
+        var user = _parseWrapperService.ParseWrapperService.createNewUser();
 
-      user.setUsername(username);
-      user.setPassword(password);
+        user.setUsername(username);
+        user.setPassword(password);
 
-      if (emailAddress) {
-        user.setEmail(emailAddress);
-      }
+        if (emailAddress) {
+          user.setEmail(emailAddress);
+        }
 
-      return user.signUp();
+        user.signUp().then(function (result) {
+          return resolve((0, _immutable.Map)({
+            id: result.id,
+            username: result.getUsername(),
+            emailAddress: result.getEmail(),
+            emailAddressVerified: result.get('emailVerified')
+          }));
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
     }
   }, {
     key: 'signInWithEmailAndPassword',
     value: function signInWithEmailAndPassword(username, password) {
-      return _parseWrapperService.ParseWrapperService.logIn(username, password);
+      return new Promise(function (resolve, reject) {
+        _parseWrapperService.ParseWrapperService.logIn(username, password).then(function (result) {
+          return resolve((0, _immutable.Map)({
+            id: result.id,
+            username: result.getUsername(),
+            emailAddress: result.getEmail(),
+            emailAddressVerified: result.get('emailVerified')
+          }));
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
     }
   }, {
     key: 'signOut',
