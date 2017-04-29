@@ -17,8 +17,18 @@ class ParseWrapperService {
     return new Parse.Query(Parse.User);
   }
 
-  static createQuery(object) {
-    return new Parse.Query(object);
+  static createQuery(object, criteria) {
+    const query = new Parse.Query(object);
+
+    if (criteria.has('fields') && criteria.get('fields')) {
+      const fields = criteria.get('fields');
+
+      if (fields) {
+        query.select(fields.toArray());
+      }
+    }
+
+    return query;
   }
 
   static getConfig() {

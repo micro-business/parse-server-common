@@ -37,8 +37,18 @@ var ParseWrapperService = function () {
     }
   }, {
     key: 'createQuery',
-    value: function createQuery(object) {
-      return new Parse.Query(object);
+    value: function createQuery(object, criteria) {
+      var query = new Parse.Query(object);
+
+      if (criteria.has('fields') && criteria.get('fields')) {
+        var fields = criteria.get('fields');
+
+        if (fields) {
+          query.select(fields.toArray());
+        }
+      }
+
+      return query;
     }
   }, {
     key: 'getConfig',
