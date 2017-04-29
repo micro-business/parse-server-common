@@ -67,26 +67,28 @@ var UserService = function () {
   }, {
     key: 'sendEmailVerification',
     value: function sendEmailVerification() {
-      var user = _parseWrapperService.ParseWrapperService.getCurrentUser();
+      _parseWrapperService.ParseWrapperService.getCurrentUserAsync().then(function (user) {
+        // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
+        user.setEmail(user.getEmail());
 
-      // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
-      user.setEmail(user.getEmail());
-
-      return user.save();
+        return user.save();
+      });
     }
   }, {
     key: 'resetPassword',
     value: function resetPassword(emailAddress) {
-      return _parseWrapperService.ParseWrapperService.getCurrentUser().requestPasswordReset(emailAddress);
+      _parseWrapperService.ParseWrapperService.getCurrentUserAsync().then(function (user) {
+        return user.requestPasswordReset(emailAddress);
+      });
     }
   }, {
     key: 'updatePassword',
     value: function updatePassword(newPassword) {
-      var user = _parseWrapperService.ParseWrapperService.getCurrentUser();
+      _parseWrapperService.ParseWrapperService.getCurrentUserAsync().then(function (user) {
+        user.setPassword(newPassword);
 
-      user.setPassword(newPassword);
-
-      return user.save();
+        return user.save();
+      });
     }
   }, {
     key: 'getUserInfo',

@@ -48,25 +48,27 @@ class UserService {
   }
 
   static sendEmailVerification() {
-    const user = ParseWrapperService.getCurrentUser();
+    ParseWrapperService.getCurrentUserAsync()
+      .then((user) => {
+        // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
+        user.setEmail(user.getEmail());
 
-    // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
-    user.setEmail(user.getEmail());
-
-    return user.save();
+        return user.save();
+      });
   }
 
   static resetPassword(emailAddress: string) {
-    return ParseWrapperService.getCurrentUser()
-      .requestPasswordReset(emailAddress);
+    ParseWrapperService.getCurrentUserAsync()
+      .then(user => user.requestPasswordReset(emailAddress));
   }
 
   static updatePassword(newPassword: string) {
-    const user = ParseWrapperService.getCurrentUser();
+    ParseWrapperService.getCurrentUserAsync()
+      .then((user) => {
+        user.setPassword(newPassword);
 
-    user.setPassword(newPassword);
-
-    return user.save();
+        return user.save();
+      });
   }
 
   static getUserInfo(username: string) {
