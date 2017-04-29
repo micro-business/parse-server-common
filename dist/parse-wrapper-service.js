@@ -44,28 +44,28 @@ var ParseWrapperService = function () {
         return query;
       }
 
-      if (criteria.has('topMost')) {
-        var value = criteria.get('topMost');
+      if (criteria.has('limit')) {
+        var value = criteria.get('limit');
 
         if (value) {
-          query.descending('createdAt');
-          query.limit(1);
-        }
-      }
-
-      if (criteria.has('limit')) {
-        var _value = criteria.get('limit');
-
-        if (_value) {
-          query.limit(_value);
+          query.limit(value);
         }
       }
 
       if (criteria.has('skip')) {
-        var _value2 = criteria.get('skip');
+        var _value = criteria.get('skip');
+
+        if (_value) {
+          query.skip(_value);
+        }
+      }
+
+      if (criteria.has('topMost')) {
+        var _value2 = criteria.get('topMost');
 
         if (_value2) {
-          query.skip(_value2);
+          query.descending('createdAt');
+          query.limit(1);
         }
       }
 

@@ -24,15 +24,6 @@ class ParseWrapperService {
       return query;
     }
 
-    if (criteria.has('topMost')) {
-      const value = criteria.get('topMost');
-
-      if (value) {
-        query.descending('createdAt');
-        query.limit(1);
-      }
-    }
-
     if (criteria.has('limit')) {
       const value = criteria.get('limit');
 
@@ -46,6 +37,15 @@ class ParseWrapperService {
 
       if (value) {
         query.skip(value);
+      }
+    }
+
+    if (criteria.has('topMost')) {
+      const value = criteria.get('topMost');
+
+      if (value) {
+        query.descending('createdAt');
+        query.limit(1);
       }
     }
 
