@@ -1,6 +1,6 @@
 {
   "name": "micro-business-parse-server-common",
-  "version": "0.1.26",
+  "version": "0.1.28",
   "description": "Micro Business Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   "homepage": "https://bitbucket.org/microbusiness/micro-business-parse-server-common#readme",
   "dependencies": {
     "detect-node": "^2.0.3",
+    "immutable": "^3.8.1",
     "parse": "^1.9.2"
   },
   "devDependencies": {
@@ -37,7 +38,8 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "flow-bin": "^0.45.0",
-    "jest": "^19.0.2"
+    "jest": "^19.0.2",
+    "uuid": "^3.0.1"
   },
   "jest": {
     "rootDir": "./src"

@@ -1,22 +1,28 @@
 // @flow
 
 import {
+  Map,
+} from 'immutable';
+import {
   ParseWrapperService,
 } from './parse-wrapper-service';
 
 class UserService {
-  static signUpWithEmailAndPassword(emailAddress: string, password: string) {
+  static signUpWithEmailAndPassword(username: string, password: string, emailAddress: ? string) {
     const user = ParseWrapperService.createNewUser();
 
-    user.set('username', emailAddress);
-    user.set('password', password);
-    user.set('email', emailAddress);
+    user.setUsername(username);
+    user.setPassword(password);
+
+    if (emailAddress) {
+      user.setEmail(emailAddress);
+    }
 
     return user.signUp();
   }
 
-  static signInWithEmailAndPassword(emailAddress: string, password: string) {
-    return ParseWrapperService.logIn(emailAddress, password);
+  static signInWithEmailAndPassword(username: string, password: string) {
+    return ParseWrapperService.logIn(username, password);
   }
 
   static signOut() {
@@ -27,7 +33,7 @@ class UserService {
     const user = ParseWrapperService.getCurrentUser();
 
     // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
-    user.set('email', user.getEmail());
+    user.setEmail(user.getEmail());
 
     return user.save();
   }
@@ -40,9 +46,32 @@ class UserService {
   static updatePassword(newPassword: string) {
     const user = ParseWrapperService.getCurrentUser();
 
-    user.set('password', newPassword);
+    user.setPassword(newPassword);
 
     return user.save();
+  }
+
+  static getUserInfo(username: string) {
+    return new Promise((resolve, reject) => {
+      const query = ParseWrapperService.createUserQuery();
+
+      query.equalTo('username', username);
+
+      query.find()
+        .then((results) => {
+          if (results.length === 0) {
+            reject(`No user found with username: ${username}`);
+          } else if (results.length > 1) {
+            reject(`Multiple user found with username: ${username}`);
+          } else {
+            resolve(Map({
+              id: results[0].id,
+              username: results[0].getUsername(),
+            }));
+          }
+        })
+        .catch(error => reject(error));
+    });
   }
 }
 

@@ -39,6 +39,7 @@
     }
   },
   "env": {
+    "jasmine": true,
     "jest": true,
   }
 }

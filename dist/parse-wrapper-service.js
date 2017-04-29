@@ -31,6 +31,11 @@ var ParseWrapperService = function () {
   }
 
   _createClass(ParseWrapperService, null, [{
+    key: 'createUserQuery',
+    value: function createUserQuery() {
+      return new Parse.Query(Parse.User);
+    }
+  }, {
     key: 'createQuery',
     value: function createQuery(object) {
       return new Parse.Query(object);
@@ -67,8 +72,8 @@ var ParseWrapperService = function () {
     }
   }, {
     key: 'logIn',
-    value: function logIn(emailAddress, password) {
-      return Parse.User.logIn(emailAddress, password);
+    value: function logIn(username, password) {
+      return Parse.User.logIn(username, password);
     }
   }, {
     key: 'logOut',

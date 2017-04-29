@@ -7,6 +7,8 @@ exports.UserService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _immutable = require('immutable');
+
 var _parseWrapperService = require('./parse-wrapper-service');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18,19 +20,22 @@ var UserService = function () {
 
   _createClass(UserService, null, [{
     key: 'signUpWithEmailAndPassword',
-    value: function signUpWithEmailAndPassword(emailAddress, password) {
+    value: function signUpWithEmailAndPassword(username, password, emailAddress) {
       var user = _parseWrapperService.ParseWrapperService.createNewUser();
 
-      user.set('username', emailAddress);
-      user.set('password', password);
-      user.set('email', emailAddress);
+      user.setUsername(username);
+      user.setPassword(password);
+
+      if (emailAddress) {
+        user.setEmail(emailAddress);
+      }
 
       return user.signUp();
     }
   }, {
     key: 'signInWithEmailAndPassword',
-    value: function signInWithEmailAndPassword(emailAddress, password) {
-      return _parseWrapperService.ParseWrapperService.logIn(emailAddress, password);
+    value: function signInWithEmailAndPassword(username, password) {
+      return _parseWrapperService.ParseWrapperService.logIn(username, password);
     }
   }, {
     key: 'signOut',
@@ -43,7 +48,7 @@ var UserService = function () {
       var user = _parseWrapperService.ParseWrapperService.getCurrentUser();
 
       // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
-      user.set('email', user.getEmail());
+      user.setEmail(user.getEmail());
 
       return user.save();
     }
@@ -57,9 +62,33 @@ var UserService = function () {
     value: function updatePassword(newPassword) {
       var user = _parseWrapperService.ParseWrapperService.getCurrentUser();
 
-      user.set('password', newPassword);
+      user.setPassword(newPassword);
 
       return user.save();
+    }
+  }, {
+    key: 'getUserInfo',
+    value: function getUserInfo(username) {
+      return new Promise(function (resolve, reject) {
+        var query = _parseWrapperService.ParseWrapperService.createUserQuery();
+
+        query.equalTo('username', username);
+
+        query.find().then(function (results) {
+          if (results.length === 0) {
+            reject('No user found with username: ' + username);
+          } else if (results.length > 1) {
+            reject('Multiple user found with username: ' + username);
+          } else {
+            resolve((0, _immutable.Map)({
+              id: results[0].id,
+              username: results[0].getUsername()
+            }));
+          }
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
     }
   }]);
 

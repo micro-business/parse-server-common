@@ -13,6 +13,10 @@ if (platform === 'node') {
 }
 
 class ParseWrapperService {
+  static createUserQuery() {
+    return new Parse.Query(Parse.User);
+  }
+
   static createQuery(object) {
     return new Parse.Query(object);
   }
@@ -41,8 +45,8 @@ class ParseWrapperService {
     return Parse.User.createWithoutData(userId);
   }
 
-  static logIn(emailAddress: string, password: string) {
-    return Parse.User.logIn(emailAddress, password);
+  static logIn(username: string, password: string) {
+    return Parse.User.logIn(username, password);
   }
 
   static logOut() {
