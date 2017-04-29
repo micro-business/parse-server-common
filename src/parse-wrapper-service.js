@@ -20,6 +20,10 @@ class ParseWrapperService {
   static createQuery(object, criteria) {
     const query = new Parse.Query(object);
 
+    if (!criteria) {
+      return query;
+    }
+
     if (criteria.has('limit') && criteria.get('limit')) {
       const value = criteria.get('limit');
 

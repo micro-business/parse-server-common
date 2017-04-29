@@ -40,6 +40,10 @@ var ParseWrapperService = function () {
     value: function createQuery(object, criteria) {
       var query = new Parse.Query(object);
 
+      if (!criteria) {
+        return query;
+      }
+
       if (criteria.has('limit') && criteria.get('limit')) {
         var value = criteria.get('limit');
 
