@@ -67,6 +67,10 @@ class ParseWrapperService {
     return query;
   }
 
+  static createOrQuery(queries) {
+    return new Parse.Query.or(queries.toArray()); // eslint-disable-line new-cap
+  }
+
   static getConfig() {
     return Parse.Config.get();
   }

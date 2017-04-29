@@ -87,6 +87,11 @@ var ParseWrapperService = function () {
       return query;
     }
   }, {
+    key: 'createOrQuery',
+    value: function createOrQuery(queries) {
+      return new Parse.Query.or(queries.toArray()); // eslint-disable-line new-cap
+    }
+  }, {
     key: 'getConfig',
     value: function getConfig() {
       return Parse.Config.get();
