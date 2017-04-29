@@ -44,23 +44,32 @@ var ParseWrapperService = function () {
         return query;
       }
 
-      if (criteria.has('limit') && criteria.get('limit')) {
-        var value = criteria.get('limit');
+      if (criteria.has('topMost')) {
+        var value = criteria.get('topMost');
 
         if (value) {
-          query.limit(value);
+          query.descending('createdAt');
+          query.limit(1);
         }
       }
 
-      if (criteria.has('skip') && criteria.get('skip')) {
-        var _value = criteria.get('skip');
+      if (criteria.has('limit')) {
+        var _value = criteria.get('limit');
 
         if (_value) {
-          query.skip(_value);
+          query.limit(_value);
         }
       }
 
-      if (criteria.has('fields') && criteria.get('fields')) {
+      if (criteria.has('skip')) {
+        var _value2 = criteria.get('skip');
+
+        if (_value2) {
+          query.skip(_value2);
+        }
+      }
+
+      if (criteria.has('fields')) {
         var fields = criteria.get('fields');
 
         if (fields) {
@@ -68,19 +77,19 @@ var ParseWrapperService = function () {
         }
       }
 
-      if (criteria.has('ascending') && criteria.get('ascending')) {
-        var _value2 = criteria.get('ascending');
+      if (criteria.has('ascending')) {
+        var _value3 = criteria.get('ascending');
 
-        if (_value2) {
-          query.ascending(_value2);
+        if (_value3) {
+          query.ascending(_value3);
         }
       }
 
-      if (criteria.has('descending') && criteria.get('descending')) {
-        var _value3 = criteria.get('descending');
+      if (criteria.has('descending')) {
+        var _value4 = criteria.get('descending');
 
-        if (_value3) {
-          query.descending(_value3);
+        if (_value4) {
+          query.descending(_value4);
         }
       }
 

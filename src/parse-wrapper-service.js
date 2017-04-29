@@ -24,7 +24,16 @@ class ParseWrapperService {
       return query;
     }
 
-    if (criteria.has('limit') && criteria.get('limit')) {
+    if (criteria.has('topMost')) {
+      const value = criteria.get('topMost');
+
+      if (value) {
+        query.descending('createdAt');
+        query.limit(1);
+      }
+    }
+
+    if (criteria.has('limit')) {
       const value = criteria.get('limit');
 
       if (value) {
@@ -32,7 +41,7 @@ class ParseWrapperService {
       }
     }
 
-    if (criteria.has('skip') && criteria.get('skip')) {
+    if (criteria.has('skip')) {
       const value = criteria.get('skip');
 
       if (value) {
@@ -40,7 +49,7 @@ class ParseWrapperService {
       }
     }
 
-    if (criteria.has('fields') && criteria.get('fields')) {
+    if (criteria.has('fields')) {
       const fields = criteria.get('fields');
 
       if (fields) {
@@ -48,7 +57,7 @@ class ParseWrapperService {
       }
     }
 
-    if (criteria.has('ascending') && criteria.get('ascending')) {
+    if (criteria.has('ascending')) {
       const value = criteria.get('ascending');
 
       if (value) {
@@ -56,7 +65,7 @@ class ParseWrapperService {
       }
     }
 
-    if (criteria.has('descending') && criteria.get('descending')) {
+    if (criteria.has('descending')) {
       const value = criteria.get('descending');
 
       if (value) {
