@@ -73,6 +73,20 @@ class ParseWrapperService {
       }
     }
 
+    if (!criteria.has('conditions')) {
+      return query;
+    }
+
+    const conditions = criteria.get('conditions');
+
+    if (conditions.has('ids')) {
+      const value = conditions.get('ids');
+
+      if (value) {
+        query.containsAll('objectId', value.toArray());
+      }
+    }
+
     return query;
   }
 

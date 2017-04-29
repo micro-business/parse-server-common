@@ -93,6 +93,20 @@ var ParseWrapperService = function () {
         }
       }
 
+      if (!criteria.has('conditions')) {
+        return query;
+      }
+
+      var conditions = criteria.get('conditions');
+
+      if (conditions.has('ids')) {
+        var _value5 = conditions.get('ids');
+
+        if (_value5) {
+          query.containsAll('objectId', _value5.toArray());
+        }
+      }
+
       return query;
     }
   }, {
