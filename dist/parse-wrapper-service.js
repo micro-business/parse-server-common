@@ -40,11 +40,43 @@ var ParseWrapperService = function () {
     value: function createQuery(object, criteria) {
       var query = new Parse.Query(object);
 
+      if (criteria.has('limit') && criteria.get('limit')) {
+        var value = criteria.get('limit');
+
+        if (value) {
+          query.limit(value);
+        }
+      }
+
+      if (criteria.has('skip') && criteria.get('skip')) {
+        var _value = criteria.get('skip');
+
+        if (_value) {
+          query.skip(_value);
+        }
+      }
+
       if (criteria.has('fields') && criteria.get('fields')) {
         var fields = criteria.get('fields');
 
         if (fields) {
           query.select(fields.toArray());
+        }
+      }
+
+      if (criteria.has('ascending') && criteria.get('ascending')) {
+        var _value2 = criteria.get('ascending');
+
+        if (_value2) {
+          query.ascending(_value2);
+        }
+      }
+
+      if (criteria.has('descending') && criteria.get('descending')) {
+        var _value3 = criteria.get('descending');
+
+        if (_value3) {
+          query.descending(_value3);
         }
       }
 

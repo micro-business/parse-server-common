@@ -20,11 +20,43 @@ class ParseWrapperService {
   static createQuery(object, criteria) {
     const query = new Parse.Query(object);
 
+    if (criteria.has('limit') && criteria.get('limit')) {
+      const value = criteria.get('limit');
+
+      if (value) {
+        query.limit(value);
+      }
+    }
+
+    if (criteria.has('skip') && criteria.get('skip')) {
+      const value = criteria.get('skip');
+
+      if (value) {
+        query.skip(value);
+      }
+    }
+
     if (criteria.has('fields') && criteria.get('fields')) {
       const fields = criteria.get('fields');
 
       if (fields) {
         query.select(fields.toArray());
+      }
+    }
+
+    if (criteria.has('ascending') && criteria.get('ascending')) {
+      const value = criteria.get('ascending');
+
+      if (value) {
+        query.ascending(value);
+      }
+    }
+
+    if (criteria.has('descending') && criteria.get('descending')) {
+      const value = criteria.get('descending');
+
+      if (value) {
+        query.descending(value);
       }
     }
 
