@@ -93,16 +93,12 @@ var ParseWrapperService = function () {
         }
       }
 
-      if (!criteria.has('conditions')) {
-        return query;
-      }
-
       return query;
     }
   }, {
     key: 'createOrQuery',
     value: function createOrQuery(queries) {
-      return new Parse.Query.or(queries.toArray()); // eslint-disable-line new-cap
+      return Parse.Query.or.apply(this, queries.toArray());
     }
   }, {
     key: 'createQueryIncludingObjectIds',
@@ -127,7 +123,7 @@ var ParseWrapperService = function () {
             objectIdQuery.equalTo('objectId', objectId);
 
             return objectIdQuery;
-          }).push(query).toArray());
+          }).push(query));
         }
       }
 

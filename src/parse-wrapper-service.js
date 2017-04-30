@@ -73,15 +73,11 @@ class ParseWrapperService {
       }
     }
 
-    if (!criteria.has('conditions')) {
-      return query;
-    }
-
     return query;
   }
 
   static createOrQuery(queries) {
-    return new Parse.Query.or(queries.toArray()); // eslint-disable-line new-cap
+    return Parse.Query.or.apply(this, queries.toArray());
   }
 
   static createQueryIncludingObjectIds(object, query, criteria) {
@@ -106,8 +102,7 @@ class ParseWrapperService {
 
           return objectIdQuery;
         })
-          .push(query)
-          .toArray());
+          .push(query));
       }
     }
 
