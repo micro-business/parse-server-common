@@ -77,21 +77,41 @@ class ParseWrapperService {
       return query;
     }
 
-    const conditions = criteria.get('conditions');
-
-    if (conditions.has('ids')) {
-      const value = conditions.get('ids');
-
-      if (value) {
-        query.containsAll('objectId', value.toArray());
-      }
-    }
-
     return query;
   }
 
   static createOrQuery(queries) {
     return new Parse.Query.or(queries.toArray()); // eslint-disable-line new-cap
+  }
+
+  static createQueryIncludingObjectIds(object, query, criteria) {
+    if (!criteria) {
+      return query;
+    }
+
+    const conditions = criteria.get('conditions');
+
+    if (!conditions) {
+      return query;
+    }
+
+    if (conditions.has('ids')) {
+      const objectIds = conditions.get('ids');
+
+      if (objectIds && !objectIds.isEmpty()) {
+        return ParseWrapperService.createOrQuery(objectIds.map((objectId) => {
+          const objectIdQuery = new Parse.Query(object);
+
+          objectIdQuery.equalTo('objectId', objectId);
+
+          return objectIdQuery;
+        })
+          .push(query)
+          .toArray());
+      }
+    }
+
+    return query;
   }
 
   static getConfig() {

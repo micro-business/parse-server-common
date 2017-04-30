@@ -97,22 +97,41 @@ var ParseWrapperService = function () {
         return query;
       }
 
-      var conditions = criteria.get('conditions');
-
-      if (conditions.has('ids')) {
-        var _value5 = conditions.get('ids');
-
-        if (_value5) {
-          query.containsAll('objectId', _value5.toArray());
-        }
-      }
-
       return query;
     }
   }, {
     key: 'createOrQuery',
     value: function createOrQuery(queries) {
       return new Parse.Query.or(queries.toArray()); // eslint-disable-line new-cap
+    }
+  }, {
+    key: 'createQueryIncludingObjectIds',
+    value: function createQueryIncludingObjectIds(object, query, criteria) {
+      if (!criteria) {
+        return query;
+      }
+
+      var conditions = criteria.get('conditions');
+
+      if (!conditions) {
+        return query;
+      }
+
+      if (conditions.has('ids')) {
+        var objectIds = conditions.get('ids');
+
+        if (objectIds && !objectIds.isEmpty()) {
+          return ParseWrapperService.createOrQuery(objectIds.map(function (objectId) {
+            var objectIdQuery = new Parse.Query(object);
+
+            objectIdQuery.equalTo('objectId', objectId);
+
+            return objectIdQuery;
+          }).push(query).toArray());
+        }
+      }
+
+      return query;
     }
   }, {
     key: 'getConfig',
