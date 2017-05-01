@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.BaseObject = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _platform = require('../platform');
 
 var _platform2 = _interopRequireDefault(_platform);
@@ -37,30 +35,21 @@ var BaseObject = function (_Parse$Object) {
 
     var _this = _possibleConstructorReturn(this, (BaseObject.__proto__ || Object.getPrototypeOf(BaseObject)).call(this, className));
 
-    _this.object = object;
+    _this.getObject = function () {
+      return _this.object || _this;
+    };
 
-    _this.getObject = _this.getObject.bind(_this);
-    _this.saveObject = _this.saveObject.bind(_this);
-    _this.getId = _this.getId.bind(_this);
+    _this.saveObject = function () {
+      return _this.getObject().save();
+    };
+
+    _this.getId = function () {
+      return _this.getObject().id;
+    };
+
+    _this.object = object;
     return _this;
   }
-
-  _createClass(BaseObject, [{
-    key: 'getObject',
-    value: function getObject() {
-      return this.object || this;
-    }
-  }, {
-    key: 'saveObject',
-    value: function saveObject() {
-      return this.getObject().save();
-    }
-  }, {
-    key: 'getId',
-    value: function getId() {
-      return this.getObject().id;
-    }
-  }]);
 
   return BaseObject;
 }(Parse.Object);
