@@ -7,6 +7,8 @@ exports.ParseWrapperService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _immutable = require('immutable');
+
 var _platform = require('./platform');
 
 var _platform2 = _interopRequireDefault(_platform);
@@ -69,11 +71,37 @@ var ParseWrapperService = function () {
         }
       }
 
+      if (criteria.has('field')) {
+        var field = criteria.get('field');
+
+        if (field) {
+          query.select([field]);
+        }
+      }
+
       if (criteria.has('fields')) {
         var fields = criteria.get('fields');
 
         if (fields) {
           query.select(fields.toArray());
+        }
+      }
+
+      if (criteria.has('inlcludeField')) {
+        var _field = criteria.get('inlcludeField');
+
+        if (_field) {
+          query.include(_field);
+        }
+      }
+
+      if (criteria.has('inlcludeFields')) {
+        var _fields = criteria.get('inlcludeFields');
+
+        if (_fields) {
+          _fields.forEach(function (field) {
+            return query.include(field);
+          });
         }
       }
 
@@ -111,6 +139,18 @@ var ParseWrapperService = function () {
 
       if (!conditions) {
         return query;
+      }
+
+      if (conditions.has('id')) {
+        var objectId = conditions.get('id');
+
+        if (objectId) {
+          var objectIdQuery = new Parse.Query(object);
+
+          objectIdQuery.equalTo('objectId', objectId);
+
+          return ParseWrapperService.createOrQuery(_immutable.List.of(objectIdQuery, query));
+        }
       }
 
       if (conditions.has('ids')) {

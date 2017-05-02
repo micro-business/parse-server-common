@@ -1,5 +1,8 @@
 // @flow
 
+import {
+  List,
+} from 'immutable';
 import platform from './platform';
 
 let Parse;
@@ -49,11 +52,35 @@ class ParseWrapperService {
       }
     }
 
+    if (criteria.has('field')) {
+      const field = criteria.get('field');
+
+      if (field) {
+        query.select([field]);
+      }
+    }
+
     if (criteria.has('fields')) {
       const fields = criteria.get('fields');
 
       if (fields) {
         query.select(fields.toArray());
+      }
+    }
+
+    if (criteria.has('inlcludeField')) {
+      const field = criteria.get('inlcludeField');
+
+      if (field) {
+        query.include(field);
+      }
+    }
+
+    if (criteria.has('inlcludeFields')) {
+      const fields = criteria.get('inlcludeFields');
+
+      if (fields) {
+        fields.forEach(field => query.include(field));
       }
     }
 
@@ -89,6 +116,18 @@ class ParseWrapperService {
 
     if (!conditions) {
       return query;
+    }
+
+    if (conditions.has('id')) {
+      const objectId = conditions.get('id');
+
+      if (objectId) {
+        const objectIdQuery = new Parse.Query(object);
+
+        objectIdQuery.equalTo('objectId', objectId);
+
+        return ParseWrapperService.createOrQuery(List.of(objectIdQuery, query));
+      }
     }
 
     if (conditions.has('ids')) {
