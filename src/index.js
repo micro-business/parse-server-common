@@ -1,12 +1,8 @@
 import {
   BaseObject,
 } from './schema';
-import {
-  ParseWrapperService,
-} from './parse-wrapper-service';
-import {
-  UserService,
-} from './user-service';
+import ParseWrapperService from './parse-wrapper-service';
+import UserService from './user-service';
 
 export {
   BaseObject,

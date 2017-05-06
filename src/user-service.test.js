@@ -1,8 +1,6 @@
 import uuid from 'uuid/v4';
-import {
-  UserService,
-} from './user-service';
 import '../bootstrap';
+import UserService from './user-service';
 
 describe('signUpWithEmailAndPassword', () => {
   test('should return the new signed up user', (done) => {

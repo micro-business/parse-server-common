@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.BaseObject = undefined;
 
 var _platform = require('../platform');
 
@@ -54,5 +53,4 @@ var BaseObject = function (_Parse$Object) {
   return BaseObject;
 }(Parse.Object);
 
-exports.BaseObject = BaseObject;
 exports.default = BaseObject;

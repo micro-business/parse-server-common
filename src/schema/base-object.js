@@ -10,7 +10,7 @@ if (platform === 'node') {
   Parse = require('parse/react-native'); // eslint-disable-line global-require
 }
 
-class BaseObject extends Parse.Object {
+export default class BaseObject extends Parse.Object {
   constructor(object, className) {
     super(className);
 
@@ -21,9 +21,3 @@ class BaseObject extends Parse.Object {
   saveObject = () => this.getObject().save();
   getId = () => this.getObject().id;
 }
-
-export {
-  BaseObject,
-};
-
-export default BaseObject;

@@ -1,6 +1,4 @@
-import {
-  BaseObject,
-} from './base-object';
+import BaseObject from './base-object';
 
 export {
   BaseObject,

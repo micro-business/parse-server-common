@@ -3,23 +3,20 @@
 import {
   Map,
 } from 'immutable';
-import {
-  ParseWrapperService,
-} from './parse-wrapper-service';
+import ParseWrapperService from './parse-wrapper-service';
 
-class UserService {
-  static signUpWithEmailAndPassword(username: string, password: string, emailAddress: ? string) {
-    return new Promise((resolve, reject) => {
-      const user = ParseWrapperService.createNewUser();
+export default class UserService {
+  static signUpWithEmailAndPassword = (username: string, password: string, emailAddress: ? string) => new Promise((resolve, reject) => {
+    const user = ParseWrapperService.createNewUser();
 
-      user.setUsername(username);
-      user.setPassword(password);
+    user.setUsername(username);
+    user.setPassword(password);
 
-      if (emailAddress) {
-        user.setEmail(emailAddress);
-      }
+    if (emailAddress) {
+      user.setEmail(emailAddress);
+    }
 
-      user.signUp()
+    user.signUp()
         .then(result => resolve(Map({
           id: result.id,
           username: result.getUsername(),
@@ -27,12 +24,10 @@ class UserService {
           emailAddressVerified: result.get('emailVerified'),
         })))
         .catch(error => reject(error));
-    });
-  }
+  })
 
-  static signInWithEmailAndPassword(username: string, password: string) {
-    return new Promise((resolve, reject) => {
-      ParseWrapperService.logIn(username, password)
+  static signInWithEmailAndPassword = (username: string, password: string) => new Promise((resolve, reject) => {
+    ParseWrapperService.logIn(username, password)
         .then(result => resolve(Map({
           id: result.id,
           username: result.getUsername(),
@@ -40,14 +35,11 @@ class UserService {
           emailAddressVerified: result.get('emailVerified'),
         })))
         .catch(error => reject(error));
-    });
-  }
+  })
 
-  static signOut() {
-    return ParseWrapperService.logOut();
-  }
+  static signOut = () => ParseWrapperService.logOut()
 
-  static sendEmailVerification() {
+  static sendEmailVerification = () => {
     ParseWrapperService.getCurrentUserAsync()
       .then((user) => {
         // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
@@ -57,12 +49,12 @@ class UserService {
       });
   }
 
-  static resetPassword(emailAddress: string) {
+  static resetPassword = (emailAddress: string) => {
     ParseWrapperService.getCurrentUserAsync()
       .then(user => user.requestPasswordReset(emailAddress));
   }
 
-  static updatePassword(newPassword: string) {
+  static updatePassword = (newPassword: string) => {
     ParseWrapperService.getCurrentUserAsync()
       .then((user) => {
         user.setPassword(newPassword);
@@ -71,13 +63,12 @@ class UserService {
       });
   }
 
-  static getUserInfo(username: string) {
-    return new Promise((resolve, reject) => {
-      const query = ParseWrapperService.createUserQuery();
+  static getUserInfo = (username: string) => new Promise((resolve, reject) => {
+    const query = ParseWrapperService.createUserQuery();
 
-      query.equalTo('username', username);
+    query.equalTo('username', username);
 
-      query.find()
+    query.find()
         .then((results) => {
           if (results.length === 0) {
             reject(`No user found with username: ${username}`);
@@ -91,12 +82,5 @@ class UserService {
           }
         })
         .catch(error => reject(error));
-    });
-  }
+  })
 }
-
-export {
-  UserService,
-};
-
-export default UserService;
