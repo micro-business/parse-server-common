@@ -43,8 +43,8 @@ export default class ParseWrapperService {
       const value = criteria.get('topMost');
 
       if (value) {
-        query.descending('createdAt');
-        query.limit(1);
+        query.descending('createdAt')
+          .limit(1);
       }
     }
 

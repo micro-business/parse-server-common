@@ -55,8 +55,7 @@ ParseWrapperService.createQuery = function (object, criteria) {
     var _value2 = criteria.get('topMost');
 
     if (_value2) {
-      query.descending('createdAt');
-      query.limit(1);
+      query.descending('createdAt').limit(1);
     }
   }
 
