@@ -17,24 +17,24 @@ export default class UserService {
     }
 
     user.signUp()
-        .then(result => resolve(Map({
-          id: result.id,
-          username: result.getUsername(),
-          emailAddress: result.getEmail(),
-          emailAddressVerified: result.get('emailVerified'),
-        })))
-        .catch(error => reject(error));
+      .then(result => resolve(Map({
+        id: result.id,
+        username: result.getUsername(),
+        emailAddress: result.getEmail(),
+        emailAddressVerified: result.get('emailVerified'),
+      })))
+      .catch(error => reject(error));
   })
 
   static signInWithEmailAndPassword = (username: string, password: string) => new Promise((resolve, reject) => {
     ParseWrapperService.logIn(username, password)
-        .then(result => resolve(Map({
-          id: result.id,
-          username: result.getUsername(),
-          emailAddress: result.getEmail(),
-          emailAddressVerified: result.get('emailVerified'),
-        })))
-        .catch(error => reject(error));
+      .then(result => resolve(Map({
+        id: result.id,
+        username: result.getUsername(),
+        emailAddress: result.getEmail(),
+        emailAddressVerified: result.get('emailVerified'),
+      })))
+      .catch(error => reject(error));
   })
 
   static signOut = () => ParseWrapperService.logOut()
@@ -63,24 +63,33 @@ export default class UserService {
       });
   }
 
+  static getCurrentUserInfo = () => new Promise((resolve, reject) => {
+    ParseWrapperService.getCurrentUserAsync()
+      .then(user => resolve(Map({
+        id: user.id,
+        username: user.getUsername(),
+        emailAddress: user.getEmail(),
+        emailAddressVerified: user.get('emailVerified'),
+      })))
+      .catch(error => reject(error));
+  })
+
   static getUserInfo = (username: string) => new Promise((resolve, reject) => {
-    const query = ParseWrapperService.createUserQuery();
-
-    query.equalTo('username', username);
-
-    query.find()
-        .then((results) => {
-          if (results.length === 0) {
-            reject(`No user found with username: ${username}`);
-          } else if (results.length > 1) {
-            reject(`Multiple user found with username: ${username}`);
-          } else {
-            resolve(Map({
-              id: results[0].id,
-              username: results[0].getUsername(),
-            }));
-          }
-        })
-        .catch(error => reject(error));
+    ParseWrapperService.createUserQuery()
+      .equalTo('username', username)
+      .find()
+      .then((results) => {
+        if (results.length === 0) {
+          reject(`No user found with username: ${username}`);
+        } else if (results.length > 1) {
+          reject(`Multiple user found with username: ${username}`);
+        } else {
+          resolve(Map({
+            id: results[0].id,
+            username: results[0].getUsername(),
+          }));
+        }
+      })
+      .catch(error => reject(error));
   })
 }

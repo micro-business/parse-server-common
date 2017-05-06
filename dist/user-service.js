@@ -84,13 +84,24 @@ UserService.updatePassword = function (newPassword) {
   });
 };
 
+UserService.getCurrentUserInfo = function () {
+  return new Promise(function (resolve, reject) {
+    _parseWrapperService2.default.getCurrentUserAsync().then(function (user) {
+      return resolve((0, _immutable.Map)({
+        id: user.id,
+        username: user.getUsername(),
+        emailAddress: user.getEmail(),
+        emailAddressVerified: user.get('emailVerified')
+      }));
+    }).catch(function (error) {
+      return reject(error);
+    });
+  });
+};
+
 UserService.getUserInfo = function (username) {
   return new Promise(function (resolve, reject) {
-    var query = _parseWrapperService2.default.createUserQuery();
-
-    query.equalTo('username', username);
-
-    query.find().then(function (results) {
+    _parseWrapperService2.default.createUserQuery().equalTo('username', username).find().then(function (results) {
       if (results.length === 0) {
         reject('No user found with username: ' + username);
       } else if (results.length > 1) {
