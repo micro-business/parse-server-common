@@ -6,30 +6,20 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _platform = require('./platform');
+var _node = require('parse/node');
 
-var _platform2 = _interopRequireDefault(_platform);
+var _node2 = _interopRequireDefault(_node);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Parse = void 0;
-
-if (_platform2.default === 'node') {
-  Parse = require('parse/node'); // eslint-disable-line global-require
-} else if (_platform2.default === 'browser') {
-  Parse = require('parse'); // eslint-disable-line global-require
-} else {
-  Parse = require('parse/react-native'); // eslint-disable-line global-require
-}
 
 var ParseWrapperService = function ParseWrapperService() {
   _classCallCheck(this, ParseWrapperService);
 };
 
 ParseWrapperService.createQuery = function (object, criteria) {
-  var query = new Parse.Query(object);
+  var query = new _node2.default.Query(object);
 
   if (!criteria) {
     return query;
@@ -127,7 +117,7 @@ ParseWrapperService.createQueryIncludingObjectIds = function (object, query, cri
     var objectId = conditions.get('id');
 
     if (objectId) {
-      var objectIdQuery = new Parse.Query(object);
+      var objectIdQuery = new _node2.default.Query(object);
 
       objectIdQuery.equalTo('objectId', objectId);
 
@@ -140,7 +130,7 @@ ParseWrapperService.createQueryIncludingObjectIds = function (object, query, cri
 
     if (objectIds && !objectIds.isEmpty()) {
       return ParseWrapperService.createOrQuery(objectIds.map(function (objectId) {
-        var objectIdQuery = new Parse.Query(object);
+        var objectIdQuery = new _node2.default.Query(object);
 
         objectIdQuery.equalTo('objectId', objectId);
 
@@ -153,43 +143,43 @@ ParseWrapperService.createQueryIncludingObjectIds = function (object, query, cri
 };
 
 ParseWrapperService.createOrQuery = function (queries) {
-  return Parse.Query.or.apply(undefined, queries.toArray());
+  return _node2.default.Query.or.apply(undefined, queries.toArray());
 };
 
 ParseWrapperService.createUserQuery = function () {
-  return new Parse.Query(Parse.User);
+  return new _node2.default.Query(_node2.default.User);
 };
 
 ParseWrapperService.getConfig = function () {
-  return Parse.Config.get();
+  return _node2.default.Config.get();
 };
 
 ParseWrapperService.getCachedConfig = function () {
-  return Parse.Config.current();
+  return _node2.default.Config.current();
 };
 
 ParseWrapperService.getCurrentUser = function () {
-  return Parse.User.current();
+  return _node2.default.User.current();
 };
 
 ParseWrapperService.getCurrentUserAsync = function () {
-  return Parse.User.currentAsync();
+  return _node2.default.User.currentAsync();
 };
 
 ParseWrapperService.createNewUser = function () {
-  return new Parse.User();
+  return new _node2.default.User();
 };
 
 ParseWrapperService.createUserWithoutData = function (userId) {
-  return Parse.User.createWithoutData(userId);
+  return _node2.default.User.createWithoutData(userId);
 };
 
 ParseWrapperService.logIn = function (username, password) {
-  return Parse.User.logIn(username, password);
+  return _node2.default.User.logIn(username, password);
 };
 
 ParseWrapperService.logOut = function () {
-  return Parse.User.logOut();
+  return _node2.default.User.logOut();
 };
 
 exports.default = ParseWrapperService;

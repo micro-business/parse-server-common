@@ -1,19 +1,7 @@
 // @flow
 
-import {
-  List,
-} from 'immutable';
-import platform from './platform';
-
-let Parse;
-
-if (platform === 'node') {
-  Parse = require('parse/node'); // eslint-disable-line global-require
-} else if (platform === 'browser') {
-  Parse = require('parse'); // eslint-disable-line global-require
-} else {
-  Parse = require('parse/react-native'); // eslint-disable-line global-require
-}
+import { List } from 'immutable';
+import Parse from 'parse/node';
 
 export default class ParseWrapperService {
   static createQuery = (object, criteria) => {
@@ -43,8 +31,7 @@ export default class ParseWrapperService {
       const value = criteria.get('topMost');
 
       if (value) {
-        query.descending('createdAt')
-          .limit(1);
+        query.descending('createdAt').limit(1);
       }
     }
 
@@ -97,7 +84,7 @@ export default class ParseWrapperService {
     }
 
     return query;
-  }
+  };
 
   static createQueryIncludingObjectIds = (object, query, criteria) => {
     if (!criteria) {
@@ -126,28 +113,34 @@ export default class ParseWrapperService {
       const objectIds = conditions.get('ids');
 
       if (objectIds && !objectIds.isEmpty()) {
-        return ParseWrapperService.createOrQuery(objectIds.map((objectId) => {
-          const objectIdQuery = new Parse.Query(object);
+        return ParseWrapperService.createOrQuery(
+          objectIds
+            .map(objectId => {
+              const objectIdQuery = new Parse.Query(object);
 
-          objectIdQuery.equalTo('objectId', objectId);
+              objectIdQuery.equalTo('objectId', objectId);
 
-          return objectIdQuery;
-        })
-          .push(query));
+              return objectIdQuery;
+            })
+            .push(query),
+        );
       }
     }
 
     return query;
-  }
+  };
 
-  static createOrQuery = queries => Parse.Query.or.apply(this, queries.toArray())
-  static createUserQuery = () => new Parse.Query(Parse.User)
-  static getConfig = () => Parse.Config.get()
-  static getCachedConfig = () => Parse.Config.current()
-  static getCurrentUser = () => Parse.User.current()
-  static getCurrentUserAsync = () => Parse.User.currentAsync()
-  static createNewUser = () => new Parse.User()
-  static createUserWithoutData = (userId: string) => Parse.User.createWithoutData(userId)
-  static logIn = (username: string, password: string) => Parse.User.logIn(username, password)
-  static logOut = () => Parse.User.logOut()
+  static createOrQuery = queries =>
+    Parse.Query.or.apply(this, queries.toArray());
+  static createUserQuery = () => new Parse.Query(Parse.User);
+  static getConfig = () => Parse.Config.get();
+  static getCachedConfig = () => Parse.Config.current();
+  static getCurrentUser = () => Parse.User.current();
+  static getCurrentUserAsync = () => Parse.User.currentAsync();
+  static createNewUser = () => new Parse.User();
+  static createUserWithoutData = (userId: string) =>
+    Parse.User.createWithoutData(userId);
+  static logIn = (username: string, password: string) =>
+    Parse.User.logIn(username, password);
+  static logOut = () => Parse.User.logOut();
 }
