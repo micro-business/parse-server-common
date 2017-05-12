@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
-var _parseWrapperService = require('./parse-wrapper-service');
+var _ParseWrapperService = require('./ParseWrapperService');
 
-var _parseWrapperService2 = _interopRequireDefault(_parseWrapperService);
+var _ParseWrapperService2 = _interopRequireDefault(_ParseWrapperService);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,7 +20,7 @@ var UserService = function UserService() {
 
 UserService.signUpWithEmailAndPassword = function (username, password, emailAddress) {
   return new Promise(function (resolve, reject) {
-    var user = _parseWrapperService2.default.createNewUser();
+    var user = _ParseWrapperService2.default.createNewUser();
 
     user.setUsername(username);
     user.setPassword(password);
@@ -44,7 +44,7 @@ UserService.signUpWithEmailAndPassword = function (username, password, emailAddr
 
 UserService.signInWithEmailAndPassword = function (username, password) {
   return new Promise(function (resolve, reject) {
-    _parseWrapperService2.default.logIn(username, password).then(function (result) {
+    _ParseWrapperService2.default.logIn(username, password).then(function (result) {
       return resolve((0, _immutable.Map)({
         id: result.id,
         username: result.getUsername(),
@@ -58,11 +58,11 @@ UserService.signInWithEmailAndPassword = function (username, password) {
 };
 
 UserService.signOut = function () {
-  return _parseWrapperService2.default.logOut();
+  return _ParseWrapperService2.default.logOut();
 };
 
 UserService.sendEmailVerification = function () {
-  _parseWrapperService2.default.getCurrentUserAsync().then(function (user) {
+  _ParseWrapperService2.default.getCurrentUserAsync().then(function (user) {
     // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
     user.setEmail(user.getEmail());
 
@@ -71,13 +71,13 @@ UserService.sendEmailVerification = function () {
 };
 
 UserService.resetPassword = function (emailAddress) {
-  _parseWrapperService2.default.getCurrentUserAsync().then(function (user) {
+  _ParseWrapperService2.default.getCurrentUserAsync().then(function (user) {
     return user.requestPasswordReset(emailAddress);
   });
 };
 
 UserService.updatePassword = function (newPassword) {
-  _parseWrapperService2.default.getCurrentUserAsync().then(function (user) {
+  _ParseWrapperService2.default.getCurrentUserAsync().then(function (user) {
     user.setPassword(newPassword);
 
     return user.save();
@@ -86,7 +86,7 @@ UserService.updatePassword = function (newPassword) {
 
 UserService.getCurrentUserInfo = function () {
   return new Promise(function (resolve, reject) {
-    _parseWrapperService2.default.getCurrentUserAsync().then(function (user) {
+    _ParseWrapperService2.default.getCurrentUserAsync().then(function (user) {
       return resolve((0, _immutable.Map)({
         id: user.id,
         username: user.getUsername(),
@@ -101,7 +101,7 @@ UserService.getCurrentUserInfo = function () {
 
 UserService.getUserInfo = function (username) {
   return new Promise(function (resolve, reject) {
-    _parseWrapperService2.default.createUserQuery().equalTo('username', username).find().then(function (results) {
+    _ParseWrapperService2.default.createUserQuery().equalTo('username', username).find().then(function (results) {
       if (results.length === 0) {
         reject('No user found with username: ' + username);
       } else if (results.length > 1) {

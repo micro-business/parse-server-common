@@ -5,10 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.BaseObject = undefined;
 
-var _baseObject = require('./base-object');
+var _BaseObject2 = require('./BaseObject');
 
-var _baseObject2 = _interopRequireDefault(_baseObject);
+var _BaseObject3 = _interopRequireDefault(_BaseObject2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.BaseObject = _baseObject2.default;
+exports.BaseObject = _BaseObject3.default;

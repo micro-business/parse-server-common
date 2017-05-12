@@ -1,7 +1,7 @@
 // @flow
 
 import { Map } from 'immutable';
-import ParseWrapperService from './parse-wrapper-service';
+import ParseWrapperService from './ParseWrapperService';
 
 export default class UserService {
   static signUpWithEmailAndPassword = (
@@ -53,7 +53,7 @@ export default class UserService {
   static signOut = () => ParseWrapperService.logOut();
 
   static sendEmailVerification = () => {
-    ParseWrapperService.getCurrentUserAsync().then(user => {
+    ParseWrapperService.getCurrentUserAsync().then((user) => {
       // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
       user.setEmail(user.getEmail());
 
@@ -68,7 +68,7 @@ export default class UserService {
   };
 
   static updatePassword = (newPassword: string) => {
-    ParseWrapperService.getCurrentUserAsync().then(user => {
+    ParseWrapperService.getCurrentUserAsync().then((user) => {
       user.setPassword(newPassword);
 
       return user.save();
@@ -96,7 +96,7 @@ export default class UserService {
       ParseWrapperService.createUserQuery()
         .equalTo('username', username)
         .find()
-        .then(results => {
+        .then((results) => {
           if (results.length === 0) {
             reject(`No user found with username: ${username}`);
           } else if (results.length > 1) {

@@ -1,3 +1,3 @@
 // @flow
 
-export BaseObject from './base-object';
+export BaseObject from './BaseObject';

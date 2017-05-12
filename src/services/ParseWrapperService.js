@@ -115,7 +115,7 @@ export default class ParseWrapperService {
       if (objectIds && !objectIds.isEmpty()) {
         return ParseWrapperService.createOrQuery(
           objectIds
-            .map(objectId => {
+            .map((objectId) => {
               const objectIdQuery = new Parse.Query(object);
 
               objectIdQuery.equalTo('objectId', objectId);
