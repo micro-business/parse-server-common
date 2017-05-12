@@ -1,3 +1,5 @@
+// @flow
+
 import Parse from 'parse/node';
 
 export default class BaseObject extends Parse.Object {

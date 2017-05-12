@@ -1,5 +1,7 @@
+// @flow
+
 import uuid from 'uuid/v4';
-import '../bootstrap';
+import '../../bootstrap';
 import UserService from './user-service';
 
 describe('signUpWithEmailAndPassword', () => {

@@ -12,6 +12,3 @@ var _baseObject2 = _interopRequireDefault(_baseObject);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.BaseObject = _baseObject2.default;
-exports.default = {
-  BaseObject: _baseObject2.default
-};

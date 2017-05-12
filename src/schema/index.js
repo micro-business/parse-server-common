@@ -1,7 +1,3 @@
-import BaseObject from './base-object';
+// @flow
 
-export { BaseObject };
-
-export default {
-  BaseObject,
-};
+export BaseObject from './base-object';

@@ -1,11 +1,4 @@
-import { BaseObject } from './schema';
-import ParseWrapperService from './parse-wrapper-service';
-import UserService from './user-service';
+// @flow
 
-export { BaseObject, ParseWrapperService, UserService };
-
-export default {
-  BaseObject,
-  ParseWrapperService,
-  UserService,
-};
+export { BaseObject } from './schema';
+export { ParseWrapperService, UserService } from './services';
