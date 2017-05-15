@@ -4,12 +4,12 @@ import uuid from 'uuid/v4';
 import '../../bootstrap';
 import UserService from './UserService';
 
-describe('signUpWithEmailAndPassword', () => {
+describe('signUpWithUsernameAndPassword', () => {
   test('should return the new signed up user', (done) => {
     const username: string = uuid();
     const emailAddress: string = `${uuid()}@email.com`;
 
-    UserService.signUpWithEmailAndPassword(username, uuid(), emailAddress)
+    UserService.signUpWithUsernameAndPassword(username, uuid(), emailAddress)
       .then((result) => {
         expect(result.get('id')).toBeTruthy();
         expect(result.get('username')).toBe(username);
@@ -24,11 +24,11 @@ describe('signUpWithEmailAndPassword', () => {
   });
 });
 
-describe('signInWithEmailAndPassword', () => {
+describe('signInWithUsernameAndPassword', () => {
   test('should fail if email address does not exist', (done) => {
     const username: string = uuid();
 
-    UserService.signInWithEmailAndPassword(username, uuid())
+    UserService.signInWithUsernameAndPassword(username, uuid())
       .then(() => {
         fail(
           `User signed in for email that does not exist. Email: ${username}`,
@@ -41,12 +41,12 @@ describe('signInWithEmailAndPassword', () => {
   test('should fail if password is wrong', (done) => {
     const username: string = uuid();
 
-    UserService.signUpWithEmailAndPassword(
+    UserService.signUpWithUsernameAndPassword(
       username,
       uuid(),
       `${uuid()}@email.com`,
     )
-      .then(() => UserService.signInWithEmailAndPassword(username, uuid()))
+      .then(() => UserService.signInWithUsernameAndPassword(username, uuid()))
       .then(() => {
         fail('User signed in for incorrect password.');
         done();
@@ -59,8 +59,8 @@ describe('signInWithEmailAndPassword', () => {
     const emailAddress: string = `${uuid()}@email.com`;
     const password: string = uuid();
 
-    UserService.signUpWithEmailAndPassword(username, password, emailAddress)
-      .then(() => UserService.signInWithEmailAndPassword(username, password))
+    UserService.signUpWithUsernameAndPassword(username, password, emailAddress)
+      .then(() => UserService.signInWithUsernameAndPassword(username, password))
       .then((result) => {
         expect(result.get('id')).toBeTruthy();
         expect(result.get('username')).toBe(username);
@@ -95,7 +95,7 @@ describe('getUserInfo', () => {
   test('should return the user info', (done) => {
     const username: string = uuid();
 
-    UserService.signUpWithEmailAndPassword(
+    UserService.signUpWithUsernameAndPassword(
       username,
       uuid(),
       `${uuid()}@email.com`,

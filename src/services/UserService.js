@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import ParseWrapperService from './ParseWrapperService';
 
 export default class UserService {
-  static signUpWithEmailAndPassword = (
+  static signUpWithUsernameAndPassword = (
     username: string,
     password: string,
     emailAddress: ?string,
@@ -34,7 +34,7 @@ export default class UserService {
         .catch(error => reject(error));
     });
 
-  static signInWithEmailAndPassword = (username: string, password: string) =>
+  static signInWithUsernameAndPassword = (username: string, password: string) =>
     new Promise((resolve, reject) => {
       ParseWrapperService.logIn(username, password)
         .then(result =>

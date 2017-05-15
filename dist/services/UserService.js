@@ -18,7 +18,7 @@ var UserService = function UserService() {
   _classCallCheck(this, UserService);
 };
 
-UserService.signUpWithEmailAndPassword = function (username, password, emailAddress) {
+UserService.signUpWithUsernameAndPassword = function (username, password, emailAddress) {
   return new Promise(function (resolve, reject) {
     var user = _ParseWrapperService2.default.createNewUser();
 
@@ -42,7 +42,7 @@ UserService.signUpWithEmailAndPassword = function (username, password, emailAddr
   });
 };
 
-UserService.signInWithEmailAndPassword = function (username, password) {
+UserService.signInWithUsernameAndPassword = function (username, password) {
   return new Promise(function (resolve, reject) {
     _ParseWrapperService2.default.logIn(username, password).then(function (result) {
       return resolve((0, _immutable.Map)({
