@@ -4,11 +4,9 @@ var _v = require('uuid/v4');
 
 var _v2 = _interopRequireDefault(_v);
 
-require('../../bootstrap');
+require('../../../bootstrap');
 
-var _UserService = require('./UserService');
-
-var _UserService2 = _interopRequireDefault(_UserService);
+var _ = require('../');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17,7 +15,7 @@ describe('signUpWithUsernameAndPassword', function () {
     var username = (0, _v2.default)();
     var emailAddress = (0, _v2.default)() + '@email.com';
 
-    _UserService2.default.signUpWithUsernameAndPassword(username, (0, _v2.default)(), emailAddress).then(function (result) {
+    _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), emailAddress).then(function (result) {
       expect(result.get('id')).toBeTruthy();
       expect(result.get('username')).toBe(username);
       expect(result.get('emailAddress')).toBe(emailAddress);
@@ -34,7 +32,7 @@ describe('signInWithUsernameAndPassword', function () {
   test('should fail if email address does not exist', function (done) {
     var username = (0, _v2.default)();
 
-    _UserService2.default.signInWithUsernameAndPassword(username, (0, _v2.default)()).then(function () {
+    _.UserService.signInWithUsernameAndPassword(username, (0, _v2.default)()).then(function () {
       fail('User signed in for email that does not exist. Email: ' + username);
       done();
     }).catch(function () {
@@ -45,8 +43,8 @@ describe('signInWithUsernameAndPassword', function () {
   test('should fail if password is wrong', function (done) {
     var username = (0, _v2.default)();
 
-    _UserService2.default.signUpWithUsernameAndPassword(username, (0, _v2.default)(), (0, _v2.default)() + '@email.com').then(function () {
-      return _UserService2.default.signInWithUsernameAndPassword(username, (0, _v2.default)());
+    _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), (0, _v2.default)() + '@email.com').then(function () {
+      return _.UserService.signInWithUsernameAndPassword(username, (0, _v2.default)());
     }).then(function () {
       fail('User signed in for incorrect password.');
       done();
@@ -60,8 +58,8 @@ describe('signInWithUsernameAndPassword', function () {
     var emailAddress = (0, _v2.default)() + '@email.com';
     var password = (0, _v2.default)();
 
-    _UserService2.default.signUpWithUsernameAndPassword(username, password, emailAddress).then(function () {
-      return _UserService2.default.signInWithUsernameAndPassword(username, password);
+    _.UserService.signUpWithUsernameAndPassword(username, password, emailAddress).then(function () {
+      return _.UserService.signInWithUsernameAndPassword(username, password);
     }).then(function (result) {
       expect(result.get('id')).toBeTruthy();
       expect(result.get('username')).toBe(username);
@@ -79,7 +77,7 @@ describe('getUserInfo', function () {
   test('should reject if username does not exist', function (done) {
     var username = (0, _v2.default)();
 
-    _UserService2.default.getUserInfo(username).then(function () {
+    _.UserService.getUserInfo(username).then(function () {
       fail('Received user info for use that does not exist. Username: ' + username);
       done();
     }).catch(function (error) {
@@ -91,8 +89,8 @@ describe('getUserInfo', function () {
   test('should return the user info', function (done) {
     var username = (0, _v2.default)();
 
-    _UserService2.default.signUpWithUsernameAndPassword(username, (0, _v2.default)(), (0, _v2.default)() + '@email.com').then(function () {
-      return _UserService2.default.getUserInfo(username);
+    _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), (0, _v2.default)() + '@email.com').then(function () {
+      return _.UserService.getUserInfo(username);
     }).then(function (result) {
       expect(result.get('id')).toBeTruthy();
       expect(result.get('username')).toBe(username);

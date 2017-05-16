@@ -1,8 +1,8 @@
 // @flow
 
 import uuid from 'uuid/v4';
-import '../../bootstrap';
-import UserService from './UserService';
+import '../../../bootstrap';
+import { UserService } from '../';
 
 describe('signUpWithUsernameAndPassword', () => {
   test('should return the new signed up user', (done) => {
@@ -30,9 +30,7 @@ describe('signInWithUsernameAndPassword', () => {
 
     UserService.signInWithUsernameAndPassword(username, uuid())
       .then(() => {
-        fail(
-          `User signed in for email that does not exist. Email: ${username}`,
-        );
+        fail(`User signed in for email that does not exist. Email: ${username}`);
         done();
       })
       .catch(() => done());
@@ -41,11 +39,7 @@ describe('signInWithUsernameAndPassword', () => {
   test('should fail if password is wrong', (done) => {
     const username: string = uuid();
 
-    UserService.signUpWithUsernameAndPassword(
-      username,
-      uuid(),
-      `${uuid()}@email.com`,
-    )
+    UserService.signUpWithUsernameAndPassword(username, uuid(), `${uuid()}@email.com`)
       .then(() => UserService.signInWithUsernameAndPassword(username, uuid()))
       .then(() => {
         fail('User signed in for incorrect password.');
@@ -81,9 +75,7 @@ describe('getUserInfo', () => {
 
     UserService.getUserInfo(username)
       .then(() => {
-        fail(
-          `Received user info for use that does not exist. Username: ${username}`,
-        );
+        fail(`Received user info for use that does not exist. Username: ${username}`);
         done();
       })
       .catch((error) => {
@@ -95,11 +87,7 @@ describe('getUserInfo', () => {
   test('should return the user info', (done) => {
     const username: string = uuid();
 
-    UserService.signUpWithUsernameAndPassword(
-      username,
-      uuid(),
-      `${uuid()}@email.com`,
-    )
+    UserService.signUpWithUsernameAndPassword(username, uuid(), `${uuid()}@email.com`)
       .then(() => UserService.getUserInfo(username))
       .then((result) => {
         expect(result.get('id')).toBeTruthy();
