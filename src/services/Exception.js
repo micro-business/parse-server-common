@@ -1,6 +1,6 @@
 // @flow
 
-export default class UserException {
+export default class Exception {
   constructor(errorMessage) {
     this.errorMessage = errorMessage;
   }

@@ -10,9 +10,9 @@ var _ParseWrapperService = require('./ParseWrapperService');
 
 var _ParseWrapperService2 = _interopRequireDefault(_ParseWrapperService);
 
-var _UserException = require('./UserException');
+var _Exception = require('./Exception');
 
-var _UserException2 = _interopRequireDefault(_UserException);
+var _Exception2 = _interopRequireDefault(_Exception);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -230,7 +230,7 @@ UserService.getUserInfo = function () {
               break;
             }
 
-            throw new _UserException2.default('No user found with username: ' + username);
+            throw new _Exception2.default('No user found with username: ' + username);
 
           case 7:
             if (!(results.length > 1)) {
@@ -238,7 +238,7 @@ UserService.getUserInfo = function () {
               break;
             }
 
-            throw new _UserException2.default('Multiple user found with username: ' + username);
+            throw new _Exception2.default('Multiple user found with username: ' + username);
 
           case 11:
             return _context7.abrupt('return', (0, _immutable.Map)({

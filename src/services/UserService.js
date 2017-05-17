@@ -2,7 +2,7 @@
 
 import { Map } from 'immutable';
 import ParseWrapperService from './ParseWrapperService';
-import UserException from './UserException';
+import Exception from './Exception';
 
 export default class UserService {
   static signUpWithUsernameAndPassword = async (username: string, password: string, emailAddress: ?string) => {
@@ -76,9 +76,9 @@ export default class UserService {
     const results = await ParseWrapperService.createUserQuery().equalTo('username', username).find();
 
     if (results.length === 0) {
-      throw new UserException(`No user found with username: ${username}`);
+      throw new Exception(`No user found with username: ${username}`);
     } else if (results.length > 1) {
-      throw new UserException(`Multiple user found with username: ${username}`);
+      throw new Exception(`Multiple user found with username: ${username}`);
     } else {
       return Map({
         id: results[0].id,

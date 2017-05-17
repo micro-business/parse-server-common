@@ -27,9 +27,9 @@ Object.defineProperty(exports, 'UserService', {
     return _services.UserService;
   }
 });
-Object.defineProperty(exports, 'UserException', {
+Object.defineProperty(exports, 'Exception', {
   enumerable: true,
   get: function get() {
-    return _services.UserException;
+    return _services.Exception;
   }
 });

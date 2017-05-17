@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UserException = function UserException(errorMessage) {
+var Exception = function Exception(errorMessage) {
   var _this = this;
 
-  _classCallCheck(this, UserException);
+  _classCallCheck(this, Exception);
 
   this.getErrorMessage = function () {
     return _this.errorMessage;
@@ -18,4 +18,4 @@ var UserException = function UserException(errorMessage) {
   this.errorMessage = errorMessage;
 };
 
-exports.default = UserException;
+exports.default = Exception;
