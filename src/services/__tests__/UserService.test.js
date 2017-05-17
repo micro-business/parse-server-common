@@ -6,18 +6,14 @@ import { UserService } from '../';
 
 describe('signUpWithUsernameAndPassword', () => {
   test('should return the new signed up user', async () => {
-    try {
-      const username: string = uuid();
-      const emailAddress: string = `${uuid()}@email.com`;
-      const result = await UserService.signUpWithUsernameAndPassword(username, uuid(), emailAddress);
+    const username: string = uuid();
+    const emailAddress: string = `${uuid()}@email.com`;
+    const result = await UserService.signUpWithUsernameAndPassword(username, uuid(), emailAddress);
 
-      expect(result.get('id')).toBeTruthy();
-      expect(result.get('username')).toBe(username);
-      expect(result.get('emailAddress')).toBe(emailAddress);
-      expect(result.get('emailVerified')).toBeFalsy();
-    } catch (error) {
-      fail(error);
-    }
+    expect(result.get('id')).toBeTruthy();
+    expect(result.get('username')).toBe(username);
+    expect(result.get('emailAddress')).toBe(emailAddress);
+    expect(result.get('emailVerified')).toBeFalsy();
   });
 });
 
@@ -45,22 +41,18 @@ describe('signInWithUsernameAndPassword', () => {
   });
 
   test('should return the signed in user', async () => {
-    try {
-      const username: string = uuid();
-      const emailAddress: string = `${uuid()}@email.com`;
-      const password: string = uuid();
+    const username: string = uuid();
+    const emailAddress: string = `${uuid()}@email.com`;
+    const password: string = uuid();
 
-      await UserService.signUpWithUsernameAndPassword(username, password, emailAddress);
+    await UserService.signUpWithUsernameAndPassword(username, password, emailAddress);
 
-      const result = await UserService.signInWithUsernameAndPassword(username, password);
+    const result = await UserService.signInWithUsernameAndPassword(username, password);
 
-      expect(result.get('id')).toBeTruthy();
-      expect(result.get('username')).toBe(username);
-      expect(result.get('emailAddress')).toBe(emailAddress);
-      expect(result.get('emailVerified')).toBeFalsy();
-    } catch (error) {
-      fail(error);
-    }
+    expect(result.get('id')).toBeTruthy();
+    expect(result.get('username')).toBe(username);
+    expect(result.get('emailAddress')).toBe(emailAddress);
+    expect(result.get('emailVerified')).toBeFalsy();
   });
 });
 
@@ -80,14 +72,10 @@ describe('getUserInfo', () => {
   test('should return the user info', async () => {
     const username: string = uuid();
 
-    try {
-      await UserService.signUpWithUsernameAndPassword(username, uuid(), `${uuid()}@email.com`);
-      const result = await UserService.getUserInfo(username);
+    await UserService.signUpWithUsernameAndPassword(username, uuid(), `${uuid()}@email.com`);
+    const result = await UserService.getUserInfo(username);
 
-      expect(result.get('id')).toBeTruthy();
-      expect(result.get('username')).toBe(username);
-    } catch (error) {
-      fail(error);
-    }
+    expect(result.get('id')).toBeTruthy();
+    expect(result.get('username')).toBe(username);
   });
 });

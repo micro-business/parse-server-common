@@ -19,13 +19,12 @@ describe('signUpWithUsernameAndPassword', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
             username = (0, _v2.default)();
             emailAddress = (0, _v2.default)() + '@email.com';
-            _context.next = 5;
+            _context.next = 4;
             return _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), emailAddress);
 
-          case 5:
+          case 4:
             result = _context.sent;
 
 
@@ -33,21 +32,13 @@ describe('signUpWithUsernameAndPassword', function () {
             expect(result.get('username')).toBe(username);
             expect(result.get('emailAddress')).toBe(emailAddress);
             expect(result.get('emailVerified')).toBeFalsy();
-            _context.next = 15;
-            break;
 
-          case 12:
-            _context.prev = 12;
-            _context.t0 = _context['catch'](0);
-
-            fail(_context.t0);
-
-          case 15:
+          case 9:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[0, 12]]);
+    }, _callee, undefined);
   })));
 });
 
@@ -122,18 +113,17 @@ describe('signInWithUsernameAndPassword', function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.prev = 0;
             username = (0, _v2.default)();
             emailAddress = (0, _v2.default)() + '@email.com';
             password = (0, _v2.default)();
-            _context4.next = 6;
+            _context4.next = 5;
             return _.UserService.signUpWithUsernameAndPassword(username, password, emailAddress);
 
-          case 6:
-            _context4.next = 8;
+          case 5:
+            _context4.next = 7;
             return _.UserService.signInWithUsernameAndPassword(username, password);
 
-          case 8:
+          case 7:
             result = _context4.sent;
 
 
@@ -141,21 +131,13 @@ describe('signInWithUsernameAndPassword', function () {
             expect(result.get('username')).toBe(username);
             expect(result.get('emailAddress')).toBe(emailAddress);
             expect(result.get('emailVerified')).toBeFalsy();
-            _context4.next = 18;
-            break;
 
-          case 15:
-            _context4.prev = 15;
-            _context4.t0 = _context4['catch'](0);
-
-            fail(_context4.t0);
-
-          case 18:
+          case 12:
           case 'end':
             return _context4.stop();
         }
       }
-    }, _callee4, undefined, [[0, 15]]);
+    }, _callee4, undefined);
   })));
 });
 
@@ -198,34 +180,25 @@ describe('getUserInfo', function () {
         switch (_context6.prev = _context6.next) {
           case 0:
             username = (0, _v2.default)();
-            _context6.prev = 1;
-            _context6.next = 4;
+            _context6.next = 3;
             return _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), (0, _v2.default)() + '@email.com');
 
-          case 4:
-            _context6.next = 6;
+          case 3:
+            _context6.next = 5;
             return _.UserService.getUserInfo(username);
 
-          case 6:
+          case 5:
             result = _context6.sent;
 
 
             expect(result.get('id')).toBeTruthy();
             expect(result.get('username')).toBe(username);
-            _context6.next = 14;
-            break;
 
-          case 11:
-            _context6.prev = 11;
-            _context6.t0 = _context6['catch'](1);
-
-            fail(_context6.t0);
-
-          case 14:
+          case 8:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, undefined, [[1, 11]]);
+    }, _callee6, undefined);
   })));
 });
