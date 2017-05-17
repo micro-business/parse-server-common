@@ -1,4 +1,4 @@
 // @flow
 
 export { BaseObject } from './schema';
-export { ParseWrapperService, UserService } from './services';
+export { ParseWrapperService, UserService, UserException } from './services';
