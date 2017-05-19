@@ -1,14 +1,37 @@
 // @flow
 
-import { List } from 'immutable';
 import Parse from 'parse/node';
 
 export default class ParseWrapperService {
   static createQuery = (object, criteria) => {
-    const query = new Parse.Query(object);
+    let query = new Parse.Query(object);
 
     if (!criteria) {
       return query;
+    }
+
+    if (criteria.has('id')) {
+      const objectId = criteria.get('id');
+
+      if (objectId) {
+        query = query.equalTo('objectId', objectId);
+      }
+    }
+
+    if (criteria.has('ids')) {
+      const objectIds = criteria.get('ids');
+
+      if (objectIds && !objectIds.isEmpty()) {
+        query = ParseWrapperService.createOrQuery(
+          objectIds.map((objectId) => {
+            const objectIdQuery = new Parse.Query(object);
+
+            objectIdQuery.equalTo('objectId', objectId);
+
+            return objectIdQuery;
+          }),
+        );
+      }
     }
 
     if (criteria.has('limit')) {
@@ -86,61 +109,14 @@ export default class ParseWrapperService {
     return query;
   };
 
-  static createQueryIncludingObjectIds = (object, query, criteria) => {
-    if (!criteria) {
-      return query;
-    }
-
-    const conditions = criteria.get('conditions');
-
-    if (!conditions) {
-      return query;
-    }
-
-    if (conditions.has('id')) {
-      const objectId = conditions.get('id');
-
-      if (objectId) {
-        const objectIdQuery = new Parse.Query(object);
-
-        objectIdQuery.equalTo('objectId', objectId);
-
-        return ParseWrapperService.createOrQuery(List.of(objectIdQuery, query));
-      }
-    }
-
-    if (conditions.has('ids')) {
-      const objectIds = conditions.get('ids');
-
-      if (objectIds && !objectIds.isEmpty()) {
-        return ParseWrapperService.createOrQuery(
-          objectIds
-            .map((objectId) => {
-              const objectIdQuery = new Parse.Query(object);
-
-              objectIdQuery.equalTo('objectId', objectId);
-
-              return objectIdQuery;
-            })
-            .push(query),
-        );
-      }
-    }
-
-    return query;
-  };
-
-  static createOrQuery = queries =>
-    Parse.Query.or.apply(this, queries.toArray());
+  static createOrQuery = queries => Parse.Query.or.apply(this, queries.toArray());
   static createUserQuery = () => new Parse.Query(Parse.User);
   static getConfig = () => Parse.Config.get();
   static getCachedConfig = () => Parse.Config.current();
   static getCurrentUser = () => Parse.User.current();
   static getCurrentUserAsync = () => Parse.User.currentAsync();
   static createNewUser = () => new Parse.User();
-  static createUserWithoutData = (userId: string) =>
-    Parse.User.createWithoutData(userId);
-  static logIn = (username: string, password: string) =>
-    Parse.User.logIn(username, password);
+  static createUserWithoutData = (userId: string) => Parse.User.createWithoutData(userId);
+  static logIn = (username: string, password: string) => Parse.User.logIn(username, password);
   static logOut = () => Parse.User.logOut();
 }

@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = require('immutable');
-
 var _node = require('parse/node');
 
 var _node2 = _interopRequireDefault(_node);
@@ -23,6 +21,28 @@ ParseWrapperService.createQuery = function (object, criteria) {
 
   if (!criteria) {
     return query;
+  }
+
+  if (criteria.has('id')) {
+    var objectId = criteria.get('id');
+
+    if (objectId) {
+      query = query.equalTo('objectId', objectId);
+    }
+  }
+
+  if (criteria.has('ids')) {
+    var objectIds = criteria.get('ids');
+
+    if (objectIds && !objectIds.isEmpty()) {
+      query = ParseWrapperService.createOrQuery(objectIds.map(function (objectId) {
+        var objectIdQuery = new _node2.default.Query(object);
+
+        objectIdQuery.equalTo('objectId', objectId);
+
+        return objectIdQuery;
+      }));
+    }
   }
 
   if (criteria.has('limit')) {
@@ -96,46 +116,6 @@ ParseWrapperService.createQuery = function (object, criteria) {
 
     if (_value4) {
       query.descending(_value4);
-    }
-  }
-
-  return query;
-};
-
-ParseWrapperService.createQueryIncludingObjectIds = function (object, query, criteria) {
-  if (!criteria) {
-    return query;
-  }
-
-  var conditions = criteria.get('conditions');
-
-  if (!conditions) {
-    return query;
-  }
-
-  if (conditions.has('id')) {
-    var objectId = conditions.get('id');
-
-    if (objectId) {
-      var objectIdQuery = new _node2.default.Query(object);
-
-      objectIdQuery.equalTo('objectId', objectId);
-
-      return ParseWrapperService.createOrQuery(_immutable.List.of(objectIdQuery, query));
-    }
-  }
-
-  if (conditions.has('ids')) {
-    var objectIds = conditions.get('ids');
-
-    if (objectIds && !objectIds.isEmpty()) {
-      return ParseWrapperService.createOrQuery(objectIds.map(function (objectId) {
-        var objectIdQuery = new _node2.default.Query(object);
-
-        objectIdQuery.equalTo('objectId', objectId);
-
-        return objectIdQuery;
-      }).push(query));
     }
   }
 
