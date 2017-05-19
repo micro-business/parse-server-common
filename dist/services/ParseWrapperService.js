@@ -27,7 +27,7 @@ ParseWrapperService.createQuery = function (object, criteria) {
     var objectId = criteria.get('id');
 
     if (objectId) {
-      query = query.equalTo('objectId', objectId);
+      query.equalTo('objectId', objectId);
     }
   }
 

@@ -14,7 +14,7 @@ export default class ParseWrapperService {
       const objectId = criteria.get('id');
 
       if (objectId) {
-        query = query.equalTo('objectId', objectId);
+        query.equalTo('objectId', objectId);
       }
     }
 
