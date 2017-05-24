@@ -58,6 +58,22 @@ export default class ParseWrapperService {
       }
     }
 
+    if (criteria.has('orderByFieldAscending')) {
+      const value = criteria.get('orderByFieldAscending');
+
+      if (value) {
+        query.ascending(value);
+      }
+    }
+
+    if (criteria.has('orderByFieldDescending')) {
+      const value = criteria.get('orderByFieldDescending');
+
+      if (value) {
+        query.descending(value);
+      }
+    }
+
     if (criteria.has('field')) {
       const field = criteria.get('field');
 

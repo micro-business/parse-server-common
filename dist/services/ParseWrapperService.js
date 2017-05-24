@@ -69,6 +69,22 @@ ParseWrapperService.createQuery = function (object, criteria) {
     }
   }
 
+  if (criteria.has('orderByFieldAscending')) {
+    var _value3 = criteria.get('orderByFieldAscending');
+
+    if (_value3) {
+      query.ascending(_value3);
+    }
+  }
+
+  if (criteria.has('orderByFieldDescending')) {
+    var _value4 = criteria.get('orderByFieldDescending');
+
+    if (_value4) {
+      query.descending(_value4);
+    }
+  }
+
   if (criteria.has('field')) {
     var field = criteria.get('field');
 
@@ -104,18 +120,18 @@ ParseWrapperService.createQuery = function (object, criteria) {
   }
 
   if (criteria.has('ascending')) {
-    var _value3 = criteria.get('ascending');
+    var _value5 = criteria.get('ascending');
 
-    if (_value3) {
-      query.ascending(_value3);
+    if (_value5) {
+      query.ascending(_value5);
     }
   }
 
   if (criteria.has('descending')) {
-    var _value4 = criteria.get('descending');
+    var _value6 = criteria.get('descending');
 
-    if (_value4) {
-      query.descending(_value4);
+    if (_value6) {
+      query.descending(_value6);
     }
   }
 
