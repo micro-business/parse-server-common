@@ -1,28 +1,22 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
 var _node = require('parse/node');
 
 var _node2 = _interopRequireDefault(_node);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function');
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ParseWrapperService = function ParseWrapperService() {
   _classCallCheck(this, ParseWrapperService);
 };
 
-ParseWrapperService.createQuery = function(object, criteria) {
+ParseWrapperService.createQuery = function (object, criteria) {
   var query = new _node2.default.Query(object);
 
   if (!criteria) {
@@ -41,15 +35,13 @@ ParseWrapperService.createQuery = function(object, criteria) {
     var objectIds = criteria.get('ids');
 
     if (objectIds && !objectIds.isEmpty()) {
-      query = ParseWrapperService.createOrQuery(
-        objectIds.map(function(objectId) {
-          var objectIdQuery = new _node2.default.Query(object);
+      query = ParseWrapperService.createOrQuery(objectIds.map(function (objectId) {
+        var objectIdQuery = new _node2.default.Query(object);
 
-          objectIdQuery.equalTo('objectId', objectId);
+        objectIdQuery.equalTo('objectId', objectId);
 
-          return objectIdQuery;
-        }),
-      );
+        return objectIdQuery;
+      }));
     }
   }
 
@@ -121,7 +113,7 @@ ParseWrapperService.createQuery = function(object, criteria) {
     var _fields = criteria.get('inlcludeFields');
 
     if (_fields) {
-      _fields.forEach(function(field) {
+      _fields.forEach(function (field) {
         return query.include(field);
       });
     }
@@ -146,52 +138,49 @@ ParseWrapperService.createQuery = function(object, criteria) {
   return query;
 };
 
-ParseWrapperService.createOrQuery = function(queries) {
+ParseWrapperService.createOrQuery = function (queries) {
   return _node2.default.Query.or.apply(undefined, queries.toArray());
 };
 
-ParseWrapperService.createUserQuery = function() {
+ParseWrapperService.createUserQuery = function () {
   return new _node2.default.Query(_node2.default.User);
 };
 
-ParseWrapperService.getConfig = function() {
+ParseWrapperService.getConfig = function () {
   return _node2.default.Config.get();
 };
 
-ParseWrapperService.getCachedConfig = function() {
+ParseWrapperService.getCachedConfig = function () {
   return _node2.default.Config.current();
 };
 
-ParseWrapperService.getCurrentUser = function() {
+ParseWrapperService.getCurrentUser = function () {
   return _node2.default.User.current();
 };
 
-ParseWrapperService.getCurrentUserAsync = function() {
+ParseWrapperService.getCurrentUserAsync = function () {
   return _node2.default.User.currentAsync();
 };
 
-ParseWrapperService.createNewUser = function() {
+ParseWrapperService.createNewUser = function () {
   return new _node2.default.User();
 };
 
-ParseWrapperService.createUserWithoutData = function(userId) {
+ParseWrapperService.createUserWithoutData = function (userId) {
   return _node2.default.User.createWithoutData(userId);
 };
 
-ParseWrapperService.logIn = function(username, password) {
+ParseWrapperService.logIn = function (username, password) {
   return _node2.default.User.logIn(username, password);
 };
 
-ParseWrapperService.logOut = function() {
-  return new Promise(function(resolve, reject) {
-    _node2.default.User
-      .logOut()
-      .then(function() {
-        return resolve();
-      })
-      .catch(function(error) {
-        return reject(error);
-      });
+ParseWrapperService.logOut = function () {
+  return new Promise(function (resolve, reject) {
+    _node2.default.User.logOut().then(function () {
+      return resolve();
+    }).catch(function (error) {
+      return reject(error);
+    });
   });
 };
 
