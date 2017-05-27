@@ -134,5 +134,8 @@ export default class ParseWrapperService {
   static createNewUser = () => new Parse.User();
   static createUserWithoutData = (userId: string) => Parse.User.createWithoutData(userId);
   static logIn = (username: string, password: string) => Parse.User.logIn(username, password);
-  static logOut = () => Parse.User.logOut();
+  static logOut = () =>
+    new Promise((resolve, reject) => {
+      Parse.User.logOut().then(() => resolve()).catch(error => reject(error));
+    });
 }
