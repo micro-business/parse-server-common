@@ -1,6 +1,6 @@
 {
   "name": "micro-business-parse-server-common",
-  "version": "0.1.72",
+  "version": "0.1.73",
   "description": "Micro Business Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "flow-bin": "^0.47.0",
     "jest": "^20.0.4",
     "lint-staged": "^3.6.0",
-    "prettier": "^1.4.1",
+    "prettier": "^1.4.2",
     "uuid": "^3.0.1"
   },
   "jest": {
