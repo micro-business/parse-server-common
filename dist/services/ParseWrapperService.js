@@ -17,7 +17,11 @@ var ParseWrapperService = function ParseWrapperService() {
 };
 
 ParseWrapperService.createQuery = function (object, criteria) {
-  var query = new _node2.default.Query(object);
+  return ParseWrapperService.addStandardCriteriaToQuery(object, new _node2.default.Query(object), criteria);
+};
+
+ParseWrapperService.addStandardCriteriaToQuery = function (object, currentQuery, criteria) {
+  var query = currentQuery;
 
   if (!criteria) {
     return query;

@@ -3,8 +3,10 @@
 import Parse from 'parse/node';
 
 export default class ParseWrapperService {
-  static createQuery = (object, criteria) => {
-    let query = new Parse.Query(object);
+  static createQuery = (object, criteria) => ParseWrapperService.addStandardCriteriaToQuery(object, new Parse.Query(object), criteria);
+
+  static addStandardCriteriaToQuery = (object, currentQuery, criteria) => {
+    let query = currentQuery;
 
     if (!criteria) {
       return query;
