@@ -259,7 +259,7 @@ UserService.getUserForProvidedSessionToken = function () {
   };
 }();
 
-UserService.getUserInfo = function () {
+UserService.getUser = function () {
   var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(username) {
     var result;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
@@ -280,10 +280,7 @@ UserService.getUserInfo = function () {
             throw new _Exception2.default('No user found with username: ' + username);
 
           case 7:
-            return _context9.abrupt('return', (0, _immutable.Map)({
-              id: result.id,
-              username: result.getUsername()
-            }));
+            return _context9.abrupt('return', result);
 
           case 8:
           case 'end':
@@ -295,6 +292,36 @@ UserService.getUserInfo = function () {
 
   return function (_x9) {
     return _ref9.apply(this, arguments);
+  };
+}();
+
+UserService.getUserInfo = function () {
+  var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(username) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            _context10.next = 2;
+            return UserService.getUser(username);
+
+          case 2:
+            result = _context10.sent;
+            return _context10.abrupt('return', (0, _immutable.Map)({
+              id: result.id,
+              username: result.getUsername()
+            }));
+
+          case 4:
+          case 'end':
+            return _context10.stop();
+        }
+      }
+    }, _callee10, undefined);
+  }));
+
+  return function (_x10) {
+    return _ref10.apply(this, arguments);
   };
 }();
 

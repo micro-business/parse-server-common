@@ -84,16 +84,22 @@ export default class UserService {
     return result ? result.fetch() : null;
   };
 
-  static getUserInfo = async (username: string) => {
+  static getUser = async (username: string) => {
     const result = await ParseWrapperService.createUserQuery().equalTo('username', username).first();
 
     if (!result) {
       throw new Exception(`No user found with username: ${username}`);
     } else {
-      return Map({
-        id: result.id,
-        username: result.getUsername(),
-      });
+      return result;
     }
+  };
+
+  static getUserInfo = async (username: string) => {
+    const result = await UserService.getUser(username);
+
+    return Map({
+      id: result.id,
+      username: result.getUsername(),
+    });
   };
 }
