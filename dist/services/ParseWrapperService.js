@@ -150,6 +150,10 @@ ParseWrapperService.createUserQuery = function () {
   return new _node2.default.Query(_node2.default.User);
 };
 
+ParseWrapperService.createSessionQuery = function () {
+  return new _node2.default.Query(_node2.default.Session);
+};
+
 ParseWrapperService.getConfig = function () {
   return _node2.default.Config.get();
 };

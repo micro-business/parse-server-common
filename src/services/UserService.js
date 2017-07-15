@@ -72,17 +72,27 @@ export default class UserService {
     });
   };
 
-  static getUserInfo = async (username: string) => {
-    const results = await ParseWrapperService.createUserQuery().equalTo('username', username).find();
+  static getCurrentUserSession = async () => {
+    const user = await ParseWrapperService.getCurrentUserAsync();
 
-    if (results.length === 0) {
+    return user ? user.getSessionToken() : null;
+  };
+
+  static getUserForProvidedSessionToken = async (sessionToken) => {
+    const result = await ParseWrapperService.createSessionQuery().equalTo('sessionToken', sessionToken).first();
+
+    return result ? result.fetch() : null;
+  };
+
+  static getUserInfo = async (username: string) => {
+    const result = await ParseWrapperService.createUserQuery().equalTo('username', username).first();
+
+    if (!result) {
       throw new Exception(`No user found with username: ${username}`);
-    } else if (results.length > 1) {
-      throw new Exception(`Multiple user found with username: ${username}`);
     } else {
       return Map({
-        id: results[0].id,
-        username: results[0].getUsername(),
+        id: result.id,
+        username: result.getUsername(),
       });
     }
   };

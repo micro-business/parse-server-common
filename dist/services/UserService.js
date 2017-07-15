@@ -211,51 +211,90 @@ UserService.getCurrentUserInfo = _asyncToGenerator(regeneratorRuntime.mark(funct
     }
   }, _callee6, undefined);
 }));
+UserService.getCurrentUserSession = _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+  var user;
+  return regeneratorRuntime.wrap(function _callee7$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          _context7.next = 2;
+          return _ParseWrapperService2.default.getCurrentUserAsync();
 
-UserService.getUserInfo = function () {
-  var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(username) {
-    var results;
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        case 2:
+          user = _context7.sent;
+          return _context7.abrupt('return', user ? user.getSessionToken() : null);
+
+        case 4:
+        case 'end':
+          return _context7.stop();
+      }
+    }
+  }, _callee7, undefined);
+}));
+
+UserService.getUserForProvidedSessionToken = function () {
+  var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(sessionToken) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            _context7.next = 2;
-            return _ParseWrapperService2.default.createUserQuery().equalTo('username', username).find();
+            _context8.next = 2;
+            return _ParseWrapperService2.default.createSessionQuery().equalTo('sessionToken', sessionToken).first();
 
           case 2:
-            results = _context7.sent;
+            result = _context8.sent;
+            return _context8.abrupt('return', result ? result.fetch() : null);
 
-            if (!(results.length === 0)) {
-              _context7.next = 7;
+          case 4:
+          case 'end':
+            return _context8.stop();
+        }
+      }
+    }, _callee8, undefined);
+  }));
+
+  return function (_x8) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+UserService.getUserInfo = function () {
+  var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(username) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            _context9.next = 2;
+            return _ParseWrapperService2.default.createUserQuery().equalTo('username', username).first();
+
+          case 2:
+            result = _context9.sent;
+
+            if (result) {
+              _context9.next = 7;
               break;
             }
 
             throw new _Exception2.default('No user found with username: ' + username);
 
           case 7:
-            if (!(results.length > 1)) {
-              _context7.next = 11;
-              break;
-            }
-
-            throw new _Exception2.default('Multiple user found with username: ' + username);
-
-          case 11:
-            return _context7.abrupt('return', (0, _immutable.Map)({
-              id: results[0].id,
-              username: results[0].getUsername()
+            return _context9.abrupt('return', (0, _immutable.Map)({
+              id: result.id,
+              username: result.getUsername()
             }));
 
-          case 12:
+          case 8:
           case 'end':
-            return _context7.stop();
+            return _context9.stop();
         }
       }
-    }, _callee7, undefined);
+    }, _callee9, undefined);
   }));
 
-  return function (_x8) {
-    return _ref7.apply(this, arguments);
+  return function (_x9) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
