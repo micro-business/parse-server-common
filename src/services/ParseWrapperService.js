@@ -129,6 +129,7 @@ export default class ParseWrapperService {
 
   static createOrQuery = queries => Parse.Query.or.apply(this, queries.toArray());
   static createUserQuery = () => new Parse.Query(Parse.User);
+  static createACL = object => new Parse.ACL(object);
   static createSessionQuery = () => new Parse.Query(Parse.Session);
   static getConfig = () => Parse.Config.get();
   static getCachedConfig = () => Parse.Config.current();
