@@ -29,7 +29,7 @@ var BaseObject = function (_Parse$Object) {
     };
 
     _this.saveObject = function (sessionToken) {
-      return _this.getObject().save({ sessionToken: sessionToken });
+      return _this.getObject().save(null, { sessionToken: sessionToken });
     };
 
     _this.getId = function () {
