@@ -28,8 +28,8 @@ var BaseObject = function (_Parse$Object) {
       return _this.object || _this;
     };
 
-    _this.saveObject = function () {
-      return _this.getObject().save();
+    _this.saveObject = function (sessionToken) {
+      return _this.getObject().save({ sessionToken: sessionToken });
     };
 
     _this.getId = function () {

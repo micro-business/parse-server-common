@@ -10,6 +10,8 @@ export default class BaseObject extends Parse.Object {
   }
 
   getObject = () => this.object || this;
-  saveObject = () => this.getObject().save();
+
+  saveObject = sessionToken => this.getObject().save({ sessionToken });
+
   getId = () => this.getObject().id;
 }
