@@ -79,23 +79,33 @@ export default class UserService {
   };
 
   static getUserForProvidedSessionToken = async (sessionToken) => {
-    const result = await ParseWrapperService.createSessionQuery().equalTo('sessionToken', sessionToken).first();
+    const result = await ParseWrapperService.createSessionQuery().equalTo('sessionToken', sessionToken).first({ useMasterKey: true });
 
-    return result ? result.fetch() : null;
+    return result ? result.get('user') : null;
   };
 
-  static getUser = async (username: string) => {
-    const result = await ParseWrapperService.createUserQuery().equalTo('username', username).first();
+  static getUserById = async (id: string, sessionToken: ?string) => {
+    const result = await ParseWrapperService.createUserQuery().equalTo('objectId', id).first({ sessionToken });
 
-    if (!result) {
-      throw new Exception(`No user found with username: ${username}`);
-    } else {
+    if (result) {
       return result;
     }
+
+    throw new Exception(`No user found with id: ${id}`);
   };
 
-  static getUserInfo = async (username: string) => {
-    const result = await UserService.getUser(username);
+  static getUser = async (username: string, sessionToken: ?string) => {
+    const result = await ParseWrapperService.createUserQuery().equalTo('username', username).first({ sessionToken });
+
+    if (result) {
+      return result;
+    }
+
+    throw new Exception(`No user found with username: ${username}`);
+  };
+
+  static getUserInfo = async (username: string, sessionToken: ?string) => {
+    const result = await UserService.getUser(username, sessionToken);
 
     return Map({
       id: result.id,

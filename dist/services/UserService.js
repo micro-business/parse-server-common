@@ -240,11 +240,11 @@ UserService.getUserForProvidedSessionToken = function () {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.next = 2;
-            return _ParseWrapperService2.default.createSessionQuery().equalTo('sessionToken', sessionToken).first();
+            return _ParseWrapperService2.default.createSessionQuery().equalTo('sessionToken', sessionToken).first({ useMasterKey: true });
 
           case 2:
             result = _context8.sent;
-            return _context8.abrupt('return', result ? result.fetch() : null);
+            return _context8.abrupt('return', result ? result.get('user') : null);
 
           case 4:
           case 'end':
@@ -259,30 +259,30 @@ UserService.getUserForProvidedSessionToken = function () {
   };
 }();
 
-UserService.getUser = function () {
-  var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(username) {
+UserService.getUserById = function () {
+  var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(id, sessionToken) {
     var result;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.next = 2;
-            return _ParseWrapperService2.default.createUserQuery().equalTo('username', username).first();
+            return _ParseWrapperService2.default.createUserQuery().equalTo('objectId', id).first({ sessionToken: sessionToken });
 
           case 2:
             result = _context9.sent;
 
-            if (result) {
-              _context9.next = 7;
+            if (!result) {
+              _context9.next = 5;
               break;
             }
 
-            throw new _Exception2.default('No user found with username: ' + username);
-
-          case 7:
             return _context9.abrupt('return', result);
 
-          case 8:
+          case 5:
+            throw new _Exception2.default('No user found with id: ' + id);
+
+          case 6:
           case 'end':
             return _context9.stop();
         }
@@ -290,29 +290,35 @@ UserService.getUser = function () {
     }, _callee9, undefined);
   }));
 
-  return function (_x9) {
+  return function (_x9, _x10) {
     return _ref9.apply(this, arguments);
   };
 }();
 
-UserService.getUserInfo = function () {
-  var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(username) {
+UserService.getUser = function () {
+  var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(username, sessionToken) {
     var result;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.next = 2;
-            return UserService.getUser(username);
+            return _ParseWrapperService2.default.createUserQuery().equalTo('username', username).first({ sessionToken: sessionToken });
 
           case 2:
             result = _context10.sent;
-            return _context10.abrupt('return', (0, _immutable.Map)({
-              id: result.id,
-              username: result.getUsername()
-            }));
 
-          case 4:
+            if (!result) {
+              _context10.next = 5;
+              break;
+            }
+
+            return _context10.abrupt('return', result);
+
+          case 5:
+            throw new _Exception2.default('No user found with username: ' + username);
+
+          case 6:
           case 'end':
             return _context10.stop();
         }
@@ -320,8 +326,38 @@ UserService.getUserInfo = function () {
     }, _callee10, undefined);
   }));
 
-  return function (_x10) {
+  return function (_x11, _x12) {
     return _ref10.apply(this, arguments);
+  };
+}();
+
+UserService.getUserInfo = function () {
+  var _ref11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee11(username, sessionToken) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            _context11.next = 2;
+            return UserService.getUser(username, sessionToken);
+
+          case 2:
+            result = _context11.sent;
+            return _context11.abrupt('return', (0, _immutable.Map)({
+              id: result.id,
+              username: result.getUsername()
+            }));
+
+          case 4:
+          case 'end':
+            return _context11.stop();
+        }
+      }
+    }, _callee11, undefined);
+  }));
+
+  return function (_x13, _x14) {
+    return _ref11.apply(this, arguments);
   };
 }();
 
