@@ -1,7 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
 var _immutable = require('immutable');
@@ -20,348 +20,264 @@ var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
 
 var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) {
-  return function() {
-    var gen = fn.apply(this, arguments);
-    return new Promise(function(resolve, reject) {
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-        if (info.done) {
-          resolve(value);
-        } else {
-          return Promise.resolve(value).then(
-            function(value) {
-              step('next', value);
-            },
-            function(err) {
-              step('throw', err);
-            },
-          );
-        }
-      }
-      return step('next');
-    });
-  };
-}
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError('Cannot call a class as a function');
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ServiceBase = function ServiceBase() {
   var _this = this;
 
   _classCallCheck(this, ServiceBase);
 
-  this.splitIntoChunks = function(list, chunkSize) {
-    return (0, _immutable.Range)(0, list.count(), chunkSize).map(function(chunkStart) {
+  this.splitIntoChunks = function (list, chunkSize) {
+    return (0, _immutable.Range)(0, list.count(), chunkSize).map(function (chunkStart) {
       return list.slice(chunkStart, chunkStart + chunkSize);
     });
   };
 
-  this.create = (function() {
-    var _ref = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee(ObjectType, info, acl, sessionToken) {
-        var object, result;
-        return regeneratorRuntime.wrap(
-          function _callee$(_context) {
-            while (1) {
-              switch ((_context.prev = _context.next)) {
-                case 0:
-                  object = ObjectType.spawn(info);
+  this.create = function () {
+    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ObjectType, info, acl, sessionToken) {
+      var object, result;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              object = ObjectType.spawn(info);
 
-                  _this.setACL(object, acl);
 
-                  _context.next = 4;
-                  return object.save(null, { sessionToken: sessionToken });
+              _this.setACL(object, acl);
 
-                case 4:
-                  result = _context.sent;
-                  return _context.abrupt('return', result.id);
+              _context.next = 4;
+              return object.save(null, { sessionToken: sessionToken });
 
-                case 6:
-                case 'end':
-                  return _context.stop();
-              }
-            }
-          },
-          _callee,
-          _this,
-        );
-      }),
-    );
+            case 4:
+              result = _context.sent;
+              return _context.abrupt('return', result.id);
 
-    return function(_x, _x2, _x3, _x4) {
+            case 6:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, _this);
+    }));
+
+    return function (_x, _x2, _x3, _x4) {
       return _ref.apply(this, arguments);
     };
-  })();
+  }();
 
-  this.read = (function() {
-    var _ref2 = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee2(ObjectType, id, sessionToken, messagePrefix) {
-        var result;
-        return regeneratorRuntime.wrap(
-          function _callee2$(_context2) {
-            while (1) {
-              switch ((_context2.prev = _context2.next)) {
-                case 0:
-                  _context2.next = 2;
-                  return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
+  this.read = function () {
+    var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(ObjectType, id, sessionToken, messagePrefix) {
+      var result;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
 
-                case 2:
-                  result = _context2.sent;
+            case 2:
+              result = _context2.sent;
 
-                  if (!result) {
-                    _context2.next = 5;
-                    break;
-                  }
-
-                  return _context2.abrupt('return', new ObjectType(result).getInfo());
-
-                case 5:
-                  throw new _Exception2.default(messagePrefix + id);
-
-                case 6:
-                case 'end':
-                  return _context2.stop();
+              if (!result) {
+                _context2.next = 5;
+                break;
               }
-            }
-          },
-          _callee2,
-          _this,
-        );
-      }),
-    );
 
-    return function(_x5, _x6, _x7, _x8) {
+              return _context2.abrupt('return', new ObjectType(result).getInfo());
+
+            case 5:
+              throw new _Exception2.default(messagePrefix + id);
+
+            case 6:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, _this);
+    }));
+
+    return function (_x5, _x6, _x7, _x8) {
       return _ref2.apply(this, arguments);
     };
-  })();
+  }();
 
-  this.update = (function() {
-    var _ref3 = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee3(ObjectType, info, sessionToken, messagePrefix) {
-        var result, object;
-        return regeneratorRuntime.wrap(
-          function _callee3$(_context3) {
-            while (1) {
-              switch ((_context3.prev = _context3.next)) {
-                case 0:
-                  _context3.next = 2;
-                  return _ParseWrapperService2.default
-                    .createQuery(ObjectType)
-                    .equalTo('objectId', info.get('id'))
-                    .first({ sessionToken: sessionToken });
+  this.update = function () {
+    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(ObjectType, info, sessionToken, messagePrefix) {
+      var result, object;
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', info.get('id')).first({ sessionToken: sessionToken });
 
-                case 2:
-                  result = _context3.sent;
+            case 2:
+              result = _context3.sent;
 
-                  if (!result) {
-                    _context3.next = 8;
-                    break;
-                  }
-
-                  object = new ObjectType(result);
-                  _context3.next = 7;
-                  return object.updateInfo(info).saveObject(sessionToken);
-
-                case 7:
-                  return _context3.abrupt('return', object.getId());
-
-                case 8:
-                  throw new _Exception2.default(messagePrefix + info.get('id'));
-
-                case 9:
-                case 'end':
-                  return _context3.stop();
+              if (!result) {
+                _context3.next = 8;
+                break;
               }
-            }
-          },
-          _callee3,
-          _this,
-        );
-      }),
-    );
 
-    return function(_x9, _x10, _x11, _x12) {
+              object = new ObjectType(result);
+              _context3.next = 7;
+              return object.updateInfo(info).saveObject(sessionToken);
+
+            case 7:
+              return _context3.abrupt('return', object.getId());
+
+            case 8:
+              throw new _Exception2.default(messagePrefix + info.get('id'));
+
+            case 9:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, _this);
+    }));
+
+    return function (_x9, _x10, _x11, _x12) {
       return _ref3.apply(this, arguments);
     };
-  })();
+  }();
 
-  this.delete = (function() {
-    var _ref4 = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee4(ObjectType, id, sessionToken, messagePrefix) {
-        var result;
-        return regeneratorRuntime.wrap(
-          function _callee4$(_context4) {
-            while (1) {
-              switch ((_context4.prev = _context4.next)) {
-                case 0:
-                  _context4.next = 2;
-                  return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
+  this.delete = function () {
+    var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(ObjectType, id, sessionToken, messagePrefix) {
+      var result;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
 
-                case 2:
-                  result = _context4.sent;
+            case 2:
+              result = _context4.sent;
 
-                  if (result) {
-                    _context4.next = 5;
-                    break;
-                  }
-
-                  throw new _Exception2.default(messagePrefix + id);
-
-                case 5:
-                  _context4.next = 7;
-                  return result.destroy({ sessionToken: sessionToken });
-
-                case 7:
-                case 'end':
-                  return _context4.stop();
+              if (result) {
+                _context4.next = 5;
+                break;
               }
-            }
-          },
-          _callee4,
-          _this,
-        );
-      }),
-    );
 
-    return function(_x13, _x14, _x15, _x16) {
+              throw new _Exception2.default(messagePrefix + id);
+
+            case 5:
+              _context4.next = 7;
+              return result.destroy({ sessionToken: sessionToken });
+
+            case 7:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, _this);
+    }));
+
+    return function (_x13, _x14, _x15, _x16) {
       return _ref4.apply(this, arguments);
     };
-  })();
+  }();
 
-  this.search = (function() {
-    var _ref5 = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee5(ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
-        var results;
-        return regeneratorRuntime.wrap(
-          function _callee5$(_context5) {
-            while (1) {
-              switch ((_context5.prev = _context5.next)) {
-                case 0:
-                  _context5.next = 2;
-                  return buildSearchQueryFunc(criteria).find({ sessionToken: sessionToken });
+  this.search = function () {
+    var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
+      var results;
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return buildSearchQueryFunc(criteria).find({ sessionToken: sessionToken });
 
-                case 2:
-                  results = _context5.sent;
-                  return _context5.abrupt(
-                    'return',
-                    _immutable2.default.fromJS(results).map(function(_) {
-                      return new ObjectType(_).getInfo();
-                    }),
-                  );
+            case 2:
+              results = _context5.sent;
+              return _context5.abrupt('return', _immutable2.default.fromJS(results).map(function (_) {
+                return new ObjectType(_).getInfo();
+              }));
 
-                case 4:
-                case 'end':
-                  return _context5.stop();
-              }
-            }
-          },
-          _callee5,
-          _this,
-        );
-      }),
-    );
+            case 4:
+            case 'end':
+              return _context5.stop();
+          }
+        }
+      }, _callee5, _this);
+    }));
 
-    return function(_x17, _x18, _x19, _x20) {
+    return function (_x17, _x18, _x19, _x20) {
       return _ref5.apply(this, arguments);
     };
-  })();
+  }();
 
-  this.searchAll = function(ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
+  this.searchAll = function (ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
     var event = new _NewSearchResultReceivedEvent2.default();
-    var promise = buildSearchQueryFunc(criteria).each(
-      function(_) {
-        return event.raise(new ObjectType(_).getInfo());
-      },
-      { sessionToken: sessionToken },
-    );
+    var promise = buildSearchQueryFunc(criteria).each(function (_) {
+      return event.raise(new ObjectType(_).getInfo());
+    }, { sessionToken: sessionToken });
 
     return {
       event: event,
-      promise: promise,
+      promise: promise
     };
   };
 
-  this.count = (function() {
-    var _ref6 = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee6(buildSearchQueryFunc, criteria, sessionToken) {
-        return regeneratorRuntime.wrap(
-          function _callee6$(_context6) {
-            while (1) {
-              switch ((_context6.prev = _context6.next)) {
-                case 0:
-                  return _context6.abrupt('return', buildSearchQueryFunc(criteria).count({ sessionToken: sessionToken }));
+  this.count = function () {
+    var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(buildSearchQueryFunc, criteria, sessionToken) {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              return _context6.abrupt('return', buildSearchQueryFunc(criteria).count({ sessionToken: sessionToken }));
 
-                case 1:
-                case 'end':
-                  return _context6.stop();
-              }
-            }
-          },
-          _callee6,
-          _this,
-        );
-      }),
-    );
+            case 1:
+            case 'end':
+              return _context6.stop();
+          }
+        }
+      }, _callee6, _this);
+    }));
 
-    return function(_x21, _x22, _x23) {
+    return function (_x21, _x22, _x23) {
       return _ref6.apply(this, arguments);
     };
-  })();
+  }();
 
-  this.exists = (function() {
-    var _ref7 = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee7(buildSearchQueryFunc, criteria, sessionToken) {
-        return regeneratorRuntime.wrap(
-          function _callee7$(_context7) {
-            while (1) {
-              switch ((_context7.prev = _context7.next)) {
-                case 0:
-                  _context7.next = 2;
-                  return _this.count(buildSearchQueryFunc, criteria, sessionToken);
+  this.exists = function () {
+    var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(buildSearchQueryFunc, criteria, sessionToken) {
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return _this.count(buildSearchQueryFunc, criteria, sessionToken);
 
-                case 2:
-                  _context7.t0 = _context7.sent;
-                  return _context7.abrupt('return', _context7.t0 > 0);
+            case 2:
+              _context7.t0 = _context7.sent;
+              return _context7.abrupt('return', _context7.t0 > 0);
 
-                case 4:
-                case 'end':
-                  return _context7.stop();
-              }
-            }
-          },
-          _callee7,
-          _this,
-        );
-      }),
-    );
+            case 4:
+            case 'end':
+              return _context7.stop();
+          }
+        }
+      }, _callee7, _this);
+    }));
 
-    return function(_x24, _x25, _x26) {
+    return function (_x24, _x25, _x26) {
       return _ref7.apply(this, arguments);
     };
-  })();
+  }();
 
-  this.setACL = function(object, acl) {
+  this.setACL = function (object, acl) {
     if (acl) {
       object.setACL(acl);
     }
   };
 
-  this.addStringSearchToQuery = function(conditions, query, conditionPropKey, columnName) {
+  this.addStringSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
     if (conditions.has(conditionPropKey)) {
       var value = conditions.get(conditionPropKey);
 
@@ -406,19 +322,11 @@ var ServiceBase = function ServiceBase() {
       var values = conditions.get('contains_' + conditionPropKey + 's');
 
       if (values && !values.isEmpty()) {
-        query.matches(
-          columnName,
-          new RegExp(
-            values
-              .map(function(value) {
-                return '(?=.*' + value + ')';
-              })
-              .reduce(function(reduction, value) {
-                return reduction + value;
-              }),
-          ),
-          'i',
-        );
+        query.matches(columnName, new RegExp(values.map(function (value) {
+          return '(?=.*' + value + ')';
+        }).reduce(function (reduction, value) {
+          return reduction + value;
+        })), 'i');
 
         return true;
       }
