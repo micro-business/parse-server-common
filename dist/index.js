@@ -15,18 +15,6 @@ Object.defineProperty(exports, 'BaseObject', {
 
 var _services = require('./services');
 
-Object.defineProperty(exports, 'Exception', {
-  enumerable: true,
-  get: function get() {
-    return _services.Exception;
-  }
-});
-Object.defineProperty(exports, 'NewSearchResultReceivedEvent', {
-  enumerable: true,
-  get: function get() {
-    return _services.NewSearchResultReceivedEvent;
-  }
-});
 Object.defineProperty(exports, 'ParseWrapperService', {
   enumerable: true,
   get: function get() {

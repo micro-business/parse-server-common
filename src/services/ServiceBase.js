@@ -1,13 +1,10 @@
 // @flow
 
-import Immutable, { Range } from 'immutable';
+import Immutable from 'immutable';
+import { Exception, NewSearchResultReceivedEvent } from 'micro-business-common-javascript';
 import ParseWrapperService from './ParseWrapperService';
-import Exception from './Exception';
-import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class ServiceBase {
-  static splitIntoChunks = (list, chunkSize) => Range(0, list.count(), chunkSize).map(chunkStart => list.slice(chunkStart, chunkStart + chunkSize));
-
   static create = async (ObjectType, info, acl, sessionToken) => {
     const object = ObjectType.spawn(info);
 

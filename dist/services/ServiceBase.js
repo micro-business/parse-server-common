@@ -8,17 +8,11 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
+var _microBusinessCommonJavascript = require('micro-business-common-javascript');
+
 var _ParseWrapperService = require('./ParseWrapperService');
 
 var _ParseWrapperService2 = _interopRequireDefault(_ParseWrapperService);
-
-var _Exception = require('./Exception');
-
-var _Exception2 = _interopRequireDefault(_Exception);
-
-var _NewSearchResultReceivedEvent = require('./NewSearchResultReceivedEvent');
-
-var _NewSearchResultReceivedEvent2 = _interopRequireDefault(_NewSearchResultReceivedEvent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,12 +22,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var ServiceBase = function ServiceBase() {
   _classCallCheck(this, ServiceBase);
-};
-
-ServiceBase.splitIntoChunks = function (list, chunkSize) {
-  return (0, _immutable.Range)(0, list.count(), chunkSize).map(function (chunkStart) {
-    return list.slice(chunkStart, chunkStart + chunkSize);
-  });
 };
 
 ServiceBase.create = function () {
@@ -91,7 +79,7 @@ ServiceBase.read = function () {
             return _context2.abrupt('return', new ObjectType(result).getInfo());
 
           case 7:
-            throw new _Exception2.default(messagePrefix + id);
+            throw new _microBusinessCommonJavascript.Exception(messagePrefix + id);
 
           case 8:
           case 'end':
@@ -132,7 +120,7 @@ ServiceBase.update = function () {
             return _context3.abrupt('return', object.getId());
 
           case 8:
-            throw new _Exception2.default(messagePrefix + info.get('id'));
+            throw new _microBusinessCommonJavascript.Exception(messagePrefix + info.get('id'));
 
           case 9:
           case 'end':
@@ -165,7 +153,7 @@ ServiceBase.delete = function () {
               break;
             }
 
-            throw new _Exception2.default(messagePrefix + id);
+            throw new _microBusinessCommonJavascript.Exception(messagePrefix + id);
 
           case 5:
             _context4.next = 7;
@@ -214,7 +202,7 @@ ServiceBase.search = function () {
 }();
 
 ServiceBase.searchAll = function (ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
-  var event = new _NewSearchResultReceivedEvent2.default();
+  var event = new _microBusinessCommonJavascript.NewSearchResultReceivedEvent();
   var promise = buildSearchQueryFunc(criteria).each(function (_) {
     return event.raise(new ObjectType(_).getInfo());
   }, { sessionToken: sessionToken });

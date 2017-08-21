@@ -6,13 +6,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
+var _microBusinessCommonJavascript = require('micro-business-common-javascript');
+
 var _ParseWrapperService = require('./ParseWrapperService');
 
 var _ParseWrapperService2 = _interopRequireDefault(_ParseWrapperService);
-
-var _Exception = require('./Exception');
-
-var _Exception2 = _interopRequireDefault(_Exception);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -280,7 +278,7 @@ UserService.getUserById = function () {
             return _context9.abrupt('return', result);
 
           case 5:
-            throw new _Exception2.default('No user found with id: ' + id);
+            throw new _microBusinessCommonJavascript.Exception('No user found with id: ' + id);
 
           case 6:
           case 'end':
@@ -316,7 +314,7 @@ UserService.getUser = function () {
             return _context10.abrupt('return', result);
 
           case 5:
-            throw new _Exception2.default('No user found with username: ' + username);
+            throw new _microBusinessCommonJavascript.Exception('No user found with username: ' + username);
 
           case 6:
           case 'end':

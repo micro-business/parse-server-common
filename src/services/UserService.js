@@ -1,8 +1,8 @@
 // @flow
 
 import { Map } from 'immutable';
+import { Exception } from 'micro-business-common-javascript';
 import ParseWrapperService from './ParseWrapperService';
-import Exception from './Exception';
 
 export default class UserService {
   static signUpWithUsernameAndPassword = async (username: string, password: string, emailAddress: ?string) => {
