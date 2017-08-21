@@ -6,19 +6,19 @@ import Exception from './Exception';
 import NewSearchResultReceivedEvent from './NewSearchResultReceivedEvent';
 
 export default class ServiceBase {
-  splitIntoChunks = (list, chunkSize) => Range(0, list.count(), chunkSize).map(chunkStart => list.slice(chunkStart, chunkStart + chunkSize));
+  static splitIntoChunks = (list, chunkSize) => Range(0, list.count(), chunkSize).map(chunkStart => list.slice(chunkStart, chunkStart + chunkSize));
 
-  create = async (ObjectType, info, acl, sessionToken) => {
+  static create = async (ObjectType, info, acl, sessionToken) => {
     const object = ObjectType.spawn(info);
 
-    this.setACL(object, acl);
+    ServiceBase.setACL(object, acl);
 
     const result = await object.save(null, { sessionToken });
 
     return result.id;
   };
 
-  read = async (ObjectType, id, sessionToken, messagePrefix) => {
+  static read = async (ObjectType, id, sessionToken, messagePrefix) => {
     const result = await ParseWrapperService.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken });
 
     if (result) {
@@ -28,7 +28,7 @@ export default class ServiceBase {
     throw new Exception(messagePrefix + id);
   };
 
-  update = async (ObjectType, info, sessionToken, messagePrefix) => {
+  static update = async (ObjectType, info, sessionToken, messagePrefix) => {
     const result = await ParseWrapperService.createQuery(ObjectType).equalTo('objectId', info.get('id')).first({ sessionToken });
 
     if (result) {
@@ -42,7 +42,7 @@ export default class ServiceBase {
     throw new Exception(messagePrefix + info.get('id'));
   };
 
-  delete = async (ObjectType, id, sessionToken, messagePrefix) => {
+  static delete = async (ObjectType, id, sessionToken, messagePrefix) => {
     const result = await ParseWrapperService.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken });
 
     if (!result) {
@@ -52,13 +52,13 @@ export default class ServiceBase {
     await result.destroy({ sessionToken });
   };
 
-  search = async (ObjectType, buildSearchQueryFunc, criteria, sessionToken) => {
+  static search = async (ObjectType, buildSearchQueryFunc, criteria, sessionToken) => {
     const results = await buildSearchQueryFunc(criteria).find({ sessionToken });
 
     return Immutable.fromJS(results).map(_ => new ObjectType(_).getInfo());
   };
 
-  searchAll = (ObjectType, buildSearchQueryFunc, criteria, sessionToken) => {
+  static searchAll = (ObjectType, buildSearchQueryFunc, criteria, sessionToken) => {
     const event = new NewSearchResultReceivedEvent();
     const promise = buildSearchQueryFunc(criteria).each(_ => event.raise(new ObjectType(_).getInfo()), { sessionToken });
 
@@ -68,17 +68,17 @@ export default class ServiceBase {
     };
   };
 
-  count = async (buildSearchQueryFunc, criteria, sessionToken) => buildSearchQueryFunc(criteria).count({ sessionToken });
+  static count = async (buildSearchQueryFunc, criteria, sessionToken) => buildSearchQueryFunc(criteria).count({ sessionToken });
 
-  exists = async (buildSearchQueryFunc, criteria, sessionToken) => (await this.count(buildSearchQueryFunc, criteria, sessionToken)) > 0;
+  static exists = async (buildSearchQueryFunc, criteria, sessionToken) => (await ServiceBase.count(buildSearchQueryFunc, criteria, sessionToken)) > 0;
 
-  setACL = (object, acl) => {
+  static setACL = (object, acl) => {
     if (acl) {
       object.setACL(acl);
     }
   };
 
-  addStringSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
+  static addStringSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 

@@ -25,7 +25,7 @@ var UserService = function UserService() {
 };
 
 UserService.signUpWithUsernameAndPassword = function () {
-  var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(username, password, emailAddress) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(username, password, emailAddress) {
     var user, result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -67,7 +67,7 @@ UserService.signUpWithUsernameAndPassword = function () {
 }();
 
 UserService.signInWithUsernameAndPassword = function () {
-  var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(username, password) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(username, password) {
     var result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -102,7 +102,7 @@ UserService.signOut = function () {
   return _ParseWrapperService2.default.logOut();
 };
 
-UserService.sendEmailVerification = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+UserService.sendEmailVerification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
   var user;
   return regeneratorRuntime.wrap(function _callee3$(_context3) {
     while (1) {
@@ -129,7 +129,7 @@ UserService.sendEmailVerification = _asyncToGenerator(regeneratorRuntime.mark(fu
 }));
 
 UserService.resetPassword = function () {
-  var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(emailAddress) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(emailAddress) {
     var user;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -156,7 +156,7 @@ UserService.resetPassword = function () {
 }();
 
 UserService.updatePassword = function () {
-  var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(newPassword) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(newPassword) {
     var user;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -186,7 +186,7 @@ UserService.updatePassword = function () {
   };
 }();
 
-UserService.getCurrentUserInfo = _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+UserService.getCurrentUserInfo = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
   var user;
   return regeneratorRuntime.wrap(function _callee6$(_context6) {
     while (1) {
@@ -211,7 +211,7 @@ UserService.getCurrentUserInfo = _asyncToGenerator(regeneratorRuntime.mark(funct
     }
   }, _callee6, undefined);
 }));
-UserService.getCurrentUserSession = _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+UserService.getCurrentUserSession = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
   var user;
   return regeneratorRuntime.wrap(function _callee7$(_context7) {
     while (1) {
@@ -233,7 +233,7 @@ UserService.getCurrentUserSession = _asyncToGenerator(regeneratorRuntime.mark(fu
 }));
 
 UserService.getUserForProvidedSessionToken = function () {
-  var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(sessionToken) {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(sessionToken) {
     var result;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -260,7 +260,7 @@ UserService.getUserForProvidedSessionToken = function () {
 }();
 
 UserService.getUserById = function () {
-  var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(id, sessionToken) {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(id, sessionToken) {
     var result;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
@@ -296,7 +296,7 @@ UserService.getUserById = function () {
 }();
 
 UserService.getUser = function () {
-  var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(username, sessionToken) {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(username, sessionToken) {
     var result;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
@@ -332,7 +332,7 @@ UserService.getUser = function () {
 }();
 
 UserService.getUserInfo = function () {
-  var _ref11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee11(username, sessionToken) {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(username, sessionToken) {
     var result;
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {

@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 describe('signUpWithUsernameAndPassword', function () {
-  test('should return the new signed up user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+  test('should return the new signed up user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var username, emailAddress, result;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -43,7 +43,7 @@ describe('signUpWithUsernameAndPassword', function () {
 });
 
 describe('signInWithUsernameAndPassword', function () {
-  test('should fail if email address does not exist', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  test('should fail if email address does not exist', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
     var username;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -73,7 +73,7 @@ describe('signInWithUsernameAndPassword', function () {
     }, _callee2, undefined, [[0, 7]]);
   })));
 
-  test('should fail if password is wrong', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+  test('should fail if password is wrong', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
     var username;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -107,7 +107,7 @@ describe('signInWithUsernameAndPassword', function () {
     }, _callee3, undefined, [[0, 9]]);
   })));
 
-  test('should return the signed in user', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+  test('should return the signed in user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
     var username, emailAddress, password, result;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -142,7 +142,7 @@ describe('signInWithUsernameAndPassword', function () {
 });
 
 describe('getUserInfo', function () {
-  test('should reject if username does not exist', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+  test('should reject if username does not exist', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
     var username;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -173,7 +173,7 @@ describe('getUserInfo', function () {
     }, _callee5, undefined, [[1, 7]]);
   })));
 
-  test('should return the user info', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+  test('should return the user info', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
     var username, result;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {

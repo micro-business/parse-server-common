@@ -27,313 +27,311 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ServiceBase = function ServiceBase() {
-  var _this = this;
-
   _classCallCheck(this, ServiceBase);
+};
 
-  this.splitIntoChunks = function (list, chunkSize) {
-    return (0, _immutable.Range)(0, list.count(), chunkSize).map(function (chunkStart) {
-      return list.slice(chunkStart, chunkStart + chunkSize);
-    });
+ServiceBase.splitIntoChunks = function (list, chunkSize) {
+  return (0, _immutable.Range)(0, list.count(), chunkSize).map(function (chunkStart) {
+    return list.slice(chunkStart, chunkStart + chunkSize);
+  });
+};
+
+ServiceBase.create = function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(ObjectType, info, acl, sessionToken) {
+    var object, result;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            object = ObjectType.spawn(info);
+
+
+            ServiceBase.setACL(object, acl);
+
+            _context.next = 4;
+            return object.save(null, { sessionToken: sessionToken });
+
+          case 4:
+            result = _context.sent;
+            return _context.abrupt('return', result.id);
+
+          case 6:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, undefined);
+  }));
+
+  return function (_x, _x2, _x3, _x4) {
+    return _ref.apply(this, arguments);
   };
+}();
 
-  this.create = function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(ObjectType, info, acl, sessionToken) {
-      var object, result;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              object = ObjectType.spawn(info);
+ServiceBase.read = function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ObjectType, id, sessionToken, messagePrefix) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
 
+          case 2:
+            result = _context2.sent;
 
-              _this.setACL(object, acl);
+            if (!result) {
+              _context2.next = 5;
+              break;
+            }
 
-              _context.next = 4;
-              return object.save(null, { sessionToken: sessionToken });
+            return _context2.abrupt('return', new ObjectType(result).getInfo());
 
-            case 4:
-              result = _context.sent;
-              return _context.abrupt('return', result.id);
+          case 5:
+            throw new _Exception2.default(messagePrefix + id);
 
-            case 6:
-            case 'end':
-              return _context.stop();
-          }
+          case 6:
+          case 'end':
+            return _context2.stop();
         }
-      }, _callee, _this);
-    }));
+      }
+    }, _callee2, undefined);
+  }));
 
-    return function (_x, _x2, _x3, _x4) {
-      return _ref.apply(this, arguments);
-    };
-  }();
-
-  this.read = function () {
-    var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(ObjectType, id, sessionToken, messagePrefix) {
-      var result;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
-
-            case 2:
-              result = _context2.sent;
-
-              if (!result) {
-                _context2.next = 5;
-                break;
-              }
-
-              return _context2.abrupt('return', new ObjectType(result).getInfo());
-
-            case 5:
-              throw new _Exception2.default(messagePrefix + id);
-
-            case 6:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, _this);
-    }));
-
-    return function (_x5, _x6, _x7, _x8) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-
-  this.update = function () {
-    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(ObjectType, info, sessionToken, messagePrefix) {
-      var result, object;
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.next = 2;
-              return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', info.get('id')).first({ sessionToken: sessionToken });
-
-            case 2:
-              result = _context3.sent;
-
-              if (!result) {
-                _context3.next = 8;
-                break;
-              }
-
-              object = new ObjectType(result);
-              _context3.next = 7;
-              return object.updateInfo(info).saveObject(sessionToken);
-
-            case 7:
-              return _context3.abrupt('return', object.getId());
-
-            case 8:
-              throw new _Exception2.default(messagePrefix + info.get('id'));
-
-            case 9:
-            case 'end':
-              return _context3.stop();
-          }
-        }
-      }, _callee3, _this);
-    }));
-
-    return function (_x9, _x10, _x11, _x12) {
-      return _ref3.apply(this, arguments);
-    };
-  }();
-
-  this.delete = function () {
-    var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(ObjectType, id, sessionToken, messagePrefix) {
-      var result;
-      return regeneratorRuntime.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.next = 2;
-              return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
-
-            case 2:
-              result = _context4.sent;
-
-              if (result) {
-                _context4.next = 5;
-                break;
-              }
-
-              throw new _Exception2.default(messagePrefix + id);
-
-            case 5:
-              _context4.next = 7;
-              return result.destroy({ sessionToken: sessionToken });
-
-            case 7:
-            case 'end':
-              return _context4.stop();
-          }
-        }
-      }, _callee4, _this);
-    }));
-
-    return function (_x13, _x14, _x15, _x16) {
-      return _ref4.apply(this, arguments);
-    };
-  }();
-
-  this.search = function () {
-    var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
-      var results;
-      return regeneratorRuntime.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.next = 2;
-              return buildSearchQueryFunc(criteria).find({ sessionToken: sessionToken });
-
-            case 2:
-              results = _context5.sent;
-              return _context5.abrupt('return', _immutable2.default.fromJS(results).map(function (_) {
-                return new ObjectType(_).getInfo();
-              }));
-
-            case 4:
-            case 'end':
-              return _context5.stop();
-          }
-        }
-      }, _callee5, _this);
-    }));
-
-    return function (_x17, _x18, _x19, _x20) {
-      return _ref5.apply(this, arguments);
-    };
-  }();
-
-  this.searchAll = function (ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
-    var event = new _NewSearchResultReceivedEvent2.default();
-    var promise = buildSearchQueryFunc(criteria).each(function (_) {
-      return event.raise(new ObjectType(_).getInfo());
-    }, { sessionToken: sessionToken });
-
-    return {
-      event: event,
-      promise: promise
-    };
+  return function (_x5, _x6, _x7, _x8) {
+    return _ref2.apply(this, arguments);
   };
+}();
 
-  this.count = function () {
-    var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(buildSearchQueryFunc, criteria, sessionToken) {
-      return regeneratorRuntime.wrap(function _callee6$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
-              return _context6.abrupt('return', buildSearchQueryFunc(criteria).count({ sessionToken: sessionToken }));
+ServiceBase.update = function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(ObjectType, info, sessionToken, messagePrefix) {
+    var result, object;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', info.get('id')).first({ sessionToken: sessionToken });
 
-            case 1:
-            case 'end':
-              return _context6.stop();
-          }
+          case 2:
+            result = _context3.sent;
+
+            if (!result) {
+              _context3.next = 8;
+              break;
+            }
+
+            object = new ObjectType(result);
+            _context3.next = 7;
+            return object.updateInfo(info).saveObject(sessionToken);
+
+          case 7:
+            return _context3.abrupt('return', object.getId());
+
+          case 8:
+            throw new _Exception2.default(messagePrefix + info.get('id'));
+
+          case 9:
+          case 'end':
+            return _context3.stop();
         }
-      }, _callee6, _this);
-    }));
+      }
+    }, _callee3, undefined);
+  }));
 
-    return function (_x21, _x22, _x23) {
-      return _ref6.apply(this, arguments);
-    };
-  }();
+  return function (_x9, _x10, _x11, _x12) {
+    return _ref3.apply(this, arguments);
+  };
+}();
 
-  this.exists = function () {
-    var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(buildSearchQueryFunc, criteria, sessionToken) {
-      return regeneratorRuntime.wrap(function _callee7$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              _context7.next = 2;
-              return _this.count(buildSearchQueryFunc, criteria, sessionToken);
+ServiceBase.delete = function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(ObjectType, id, sessionToken, messagePrefix) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
 
-            case 2:
-              _context7.t0 = _context7.sent;
-              return _context7.abrupt('return', _context7.t0 > 0);
+          case 2:
+            result = _context4.sent;
 
-            case 4:
-            case 'end':
-              return _context7.stop();
-          }
+            if (result) {
+              _context4.next = 5;
+              break;
+            }
+
+            throw new _Exception2.default(messagePrefix + id);
+
+          case 5:
+            _context4.next = 7;
+            return result.destroy({ sessionToken: sessionToken });
+
+          case 7:
+          case 'end':
+            return _context4.stop();
         }
-      }, _callee7, _this);
-    }));
+      }
+    }, _callee4, undefined);
+  }));
 
-    return function (_x24, _x25, _x26) {
-      return _ref7.apply(this, arguments);
-    };
-  }();
-
-  this.setACL = function (object, acl) {
-    if (acl) {
-      object.setACL(acl);
-    }
+  return function (_x13, _x14, _x15, _x16) {
+    return _ref4.apply(this, arguments);
   };
+}();
 
-  this.addStringSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
-    if (conditions.has(conditionPropKey)) {
-      var value = conditions.get(conditionPropKey);
+ServiceBase.search = function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
+    var results;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.next = 2;
+            return buildSearchQueryFunc(criteria).find({ sessionToken: sessionToken });
 
-      if (value) {
-        query.matches(columnName, new RegExp('^' + value + '$', 'i'));
+          case 2:
+            results = _context5.sent;
+            return _context5.abrupt('return', _immutable2.default.fromJS(results).map(function (_) {
+              return new ObjectType(_).getInfo();
+            }));
 
-        return true;
+          case 4:
+          case 'end':
+            return _context5.stop();
+        }
       }
-    }
+    }, _callee5, undefined);
+  }));
 
-    if (conditions.has('startsWith_' + conditionPropKey)) {
-      var _value = conditions.get('startsWith_' + conditionPropKey);
-
-      if (_value) {
-        query.matches(columnName, new RegExp('^' + _value, 'i'));
-
-        return true;
-      }
-    }
-
-    if (conditions.has('endsWith_' + conditionPropKey)) {
-      var _value2 = conditions.get('endsWith_' + conditionPropKey);
-
-      if (_value2) {
-        query.matches(columnName, new RegExp(_value2 + '$', 'i'));
-
-        return true;
-      }
-    }
-
-    if (conditions.has('contains_' + conditionPropKey)) {
-      var _value3 = conditions.get('contains_' + conditionPropKey);
-
-      if (_value3) {
-        query.matches(columnName, new RegExp('(?=.*' + _value3 + ')', 'i'));
-
-        return true;
-      }
-    }
-
-    if (conditions.has('contains_' + conditionPropKey + 's')) {
-      var values = conditions.get('contains_' + conditionPropKey + 's');
-
-      if (values && !values.isEmpty()) {
-        query.matches(columnName, new RegExp(values.map(function (value) {
-          return '(?=.*' + value + ')';
-        }).reduce(function (reduction, value) {
-          return reduction + value;
-        })), 'i');
-
-        return true;
-      }
-    }
-
-    return false;
+  return function (_x17, _x18, _x19, _x20) {
+    return _ref5.apply(this, arguments);
   };
+}();
+
+ServiceBase.searchAll = function (ObjectType, buildSearchQueryFunc, criteria, sessionToken) {
+  var event = new _NewSearchResultReceivedEvent2.default();
+  var promise = buildSearchQueryFunc(criteria).each(function (_) {
+    return event.raise(new ObjectType(_).getInfo());
+  }, { sessionToken: sessionToken });
+
+  return {
+    event: event,
+    promise: promise
+  };
+};
+
+ServiceBase.count = function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(buildSearchQueryFunc, criteria, sessionToken) {
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            return _context6.abrupt('return', buildSearchQueryFunc(criteria).count({ sessionToken: sessionToken }));
+
+          case 1:
+          case 'end':
+            return _context6.stop();
+        }
+      }
+    }, _callee6, undefined);
+  }));
+
+  return function (_x21, _x22, _x23) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+ServiceBase.exists = function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(buildSearchQueryFunc, criteria, sessionToken) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.next = 2;
+            return ServiceBase.count(buildSearchQueryFunc, criteria, sessionToken);
+
+          case 2:
+            _context7.t0 = _context7.sent;
+            return _context7.abrupt('return', _context7.t0 > 0);
+
+          case 4:
+          case 'end':
+            return _context7.stop();
+        }
+      }
+    }, _callee7, undefined);
+  }));
+
+  return function (_x24, _x25, _x26) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+ServiceBase.setACL = function (object, acl) {
+  if (acl) {
+    object.setACL(acl);
+  }
+};
+
+ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has(conditionPropKey)) {
+    var value = conditions.get(conditionPropKey);
+
+    if (value) {
+      query.matches(columnName, new RegExp('^' + value + '$', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('startsWith_' + conditionPropKey)) {
+    var _value = conditions.get('startsWith_' + conditionPropKey);
+
+    if (_value) {
+      query.matches(columnName, new RegExp('^' + _value, 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('endsWith_' + conditionPropKey)) {
+    var _value2 = conditions.get('endsWith_' + conditionPropKey);
+
+    if (_value2) {
+      query.matches(columnName, new RegExp(_value2 + '$', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('contains_' + conditionPropKey)) {
+    var _value3 = conditions.get('contains_' + conditionPropKey);
+
+    if (_value3) {
+      query.matches(columnName, new RegExp('(?=.*' + _value3 + ')', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('contains_' + conditionPropKey + 's')) {
+    var values = conditions.get('contains_' + conditionPropKey + 's');
+
+    if (values && !values.isEmpty()) {
+      query.matches(columnName, new RegExp(values.map(function (value) {
+        return '(?=.*' + value + ')';
+      }).reduce(function (reduction, value) {
+        return reduction + value;
+      })), 'i');
+
+      return true;
+    }
+  }
+
+  return false;
 };
 
 exports.default = ServiceBase;

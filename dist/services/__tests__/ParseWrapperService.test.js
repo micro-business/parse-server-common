@@ -70,7 +70,7 @@ var _initialiseProps = function _initialiseProps() {
 };
 
 describe('createQuery', function () {
-  test('should return the object when existing id provided.', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+  test('should return the object when existing id provided.', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var data, object, criteria, query, foundObjects;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -106,7 +106,7 @@ describe('createQuery', function () {
     }, _callee, undefined);
   })));
 
-  test('should return the object when existing ids provided.', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+  test('should return the object when existing ids provided.', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
     var data1, data2, object1, object2, criteria, query, foundObjects;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
