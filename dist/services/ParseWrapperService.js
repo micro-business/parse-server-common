@@ -154,6 +154,10 @@ ParseWrapperService.createACL = function (object) {
   return new _node2.default.ACL(object);
 };
 
+ParseWrapperService.createGeoPoint = function (arg1, arg2) {
+  return new _node2.default.GeoPoint(arg1, arg2);
+};
+
 ParseWrapperService.createSessionQuery = function () {
   return new _node2.default.Query(_node2.default.Session);
 };
