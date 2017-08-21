@@ -69,29 +69,31 @@ ServiceBase.create = function () {
 }();
 
 ServiceBase.read = function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ObjectType, id, sessionToken, messagePrefix) {
-    var result;
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ObjectType, id, sessionToken, messagePrefix, modifyQueryFunc) {
+    var query, finalQuery, result;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
-            return _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken: sessionToken });
+            query = _ParseWrapperService2.default.createQuery(ObjectType).equalTo('objectId', id);
+            finalQuery = modifyQueryFunc ? modifyQueryFunc(query) : query;
+            _context2.next = 4;
+            return finalQuery.first({ sessionToken: sessionToken });
 
-          case 2:
+          case 4:
             result = _context2.sent;
 
             if (!result) {
-              _context2.next = 5;
+              _context2.next = 7;
               break;
             }
 
             return _context2.abrupt('return', new ObjectType(result).getInfo());
 
-          case 5:
+          case 7:
             throw new _Exception2.default(messagePrefix + id);
 
-          case 6:
+          case 8:
           case 'end':
             return _context2.stop();
         }
@@ -99,7 +101,7 @@ ServiceBase.read = function () {
     }, _callee2, undefined);
   }));
 
-  return function (_x5, _x6, _x7, _x8) {
+  return function (_x5, _x6, _x7, _x8, _x9) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -140,7 +142,7 @@ ServiceBase.update = function () {
     }, _callee3, undefined);
   }));
 
-  return function (_x9, _x10, _x11, _x12) {
+  return function (_x10, _x11, _x12, _x13) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -177,7 +179,7 @@ ServiceBase.delete = function () {
     }, _callee4, undefined);
   }));
 
-  return function (_x13, _x14, _x15, _x16) {
+  return function (_x14, _x15, _x16, _x17) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -206,7 +208,7 @@ ServiceBase.search = function () {
     }, _callee5, undefined);
   }));
 
-  return function (_x17, _x18, _x19, _x20) {
+  return function (_x18, _x19, _x20, _x21) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -239,7 +241,7 @@ ServiceBase.count = function () {
     }, _callee6, undefined);
   }));
 
-  return function (_x21, _x22, _x23) {
+  return function (_x22, _x23, _x24) {
     return _ref6.apply(this, arguments);
   };
 }();
@@ -265,7 +267,7 @@ ServiceBase.exists = function () {
     }, _callee7, undefined);
   }));
 
-  return function (_x24, _x25, _x26) {
+  return function (_x25, _x26, _x27) {
     return _ref7.apply(this, arguments);
   };
 }();

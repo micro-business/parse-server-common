@@ -18,8 +18,10 @@ export default class ServiceBase {
     return result.id;
   };
 
-  static read = async (ObjectType, id, sessionToken, messagePrefix) => {
-    const result = await ParseWrapperService.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken });
+  static read = async (ObjectType, id, sessionToken, messagePrefix, modifyQueryFunc) => {
+    const query = ParseWrapperService.createQuery(ObjectType).equalTo('objectId', id);
+    const finalQuery = modifyQueryFunc ? modifyQueryFunc(query) : query;
+    const result = await finalQuery.first({ sessionToken });
 
     if (result) {
       return new ObjectType(result).getInfo();
