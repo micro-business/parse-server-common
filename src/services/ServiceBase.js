@@ -131,7 +131,7 @@ export default class ServiceBase {
     return false;
   };
 
-  static addGeoLocationToQuery = (conditions, query, conditionPropKey, columnName) => {
+  static addGeoLocationSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(`near_${conditionPropKey}`)) {
       const value = conditions.get(`near_${conditionPropKey}`);
 
@@ -185,7 +185,7 @@ export default class ServiceBase {
     return false;
   };
 
-  static addDateTimeToQuery = (conditions, query, conditionPropKey, columnName) => {
+  static addDateTimeSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 
@@ -239,7 +239,7 @@ export default class ServiceBase {
     return false;
   };
 
-  static addNumberToQuery = (conditions, query, conditionPropKey, columnName) => {
+  static addNumberSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 

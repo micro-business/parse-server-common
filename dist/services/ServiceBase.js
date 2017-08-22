@@ -324,7 +324,7 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropK
   return false;
 };
 
-ServiceBase.addGeoLocationToQuery = function (conditions, query, conditionPropKey, columnName) {
+ServiceBase.addGeoLocationSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has('near_' + conditionPropKey)) {
     var value = conditions.get('near_' + conditionPropKey);
 
@@ -378,7 +378,7 @@ ServiceBase.addGeoLocationToQuery = function (conditions, query, conditionPropKe
   return false;
 };
 
-ServiceBase.addDateTimeToQuery = function (conditions, query, conditionPropKey, columnName) {
+ServiceBase.addDateTimeSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
 
@@ -432,7 +432,7 @@ ServiceBase.addDateTimeToQuery = function (conditions, query, conditionPropKey, 
   return false;
 };
 
-ServiceBase.addNumberToQuery = function (conditions, query, conditionPropKey, columnName) {
+ServiceBase.addNumberSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
 
