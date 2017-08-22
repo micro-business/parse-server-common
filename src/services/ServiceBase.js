@@ -77,7 +77,7 @@ export default class ServiceBase {
     }
   };
 
-  static addStringSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
+  static addStringQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 
@@ -131,7 +131,7 @@ export default class ServiceBase {
     return false;
   };
 
-  static addGeoLocationSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
+  static addGeoLocationQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(`near_${conditionPropKey}`)) {
       const value = conditions.get(`near_${conditionPropKey}`);
 
@@ -185,7 +185,105 @@ export default class ServiceBase {
     return false;
   };
 
-  static addDateTimeSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
+  static addDateTimeQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    return false;
+  };
+
+  static addNumberQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    return false;
+  };
+
+  static addLinkQuery = (conditions, query, conditionPropKey, columnName, ObjectType) => {
+    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (conditions.has(`${conditionPropKey}Id`)) {
+      const value = conditions.get(`${conditionPropKey}Id`);
+
+      if (value) {
+        query.equalTo(columnName, ObjectType.createWithoutData(value));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}s`)) {
+      const value = conditions.get(`${conditionPropKey}s`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value);
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}Ids`)) {
+      const value = conditions.get(`${conditionPropKey}Ids`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value.map(id => ObjectType.createWithoutData(id)).toArray());
+
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  static addEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 
@@ -196,16 +294,24 @@ export default class ServiceBase {
       }
     }
 
-    if (conditions.has(`lessThanOrEqualTo_${conditionPropKey}`)) {
-      const value = conditions.get(`lessThanOrEqualTo_${conditionPropKey}`);
+    return false;
+  };
+
+  static addNotEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (conditions.has(`notEqual_${conditionPropKey}`)) {
+      const value = conditions.get(`notEqual_${conditionPropKey}`);
 
       if (value) {
-        query.lessThanOrEqualTo(columnName, value);
+        query.notEqualTo(columnName, value);
 
         return true;
       }
     }
 
+    return false;
+  };
+
+  static addLessThanToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(`lessThan_${conditionPropKey}`)) {
       const value = conditions.get(`lessThan_${conditionPropKey}`);
 
@@ -216,16 +322,24 @@ export default class ServiceBase {
       }
     }
 
-    if (conditions.has(`greaterThanOrEqualTo_${conditionPropKey}`)) {
-      const value = conditions.get(`greaterThanOrEqualTo_${conditionPropKey}`);
+    return false;
+  };
+
+  static addLessThanOrEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (conditions.has(`lessThanOrEqualTo_${conditionPropKey}`)) {
+      const value = conditions.get(`lessThanOrEqualTo_${conditionPropKey}`);
 
       if (value) {
-        query.greaterThanOrEqualTo(columnName, value);
+        query.lessThanOrEqualTo(columnName, value);
 
         return true;
       }
     }
 
+    return false;
+  };
+
+  static addGreaterThanToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(`greaterThan_${conditionPropKey}`)) {
       const value = conditions.get(`greaterThan_${conditionPropKey}`);
 
@@ -239,52 +353,12 @@ export default class ServiceBase {
     return false;
   };
 
-  static addNumberSearchToQuery = (conditions, query, conditionPropKey, columnName) => {
-    if (conditions.has(conditionPropKey)) {
-      const value = conditions.get(conditionPropKey);
-
-      if (value) {
-        query.equalTo(columnName, value);
-
-        return true;
-      }
-    }
-
-    if (conditions.has(`lessThanOrEqualTo_${conditionPropKey}`)) {
-      const value = conditions.get(`lessThanOrEqualTo_${conditionPropKey}`);
-
-      if (value) {
-        query.lessThanOrEqualTo(columnName, value);
-
-        return true;
-      }
-    }
-
-    if (conditions.has(`lessThan_${conditionPropKey}`)) {
-      const value = conditions.get(`lessThan_${conditionPropKey}`);
-
-      if (value) {
-        query.lessThan(columnName, value);
-
-        return true;
-      }
-    }
-
+  static addGreaterThanOrEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(`greaterThanOrEqualTo_${conditionPropKey}`)) {
       const value = conditions.get(`greaterThanOrEqualTo_${conditionPropKey}`);
 
       if (value) {
         query.greaterThanOrEqualTo(columnName, value);
-
-        return true;
-      }
-    }
-
-    if (conditions.has(`greaterThan_${conditionPropKey}`)) {
-      const value = conditions.get(`greaterThan_${conditionPropKey}`);
-
-      if (value) {
-        query.greaterThan(columnName, value);
 
         return true;
       }

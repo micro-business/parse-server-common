@@ -266,7 +266,7 @@ ServiceBase.setACL = function (object, acl) {
   }
 };
 
-ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
+ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
 
@@ -324,7 +324,7 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropK
   return false;
 };
 
-ServiceBase.addGeoLocationSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
+ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has('near_' + conditionPropKey)) {
     var value = conditions.get('near_' + conditionPropKey);
 
@@ -378,52 +378,98 @@ ServiceBase.addGeoLocationSearchToQuery = function (conditions, query, condition
   return false;
 };
 
-ServiceBase.addDateTimeSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has(conditionPropKey)) {
-    var value = conditions.get(conditionPropKey);
+ServiceBase.addDateTimeQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  return false;
+};
+
+ServiceBase.addNumberQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  return false;
+};
+
+ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, columnName, ObjectType) {
+  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (conditions.has(conditionPropKey + 'Id')) {
+    var value = conditions.get(conditionPropKey + 'Id');
 
     if (value) {
-      query.equalTo(columnName, value);
+      query.equalTo(columnName, ObjectType.createWithoutData(value));
 
       return true;
     }
   }
 
-  if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
-    var _value8 = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
+  if (conditions.has(conditionPropKey + 's')) {
+    var _value8 = conditions.get(conditionPropKey + 's');
 
-    if (_value8) {
-      query.lessThanOrEqualTo(columnName, _value8);
-
-      return true;
-    }
-  }
-
-  if (conditions.has('lessThan_' + conditionPropKey)) {
-    var _value9 = conditions.get('lessThan_' + conditionPropKey);
-
-    if (_value9) {
-      query.lessThan(columnName, _value9);
+    if (_value8 && !_value8.isEmpty()) {
+      query.containedIn(columnName, _value8);
 
       return true;
     }
   }
 
-  if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
-    var _value10 = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
+  if (conditions.has(conditionPropKey + 'Ids')) {
+    var _value9 = conditions.get(conditionPropKey + 'Ids');
 
-    if (_value10) {
-      query.greaterThanOrEqualTo(columnName, _value10);
-
-      return true;
-    }
-  }
-
-  if (conditions.has('greaterThan_' + conditionPropKey)) {
-    var _value11 = conditions.get('greaterThan_' + conditionPropKey);
-
-    if (_value11) {
-      query.greaterThan(columnName, _value11);
+    if (_value9 && !_value9.isEmpty()) {
+      query.containedIn(columnName, _value9.map(function (id) {
+        return ObjectType.createWithoutData(id);
+      }).toArray());
 
       return true;
     }
@@ -432,7 +478,7 @@ ServiceBase.addDateTimeSearchToQuery = function (conditions, query, conditionPro
   return false;
 };
 
-ServiceBase.addNumberSearchToQuery = function (conditions, query, conditionPropKey, columnName) {
+ServiceBase.addEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
 
@@ -443,41 +489,71 @@ ServiceBase.addNumberSearchToQuery = function (conditions, query, conditionPropK
     }
   }
 
-  if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
-    var _value12 = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
+  return false;
+};
 
-    if (_value12) {
-      query.lessThanOrEqualTo(columnName, _value12);
+ServiceBase.addNotEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('notEqual_' + conditionPropKey)) {
+    var value = conditions.get('notEqual_' + conditionPropKey);
+
+    if (value) {
+      query.notEqualTo(columnName, value);
 
       return true;
     }
   }
 
+  return false;
+};
+
+ServiceBase.addLessThanToQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has('lessThan_' + conditionPropKey)) {
-    var _value13 = conditions.get('lessThan_' + conditionPropKey);
+    var value = conditions.get('lessThan_' + conditionPropKey);
 
-    if (_value13) {
-      query.lessThan(columnName, _value13);
-
-      return true;
-    }
-  }
-
-  if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
-    var _value14 = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
-
-    if (_value14) {
-      query.greaterThanOrEqualTo(columnName, _value14);
+    if (value) {
+      query.lessThan(columnName, value);
 
       return true;
     }
   }
 
+  return false;
+};
+
+ServiceBase.addLessThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
+    var value = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
+
+    if (value) {
+      query.lessThanOrEqualTo(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addGreaterThanToQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has('greaterThan_' + conditionPropKey)) {
-    var _value15 = conditions.get('greaterThan_' + conditionPropKey);
+    var value = conditions.get('greaterThan_' + conditionPropKey);
 
-    if (_value15) {
-      query.greaterThan(columnName, _value15);
+    if (value) {
+      query.greaterThan(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addGreaterThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
+    var value = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
+
+    if (value) {
+      query.greaterThanOrEqualTo(columnName, value);
 
       return true;
     }
