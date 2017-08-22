@@ -130,4 +130,58 @@ export default class ServiceBase {
 
     return false;
   };
+
+  static addGeoLocationToQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (conditions.has(`near_${conditionPropKey}`)) {
+      const value = conditions.get(`near_${conditionPropKey}`);
+
+      if (value) {
+        query.near(columnName, value);
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`withinGeoBox_${conditionPropKey}`)) {
+      const value = conditions.get(`withinGeoBox_${conditionPropKey}`);
+
+      if (value) {
+        query.withinGeoBox(columnName, value.get('southwest'), value.get('northeast'));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`withinMiles_${conditionPropKey}`)) {
+      const value = conditions.get(`withinMiles_${conditionPropKey}`);
+
+      if (value) {
+        query.withinMiles(columnName, value.get('point'), value.get('distance'));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`withinKilometers_${conditionPropKey}`)) {
+      const value = conditions.get(`withinKilometers_${conditionPropKey}`);
+
+      if (value) {
+        query.withinKilometers(columnName, value.get('point'), value.get('distance'));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`withinRadians_${conditionPropKey}`)) {
+      const value = conditions.get(`withinRadians_${conditionPropKey}`);
+
+      if (value) {
+        query.withinRadians(columnName, value.get('point'), value.get('distance'));
+
+        return true;
+      }
+    }
+
+    return false;
+  };
 }

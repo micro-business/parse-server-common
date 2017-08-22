@@ -324,4 +324,58 @@ ServiceBase.addStringSearchToQuery = function (conditions, query, conditionPropK
   return false;
 };
 
+ServiceBase.addGeoLocationToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('near_' + conditionPropKey)) {
+    var value = conditions.get('near_' + conditionPropKey);
+
+    if (value) {
+      query.near(columnName, value);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinGeoBox_' + conditionPropKey)) {
+    var _value4 = conditions.get('withinGeoBox_' + conditionPropKey);
+
+    if (_value4) {
+      query.withinGeoBox(columnName, _value4.get('southwest'), _value4.get('northeast'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinMiles_' + conditionPropKey)) {
+    var _value5 = conditions.get('withinMiles_' + conditionPropKey);
+
+    if (_value5) {
+      query.withinMiles(columnName, _value5.get('point'), _value5.get('distance'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinKilometers_' + conditionPropKey)) {
+    var _value6 = conditions.get('withinKilometers_' + conditionPropKey);
+
+    if (_value6) {
+      query.withinKilometers(columnName, _value6.get('point'), _value6.get('distance'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinRadians_' + conditionPropKey)) {
+    var _value7 = conditions.get('withinRadians_' + conditionPropKey);
+
+    if (_value7) {
+      query.withinRadians(columnName, _value7.get('point'), _value7.get('distance'));
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
 exports.default = ServiceBase;
