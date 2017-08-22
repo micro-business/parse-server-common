@@ -185,68 +185,14 @@ export default class ServiceBase {
     return false;
   };
 
-  static addDateTimeQuery = (conditions, query, conditionPropKey, columnName) => {
-    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
+  static addDateTimeQuery = (conditions, query, conditionPropKey, columnName) =>
+    ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
-    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    return false;
-  };
-
-  static addNumberQuery = (conditions, query, conditionPropKey, columnName) => {
-    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    return false;
-  };
+  static addNumberQuery = (conditions, query, conditionPropKey, columnName) =>
+    ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
   static addLinkQuery = (conditions, query, conditionPropKey, columnName, ObjectType) => {
-    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
       return true;
     }
 
@@ -278,6 +224,34 @@ export default class ServiceBase {
 
         return true;
       }
+    }
+
+    return false;
+  };
+
+  static addEqualityQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
     }
 
     return false;

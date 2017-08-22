@@ -379,67 +379,15 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
 };
 
 ServiceBase.addDateTimeQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  return false;
+  return ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 };
 
 ServiceBase.addNumberQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  return false;
+  return ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 };
 
 ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, columnName, ObjectType) {
-  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+  if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
     return true;
   }
 
@@ -473,6 +421,34 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
 
       return true;
     }
+  }
+
+  return false;
+};
+
+ServiceBase.addEqualityQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
   }
 
   return false;
