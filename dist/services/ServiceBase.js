@@ -378,4 +378,112 @@ ServiceBase.addGeoLocationToQuery = function (conditions, query, conditionPropKe
   return false;
 };
 
+ServiceBase.addDateTimeToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has(conditionPropKey)) {
+    var value = conditions.get(conditionPropKey);
+
+    if (value) {
+      query.equalTo(columnName, value);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
+    var _value8 = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
+
+    if (_value8) {
+      query.lessThanOrEqualTo(columnName, _value8);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('lessThan_' + conditionPropKey)) {
+    var _value9 = conditions.get('lessThan_' + conditionPropKey);
+
+    if (_value9) {
+      query.lessThan(columnName, _value9);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
+    var _value10 = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
+
+    if (_value10) {
+      query.greaterThanOrEqualTo(columnName, _value10);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('greaterThan_' + conditionPropKey)) {
+    var _value11 = conditions.get('greaterThan_' + conditionPropKey);
+
+    if (_value11) {
+      query.greaterThan(columnName, _value11);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addNumberToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has(conditionPropKey)) {
+    var value = conditions.get(conditionPropKey);
+
+    if (value) {
+      query.equalTo(columnName, value);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
+    var _value12 = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
+
+    if (_value12) {
+      query.lessThanOrEqualTo(columnName, _value12);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('lessThan_' + conditionPropKey)) {
+    var _value13 = conditions.get('lessThan_' + conditionPropKey);
+
+    if (_value13) {
+      query.lessThan(columnName, _value13);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
+    var _value14 = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
+
+    if (_value14) {
+      query.greaterThanOrEqualTo(columnName, _value14);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('greaterThan_' + conditionPropKey)) {
+    var _value15 = conditions.get('greaterThan_' + conditionPropKey);
+
+    if (_value15) {
+      query.greaterThan(columnName, _value15);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
 exports.default = ServiceBase;
