@@ -229,6 +229,44 @@ export default class ServiceBase {
     return false;
   };
 
+  static addUserLinkQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (conditions.has(`${conditionPropKey}Id`)) {
+      const value = conditions.get(`${conditionPropKey}Id`);
+
+      if (value) {
+        query.equalTo(columnName, ParseWrapperService.createUserWithoutData(value));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}s`)) {
+      const value = conditions.get(`${conditionPropKey}s`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value);
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}Ids`)) {
+      const value = conditions.get(`${conditionPropKey}Ids`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value.map(id => ParseWrapperService.createUserWithoutData(id)).toArray());
+
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   static addEqualityQuery = (conditions, query, conditionPropKey, columnName) => {
     if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
       return true;

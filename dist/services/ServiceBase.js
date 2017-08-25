@@ -426,6 +426,46 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
   return false;
 };
 
+ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (conditions.has(conditionPropKey + 'Id')) {
+    var value = conditions.get(conditionPropKey + 'Id');
+
+    if (value) {
+      query.equalTo(columnName, _ParseWrapperService2.default.createUserWithoutData(value));
+
+      return true;
+    }
+  }
+
+  if (conditions.has(conditionPropKey + 's')) {
+    var _value10 = conditions.get(conditionPropKey + 's');
+
+    if (_value10 && !_value10.isEmpty()) {
+      query.containedIn(columnName, _value10);
+
+      return true;
+    }
+  }
+
+  if (conditions.has(conditionPropKey + 'Ids')) {
+    var _value11 = conditions.get(conditionPropKey + 'Ids');
+
+    if (_value11 && !_value11.isEmpty()) {
+      query.containedIn(columnName, _value11.map(function (id) {
+        return _ParseWrapperService2.default.createUserWithoutData(id);
+      }).toArray());
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
 ServiceBase.addEqualityQuery = function (conditions, query, conditionPropKey, columnName) {
   if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
     return true;
