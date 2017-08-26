@@ -125,6 +125,44 @@ export default class ServiceBase {
   static addNumberQuery = (conditions, query, conditionPropKey, columnName) =>
     ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
+  static addLinkQuery = (conditions, query, conditionPropKey, columnName, ObjectType) => {
+    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (conditions.has(`${conditionPropKey}Id`)) {
+      const value = conditions.get(`${conditionPropKey}Id`);
+
+      if (value) {
+        query.equalTo(columnName, ObjectType.createWithoutData(value));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}s`)) {
+      const value = conditions.get(`${conditionPropKey}s`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value);
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}Ids`)) {
+      const value = conditions.get(`${conditionPropKey}Ids`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value.map(id => ObjectType.createWithoutData(id)).toArray());
+
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   static addUserLinkQuery = (conditions, query, conditionPropKey, columnName) => {
     if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
       return true;
@@ -361,42 +399,4 @@ export default class ServiceBase {
   count = async (criteria, sessionToken) => this.buildSearchQueryFunc(criteria).count({ sessionToken });
 
   exists = async (criteria, sessionToken) => (await this.count(criteria, sessionToken)) > 0;
-
-  addLinkQuery = (conditions, query, conditionPropKey, columnName) => {
-    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (conditions.has(`${conditionPropKey}Id`)) {
-      const value = conditions.get(`${conditionPropKey}Id`);
-
-      if (value) {
-        query.equalTo(columnName, this.ObjectType.createWithoutData(value));
-
-        return true;
-      }
-    }
-
-    if (conditions.has(`${conditionPropKey}s`)) {
-      const value = conditions.get(`${conditionPropKey}s`);
-
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value);
-
-        return true;
-      }
-    }
-
-    if (conditions.has(`${conditionPropKey}Ids`)) {
-      const value = conditions.get(`${conditionPropKey}Ids`);
-
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value.map(id => this.ObjectType.createWithoutData(id)).toArray());
-
-        return true;
-      }
-    }
-
-    return false;
-  };
 }

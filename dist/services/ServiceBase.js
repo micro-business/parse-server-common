@@ -21,9 +21,350 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ServiceBase = function ServiceBase(ObjectType, buildSearchQueryFunc, buildIncludeQueryFunc, objectFriendlyName) {
-  var _this = this;
-
   _classCallCheck(this, ServiceBase);
+
+  _initialiseProps.call(this);
+
+  this.ObjectType = ObjectType;
+  this.buildSearchQueryFunc = buildSearchQueryFunc;
+  this.buildIncludeQueryFunc = buildIncludeQueryFunc;
+  this.messagePrefix = 'No ' + objectFriendlyName + ' found with Id: ';
+};
+
+ServiceBase.setACL = function (object, acl) {
+  if (acl) {
+    object.setACL(acl);
+  }
+};
+
+ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has(conditionPropKey)) {
+    var value = conditions.get(conditionPropKey);
+
+    if (value) {
+      query.matches(columnName, new RegExp('^' + value + '$', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('startsWith_' + conditionPropKey)) {
+    var _value = conditions.get('startsWith_' + conditionPropKey);
+
+    if (_value) {
+      query.matches(columnName, new RegExp('^' + _value, 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('endsWith_' + conditionPropKey)) {
+    var _value2 = conditions.get('endsWith_' + conditionPropKey);
+
+    if (_value2) {
+      query.matches(columnName, new RegExp(_value2 + '$', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('contains_' + conditionPropKey)) {
+    var _value3 = conditions.get('contains_' + conditionPropKey);
+
+    if (_value3) {
+      query.matches(columnName, new RegExp('(?=.*' + _value3 + ')', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('contains_' + conditionPropKey + 's')) {
+    var values = conditions.get('contains_' + conditionPropKey + 's');
+
+    if (values && !values.isEmpty()) {
+      query.matches(columnName, new RegExp(values.map(function (value) {
+        return '(?=.*' + value + ')';
+      }).reduce(function (reduction, value) {
+        return reduction + value;
+      })), 'i');
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('near_' + conditionPropKey)) {
+    var value = conditions.get('near_' + conditionPropKey);
+
+    if (value) {
+      query.near(columnName, value);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinGeoBox_' + conditionPropKey)) {
+    var _value4 = conditions.get('withinGeoBox_' + conditionPropKey);
+
+    if (_value4) {
+      query.withinGeoBox(columnName, _value4.get('southwest'), _value4.get('northeast'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinMiles_' + conditionPropKey)) {
+    var _value5 = conditions.get('withinMiles_' + conditionPropKey);
+
+    if (_value5) {
+      query.withinMiles(columnName, _value5.get('point'), _value5.get('distance'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinKilometers_' + conditionPropKey)) {
+    var _value6 = conditions.get('withinKilometers_' + conditionPropKey);
+
+    if (_value6) {
+      query.withinKilometers(columnName, _value6.get('point'), _value6.get('distance'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('withinRadians_' + conditionPropKey)) {
+    var _value7 = conditions.get('withinRadians_' + conditionPropKey);
+
+    if (_value7) {
+      query.withinRadians(columnName, _value7.get('point'), _value7.get('distance'));
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addDateTimeQuery = function (conditions, query, conditionPropKey, columnName) {
+  return ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
+};
+
+ServiceBase.addNumberQuery = function (conditions, query, conditionPropKey, columnName) {
+  return ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
+};
+
+ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, columnName, ObjectType) {
+  if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (conditions.has(conditionPropKey + 'Id')) {
+    var value = conditions.get(conditionPropKey + 'Id');
+
+    if (value) {
+      query.equalTo(columnName, ObjectType.createWithoutData(value));
+
+      return true;
+    }
+  }
+
+  if (conditions.has(conditionPropKey + 's')) {
+    var _value8 = conditions.get(conditionPropKey + 's');
+
+    if (_value8 && !_value8.isEmpty()) {
+      query.containedIn(columnName, _value8);
+
+      return true;
+    }
+  }
+
+  if (conditions.has(conditionPropKey + 'Ids')) {
+    var _value9 = conditions.get(conditionPropKey + 'Ids');
+
+    if (_value9 && !_value9.isEmpty()) {
+      query.containedIn(columnName, _value9.map(function (id) {
+        return ObjectType.createWithoutData(id);
+      }).toArray());
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (conditions.has(conditionPropKey + 'Id')) {
+    var value = conditions.get(conditionPropKey + 'Id');
+
+    if (value) {
+      query.equalTo(columnName, _ParseWrapperService2.default.createUserWithoutData(value));
+
+      return true;
+    }
+  }
+
+  if (conditions.has(conditionPropKey + 's')) {
+    var _value10 = conditions.get(conditionPropKey + 's');
+
+    if (_value10 && !_value10.isEmpty()) {
+      query.containedIn(columnName, _value10);
+
+      return true;
+    }
+  }
+
+  if (conditions.has(conditionPropKey + 'Ids')) {
+    var _value11 = conditions.get(conditionPropKey + 'Ids');
+
+    if (_value11 && !_value11.isEmpty()) {
+      query.containedIn(columnName, _value11.map(function (id) {
+        return _ParseWrapperService2.default.createUserWithoutData(id);
+      }).toArray());
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addEqualityQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
+    return true;
+  }
+
+  return false;
+};
+
+ServiceBase.addEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has(conditionPropKey)) {
+    var value = conditions.get(conditionPropKey);
+
+    if (value) {
+      query.equalTo(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addNotEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('notEqual_' + conditionPropKey)) {
+    var value = conditions.get('notEqual_' + conditionPropKey);
+
+    if (value) {
+      query.notEqualTo(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addLessThanToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('lessThan_' + conditionPropKey)) {
+    var value = conditions.get('lessThan_' + conditionPropKey);
+
+    if (value) {
+      query.lessThan(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addLessThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
+    var value = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
+
+    if (value) {
+      query.lessThanOrEqualTo(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addGreaterThanToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('greaterThan_' + conditionPropKey)) {
+    var value = conditions.get('greaterThan_' + conditionPropKey);
+
+    if (value) {
+      query.greaterThan(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addGreaterThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
+  if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
+    var value = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
+
+    if (value) {
+      query.greaterThanOrEqualTo(columnName, value);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
+  if (criteria.has('include_' + columnName)) {
+    var value = criteria.get('include_' + columnName);
+
+    if (value) {
+      query.include(columnName);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this = this;
 
   this.create = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(info, acl, sessionToken) {
@@ -260,343 +601,6 @@ var ServiceBase = function ServiceBase(ObjectType, buildSearchQueryFunc, buildIn
       return _ref7.apply(this, arguments);
     };
   }();
-
-  this.addLinkQuery = function (conditions, query, conditionPropKey, columnName) {
-    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (conditions.has(conditionPropKey + 'Id')) {
-      var value = conditions.get(conditionPropKey + 'Id');
-
-      if (value) {
-        query.equalTo(columnName, _this.ObjectType.createWithoutData(value));
-
-        return true;
-      }
-    }
-
-    if (conditions.has(conditionPropKey + 's')) {
-      var _value = conditions.get(conditionPropKey + 's');
-
-      if (_value && !_value.isEmpty()) {
-        query.containedIn(columnName, _value);
-
-        return true;
-      }
-    }
-
-    if (conditions.has(conditionPropKey + 'Ids')) {
-      var _value2 = conditions.get(conditionPropKey + 'Ids');
-
-      if (_value2 && !_value2.isEmpty()) {
-        query.containedIn(columnName, _value2.map(function (id) {
-          return _this.ObjectType.createWithoutData(id);
-        }).toArray());
-
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  this.ObjectType = ObjectType;
-  this.buildSearchQueryFunc = buildSearchQueryFunc;
-  this.buildIncludeQueryFunc = buildIncludeQueryFunc;
-  this.messagePrefix = 'No ' + objectFriendlyName + ' found with Id: ';
-};
-
-ServiceBase.setACL = function (object, acl) {
-  if (acl) {
-    object.setACL(acl);
-  }
-};
-
-ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has(conditionPropKey)) {
-    var value = conditions.get(conditionPropKey);
-
-    if (value) {
-      query.matches(columnName, new RegExp('^' + value + '$', 'i'));
-
-      return true;
-    }
-  }
-
-  if (conditions.has('startsWith_' + conditionPropKey)) {
-    var _value3 = conditions.get('startsWith_' + conditionPropKey);
-
-    if (_value3) {
-      query.matches(columnName, new RegExp('^' + _value3, 'i'));
-
-      return true;
-    }
-  }
-
-  if (conditions.has('endsWith_' + conditionPropKey)) {
-    var _value4 = conditions.get('endsWith_' + conditionPropKey);
-
-    if (_value4) {
-      query.matches(columnName, new RegExp(_value4 + '$', 'i'));
-
-      return true;
-    }
-  }
-
-  if (conditions.has('contains_' + conditionPropKey)) {
-    var _value5 = conditions.get('contains_' + conditionPropKey);
-
-    if (_value5) {
-      query.matches(columnName, new RegExp('(?=.*' + _value5 + ')', 'i'));
-
-      return true;
-    }
-  }
-
-  if (conditions.has('contains_' + conditionPropKey + 's')) {
-    var values = conditions.get('contains_' + conditionPropKey + 's');
-
-    if (values && !values.isEmpty()) {
-      query.matches(columnName, new RegExp(values.map(function (value) {
-        return '(?=.*' + value + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      })), 'i');
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has('near_' + conditionPropKey)) {
-    var value = conditions.get('near_' + conditionPropKey);
-
-    if (value) {
-      query.near(columnName, value);
-
-      return true;
-    }
-  }
-
-  if (conditions.has('withinGeoBox_' + conditionPropKey)) {
-    var _value6 = conditions.get('withinGeoBox_' + conditionPropKey);
-
-    if (_value6) {
-      query.withinGeoBox(columnName, _value6.get('southwest'), _value6.get('northeast'));
-
-      return true;
-    }
-  }
-
-  if (conditions.has('withinMiles_' + conditionPropKey)) {
-    var _value7 = conditions.get('withinMiles_' + conditionPropKey);
-
-    if (_value7) {
-      query.withinMiles(columnName, _value7.get('point'), _value7.get('distance'));
-
-      return true;
-    }
-  }
-
-  if (conditions.has('withinKilometers_' + conditionPropKey)) {
-    var _value8 = conditions.get('withinKilometers_' + conditionPropKey);
-
-    if (_value8) {
-      query.withinKilometers(columnName, _value8.get('point'), _value8.get('distance'));
-
-      return true;
-    }
-  }
-
-  if (conditions.has('withinRadians_' + conditionPropKey)) {
-    var _value9 = conditions.get('withinRadians_' + conditionPropKey);
-
-    if (_value9) {
-      query.withinRadians(columnName, _value9.get('point'), _value9.get('distance'));
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addDateTimeQuery = function (conditions, query, conditionPropKey, columnName) {
-  return ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
-};
-
-ServiceBase.addNumberQuery = function (conditions, query, conditionPropKey, columnName) {
-  return ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
-};
-
-ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (conditions.has(conditionPropKey + 'Id')) {
-    var value = conditions.get(conditionPropKey + 'Id');
-
-    if (value) {
-      query.equalTo(columnName, _ParseWrapperService2.default.createUserWithoutData(value));
-
-      return true;
-    }
-  }
-
-  if (conditions.has(conditionPropKey + 's')) {
-    var _value10 = conditions.get(conditionPropKey + 's');
-
-    if (_value10 && !_value10.isEmpty()) {
-      query.containedIn(columnName, _value10);
-
-      return true;
-    }
-  }
-
-  if (conditions.has(conditionPropKey + 'Ids')) {
-    var _value11 = conditions.get(conditionPropKey + 'Ids');
-
-    if (_value11 && !_value11.isEmpty()) {
-      query.containedIn(columnName, _value11.map(function (id) {
-        return _ParseWrapperService2.default.createUserWithoutData(id);
-      }).toArray());
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addEqualityQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  return false;
-};
-
-ServiceBase.addEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has(conditionPropKey)) {
-    var value = conditions.get(conditionPropKey);
-
-    if (value) {
-      query.equalTo(columnName, value);
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addNotEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has('notEqual_' + conditionPropKey)) {
-    var value = conditions.get('notEqual_' + conditionPropKey);
-
-    if (value) {
-      query.notEqualTo(columnName, value);
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addLessThanToQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has('lessThan_' + conditionPropKey)) {
-    var value = conditions.get('lessThan_' + conditionPropKey);
-
-    if (value) {
-      query.lessThan(columnName, value);
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addLessThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
-    var value = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
-
-    if (value) {
-      query.lessThanOrEqualTo(columnName, value);
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addGreaterThanToQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has('greaterThan_' + conditionPropKey)) {
-    var value = conditions.get('greaterThan_' + conditionPropKey);
-
-    if (value) {
-      query.greaterThan(columnName, value);
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addGreaterThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
-    var value = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
-
-    if (value) {
-      query.greaterThanOrEqualTo(columnName, value);
-
-      return true;
-    }
-  }
-
-  return false;
-};
-
-ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
-  if (criteria.has('include_' + columnName)) {
-    var value = criteria.get('include_' + columnName);
-
-    if (value) {
-      query.include(columnName);
-
-      return true;
-    }
-  }
-
-  return false;
 };
 
 exports.default = ServiceBase;
