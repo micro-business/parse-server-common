@@ -5,72 +5,6 @@ import { Exception, NewSearchResultReceivedEvent } from 'micro-business-common-j
 import ParseWrapperService from './ParseWrapperService';
 
 export default class ServiceBase {
-  static create = async (ObjectType, info, acl, sessionToken) => {
-    const object = ObjectType.spawn(info);
-
-    ServiceBase.setACL(object, acl);
-
-    const result = await object.save(null, { sessionToken });
-
-    return result.id;
-  };
-
-  static read = async (ObjectType, id, sessionToken, messagePrefix, modifyQueryFunc) => {
-    const query = ParseWrapperService.createQuery(ObjectType).equalTo('objectId', id);
-    const finalQuery = modifyQueryFunc ? modifyQueryFunc(query) : query;
-    const result = await finalQuery.first({ sessionToken });
-
-    if (result) {
-      return new ObjectType(result).getInfo();
-    }
-
-    throw new Exception(messagePrefix + id);
-  };
-
-  static update = async (ObjectType, info, sessionToken, messagePrefix) => {
-    const result = await ParseWrapperService.createQuery(ObjectType).equalTo('objectId', info.get('id')).first({ sessionToken });
-
-    if (result) {
-      const object = new ObjectType(result);
-
-      await object.updateInfo(info).saveObject(sessionToken);
-
-      return object.getId();
-    }
-
-    throw new Exception(messagePrefix + info.get('id'));
-  };
-
-  static delete = async (ObjectType, id, sessionToken, messagePrefix) => {
-    const result = await ParseWrapperService.createQuery(ObjectType).equalTo('objectId', id).first({ sessionToken });
-
-    if (!result) {
-      throw new Exception(messagePrefix + id);
-    }
-
-    await result.destroy({ sessionToken });
-  };
-
-  static search = async (ObjectType, buildSearchQueryFunc, criteria, sessionToken) => {
-    const results = await buildSearchQueryFunc(criteria).find({ sessionToken });
-
-    return Immutable.fromJS(results).map(_ => new ObjectType(_).getInfo());
-  };
-
-  static searchAll = (ObjectType, buildSearchQueryFunc, criteria, sessionToken) => {
-    const event = new NewSearchResultReceivedEvent();
-    const promise = buildSearchQueryFunc(criteria).each(_ => event.raise(new ObjectType(_).getInfo()), { sessionToken });
-
-    return {
-      event,
-      promise,
-    };
-  };
-
-  static count = async (buildSearchQueryFunc, criteria, sessionToken) => buildSearchQueryFunc(criteria).count({ sessionToken });
-
-  static exists = async (buildSearchQueryFunc, criteria, sessionToken) => (await ServiceBase.count(buildSearchQueryFunc, criteria, sessionToken)) > 0;
-
   static setACL = (object, acl) => {
     if (acl) {
       object.setACL(acl);
@@ -190,44 +124,6 @@ export default class ServiceBase {
 
   static addNumberQuery = (conditions, query, conditionPropKey, columnName) =>
     ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
-
-  static addLinkQuery = (conditions, query, conditionPropKey, columnName, ObjectType) => {
-    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (conditions.has(`${conditionPropKey}Id`)) {
-      const value = conditions.get(`${conditionPropKey}Id`);
-
-      if (value) {
-        query.equalTo(columnName, ObjectType.createWithoutData(value));
-
-        return true;
-      }
-    }
-
-    if (conditions.has(`${conditionPropKey}s`)) {
-      const value = conditions.get(`${conditionPropKey}s`);
-
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value);
-
-        return true;
-      }
-    }
-
-    if (conditions.has(`${conditionPropKey}Ids`)) {
-      const value = conditions.get(`${conditionPropKey}Ids`);
-
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value.map(id => ObjectType.createWithoutData(id)).toArray());
-
-        return true;
-      }
-    }
-
-    return false;
-  };
 
   static addUserLinkQuery = (conditions, query, conditionPropKey, columnName) => {
     if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
@@ -385,6 +281,117 @@ export default class ServiceBase {
 
       if (value) {
         query.include(columnName);
+
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  constructor(ObjectType, buildSearchQueryFunc, buildIncludeQueryFunc, objectFriendlyName) {
+    this.ObjectType = ObjectType;
+    this.buildSearchQueryFunc = buildSearchQueryFunc;
+    this.buildIncludeQueryFunc = buildIncludeQueryFunc;
+    this.messagePrefix = `No ${objectFriendlyName} found with Id: `;
+  }
+
+  create = async (info, acl, sessionToken) => {
+    const object = this.ObjectType.spawn(info);
+
+    ServiceBase.setACL(object, acl);
+
+    const result = await object.save(null, { sessionToken });
+
+    return result.id;
+  };
+
+  read = async (id, criteria, sessionToken) => {
+    const query = ParseWrapperService.createQuery(this.ObjectType).equalTo('objectId', id);
+    const finalQuery = this.buildIncludeQueryFunc ? this.buildIncludeQueryFunc(query, criteria) : query;
+    const result = await finalQuery.first({ sessionToken });
+
+    if (result) {
+      return new this.ObjectType(result).getInfo();
+    }
+
+    throw new Exception(this.messagePrefix + id);
+  };
+
+  update = async (info, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(this.ObjectType).equalTo('objectId', info.get('id')).first({ sessionToken });
+
+    if (result) {
+      const object = new this.ObjectType(result);
+
+      await object.updateInfo(info).saveObject(sessionToken);
+
+      return object.getId();
+    }
+
+    throw new Exception(this.messagePrefix + info.get('id'));
+  };
+
+  delete = async (id, sessionToken) => {
+    const result = await ParseWrapperService.createQuery(this.ObjectType).equalTo('objectId', id).first({ sessionToken });
+
+    if (!result) {
+      throw new Exception(this.messagePrefix + id);
+    }
+
+    await result.destroy({ sessionToken });
+  };
+
+  search = async (criteria, sessionToken) => {
+    const results = await this.buildSearchQueryFunc(criteria).find({ sessionToken });
+
+    return Immutable.fromJS(results).map(result => new this.ObjectType(result).getInfo());
+  };
+
+  searchAll = (criteria, sessionToken) => {
+    const event = new NewSearchResultReceivedEvent();
+    const promise = this.buildSearchQueryFunc(criteria).each(result => event.raise(new this.ObjectType(result).getInfo()), { sessionToken });
+
+    return {
+      event,
+      promise,
+    };
+  };
+
+  count = async (criteria, sessionToken) => this.buildSearchQueryFunc(criteria).count({ sessionToken });
+
+  exists = async (criteria, sessionToken) => (await this.count(criteria, sessionToken)) > 0;
+
+  addLinkQuery = (conditions, query, conditionPropKey, columnName) => {
+    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
+      return true;
+    }
+
+    if (conditions.has(`${conditionPropKey}Id`)) {
+      const value = conditions.get(`${conditionPropKey}Id`);
+
+      if (value) {
+        query.equalTo(columnName, this.ObjectType.createWithoutData(value));
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}s`)) {
+      const value = conditions.get(`${conditionPropKey}s`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value);
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`${conditionPropKey}Ids`)) {
+      const value = conditions.get(`${conditionPropKey}Ids`);
+
+      if (value && !value.isEmpty()) {
+        query.containedIn(columnName, value.map(id => this.ObjectType.createWithoutData(id)).toArray());
 
         return true;
       }
