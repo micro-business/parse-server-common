@@ -73,7 +73,7 @@ BaseObject.createUserArrayPointer = function (object, info, columnName) {
   }
 };
 
-BaseObject.createPointer = function (object, info, ObjectType, columnName) {
+BaseObject.createPointer = function (object, info, columnName, ObjectType) {
   if (info.has(columnName + 'Id')) {
     var id = info.get(columnName + 'Id');
 
@@ -89,7 +89,7 @@ BaseObject.createPointer = function (object, info, ObjectType, columnName) {
   }
 };
 
-BaseObject.createArrayPointer = function (object, info, ObjectType, columnName) {
+BaseObject.createArrayPointer = function (object, info, columnName, ObjectType) {
   if (info.has(columnName + 'Ids')) {
     var ids = info.get(columnName + 'Ids');
 

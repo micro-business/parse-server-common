@@ -52,7 +52,7 @@ export default class BaseObject extends Parse.Object {
     }
   };
 
-  static createPointer = (object, info, ObjectType, columnName) => {
+  static createPointer = (object, info, columnName, ObjectType) => {
     if (info.has(`${columnName}Id`)) {
       const id = info.get(`${columnName}Id`);
 
@@ -68,7 +68,7 @@ export default class BaseObject extends Parse.Object {
     }
   };
 
-  static createArrayPointer = (object, info, ObjectType, columnName) => {
+  static createArrayPointer = (object, info, columnName, ObjectType) => {
     if (info.has(`${columnName}Ids`)) {
       const ids = info.get(`${columnName}Ids`);
 
