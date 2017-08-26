@@ -578,4 +578,18 @@ ServiceBase.addGreaterThanOrEqualToQuery = function (conditions, query, conditio
   return false;
 };
 
+ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
+  if (criteria.has('include_' + columnName)) {
+    var value = criteria.get('include_' + columnName);
+
+    if (value) {
+      query.include(columnName);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
 exports.default = ServiceBase;

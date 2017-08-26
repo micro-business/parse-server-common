@@ -378,4 +378,18 @@ export default class ServiceBase {
 
     return false;
   };
+
+  static addIncludeQuery = (criteria, query, columnName) => {
+    if (criteria.has(`include_${columnName}`)) {
+      const value = criteria.get(`include_${columnName}`);
+
+      if (value) {
+        query.include(columnName);
+
+        return true;
+      }
+    }
+
+    return false;
+  };
 }
