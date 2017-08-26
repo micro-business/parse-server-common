@@ -51,7 +51,7 @@ BaseObject.createUserPointer = function (object, info, columnName) {
   }
 };
 
-BaseObject.createArrayPointer = function (object, info, columnName) {
+BaseObject.createUserArrayPointer = function (object, info, columnName) {
   if (info.has(columnName + 'Ids')) {
     var ids = info.get(columnName + 'Ids');
 

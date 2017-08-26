@@ -32,7 +32,7 @@ export default class BaseObject extends Parse.Object {
     }
   };
 
-  static createArrayPointer = (object, info, columnName) => {
+  static createUserArrayPointer = (object, info, columnName) => {
     if (info.has(`${columnName}Ids`)) {
       const ids = info.get(`${columnName}Ids`);
 
