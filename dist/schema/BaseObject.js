@@ -8,6 +8,8 @@ var _node = require('parse/node');
 
 var _node2 = _interopRequireDefault(_node);
 
+var _services = require('../services');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24,17 +26,7 @@ var BaseObject = function (_Parse$Object) {
 
     var _this = _possibleConstructorReturn(this, (BaseObject.__proto__ || Object.getPrototypeOf(BaseObject)).call(this, className));
 
-    _this.getObject = function () {
-      return _this.object || _this;
-    };
-
-    _this.saveObject = function (sessionToken) {
-      return _this.getObject().save(null, { sessionToken: sessionToken });
-    };
-
-    _this.getId = function () {
-      return _this.getObject().id;
-    };
+    _initialiseProps.call(_this);
 
     _this.object = object;
     return _this;
@@ -42,5 +34,97 @@ var BaseObject = function (_Parse$Object) {
 
   return BaseObject;
 }(_node2.default.Object);
+
+BaseObject.createUserPointer = function (object, info, columnName) {
+  if (info.has(columnName + 'Id')) {
+    var id = info.get(columnName + 'Id');
+
+    if (id) {
+      object.set(columnName, _services.ParseWrapperService.createUserWithoutData(id));
+    }
+  } else if (info.has(columnName)) {
+    var refObject = info.get(columnName);
+
+    if (refObject) {
+      object.set(columnName, refObject);
+    }
+  }
+};
+
+BaseObject.createArrayPointer = function (object, info, columnName) {
+  if (info.has(columnName + 'Ids')) {
+    var ids = info.get(columnName + 'Ids');
+
+    if (ids && !ids.isEmpty()) {
+      object.set(columnName + 's', ids.map(function (id) {
+        return _services.ParseWrapperService.createUserWithoutData(id);
+      }).toArray());
+    } else {
+      object.set(columnName + 's', []);
+    }
+  } else if (info.has(columnName + 's')) {
+    var refObjects = info.get(columnName + 's');
+
+    if (refObjects && !refObjects.isEmpty()) {
+      object.set(columnName + 's', refObjects.toArray());
+    } else {
+      object.set(columnName + 's', []);
+    }
+  }
+};
+
+BaseObject.createPointer = function (object, info, ObjectType, columnName) {
+  if (info.has(columnName + 'Id')) {
+    var id = info.get(columnName + 'Id');
+
+    if (id) {
+      object.set(columnName, ObjectType.createWithoutData(id));
+    }
+  } else if (info.has(columnName)) {
+    var refObject = info.get(columnName);
+
+    if (refObject) {
+      object.set(columnName, refObject);
+    }
+  }
+};
+
+BaseObject.createArrayPointer = function (object, info, ObjectType, columnName) {
+  if (info.has(columnName + 'Ids')) {
+    var ids = info.get(columnName + 'Ids');
+
+    if (ids && !ids.isEmpty()) {
+      object.set(columnName + 's', ids.map(function (id) {
+        return ObjectType.createWithoutData(id);
+      }).toArray());
+    } else {
+      object.set(columnName + 's', []);
+    }
+  } else if (info.has(columnName + 's')) {
+    var refObjects = info.get(columnName + 's');
+
+    if (refObjects && !refObjects.isEmpty()) {
+      object.set(columnName + 's', refObjects.toArray());
+    } else {
+      object.set(columnName + 's', []);
+    }
+  }
+};
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.getObject = function () {
+    return _this2.object || _this2;
+  };
+
+  this.saveObject = function (sessionToken) {
+    return _this2.getObject().save(null, { sessionToken: sessionToken });
+  };
+
+  this.getId = function () {
+    return _this2.getObject().id;
+  };
+};
 
 exports.default = BaseObject;
