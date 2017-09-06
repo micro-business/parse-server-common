@@ -163,7 +163,7 @@ describe('getUserInfo', function () {
             _context5.prev = 7;
             _context5.t0 = _context5['catch'](1);
 
-            expect(_context5.t0.getErrorMessage()).toBe('No user found with username: ' + username);
+            expect(_context5.t0.message).toBe('No user found with username: ' + username);
 
           case 10:
           case 'end':

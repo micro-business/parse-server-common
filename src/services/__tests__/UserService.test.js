@@ -65,7 +65,7 @@ describe('getUserInfo', () => {
 
       fail(`Received user info for use that does not exist. Username: ${username}`);
     } catch (error) {
-      expect(error.getErrorMessage()).toBe(`No user found with username: ${username}`);
+      expect(error.message).toBe(`No user found with username: ${username}`);
     }
   });
 
