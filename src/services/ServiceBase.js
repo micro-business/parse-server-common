@@ -1,7 +1,7 @@
 // @flow
 
 import Immutable from 'immutable';
-import { Exception, NewSearchResultReceivedEvent } from 'micro-business-common-javascript';
+import { NewSearchResultReceivedEvent } from 'micro-business-common-javascript';
 import ParseWrapperService from './ParseWrapperService';
 
 export default class ServiceBase {
@@ -353,11 +353,13 @@ export default class ServiceBase {
       return new this.ObjectType(result).getInfo();
     }
 
-    throw new Exception(this.messagePrefix + id);
+    throw new Error(this.messagePrefix + id);
   };
 
   update = async (info, sessionToken) => {
-    const result = await ParseWrapperService.createQuery(this.ObjectType).equalTo('objectId', info.get('id')).first({ sessionToken });
+    const result = await ParseWrapperService.createQuery(this.ObjectType)
+      .equalTo('objectId', info.get('id'))
+      .first({ sessionToken });
 
     if (result) {
       const object = new this.ObjectType(result);
@@ -367,14 +369,16 @@ export default class ServiceBase {
       return object.getId();
     }
 
-    throw new Exception(this.messagePrefix + info.get('id'));
+    throw new Error(this.messagePrefix + info.get('id'));
   };
 
   delete = async (id, sessionToken) => {
-    const result = await ParseWrapperService.createQuery(this.ObjectType).equalTo('objectId', id).first({ sessionToken });
+    const result = await ParseWrapperService.createQuery(this.ObjectType)
+      .equalTo('objectId', id)
+      .first({ sessionToken });
 
     if (!result) {
-      throw new Exception(this.messagePrefix + id);
+      throw new Error(this.messagePrefix + id);
     }
 
     await result.destroy({ sessionToken });

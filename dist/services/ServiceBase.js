@@ -421,7 +421,7 @@ var _initialiseProps = function _initialiseProps() {
               return _context2.abrupt('return', new _this.ObjectType(result).getInfo());
 
             case 7:
-              throw new _microBusinessCommonJavascript.Exception(_this.messagePrefix + id);
+              throw new Error(_this.messagePrefix + id);
 
             case 8:
             case 'end':
@@ -462,7 +462,7 @@ var _initialiseProps = function _initialiseProps() {
               return _context3.abrupt('return', object.getId());
 
             case 8:
-              throw new _microBusinessCommonJavascript.Exception(_this.messagePrefix + info.get('id'));
+              throw new Error(_this.messagePrefix + info.get('id'));
 
             case 9:
             case 'end':
@@ -495,7 +495,7 @@ var _initialiseProps = function _initialiseProps() {
                 break;
               }
 
-              throw new _microBusinessCommonJavascript.Exception(_this.messagePrefix + id);
+              throw new Error(_this.messagePrefix + id);
 
             case 5:
               _context4.next = 7;

@@ -1,7 +1,6 @@
 // @flow
 
 import { Map } from 'immutable';
-import { Exception } from 'micro-business-common-javascript';
 import ParseWrapperService from './ParseWrapperService';
 
 export default class UserService {
@@ -79,29 +78,35 @@ export default class UserService {
   };
 
   static getUserForProvidedSessionToken = async (sessionToken) => {
-    const result = await ParseWrapperService.createSessionQuery().equalTo('sessionToken', sessionToken).first({ useMasterKey: true });
+    const result = await ParseWrapperService.createSessionQuery()
+      .equalTo('sessionToken', sessionToken)
+      .first({ useMasterKey: true });
 
     return result ? result.get('user') : null;
   };
 
   static getUserById = async (id: string, sessionToken: ?string) => {
-    const result = await ParseWrapperService.createUserQuery().equalTo('objectId', id).first({ sessionToken });
+    const result = await ParseWrapperService.createUserQuery()
+      .equalTo('objectId', id)
+      .first({ sessionToken });
 
     if (result) {
       return result;
     }
 
-    throw new Exception(`No user found with id: ${id}`);
+    throw new Error(`No user found with id: ${id}`);
   };
 
   static getUser = async (username: string, sessionToken: ?string) => {
-    const result = await ParseWrapperService.createUserQuery().equalTo('username', username).first({ sessionToken });
+    const result = await ParseWrapperService.createUserQuery()
+      .equalTo('username', username)
+      .first({ sessionToken });
 
     if (result) {
       return result;
     }
 
-    throw new Exception(`No user found with username: ${username}`);
+    throw new Error(`No user found with username: ${username}`);
   };
 
   static getUserInfo = async (username: string, sessionToken: ?string) => {
