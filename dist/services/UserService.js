@@ -27,20 +27,11 @@ UserService.signUpWithUsernameAndPassword = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            user = _ParseWrapperService2.default.createNewUser();
-
-
-            user.setUsername(username);
-            user.setPassword(password);
-
-            if (emailAddress) {
-              user.setEmail(emailAddress);
-            }
-
-            _context.next = 6;
+            user = _ParseWrapperService2.default.createNewUser({ username: username, password: password, emailAddress: emailAddress });
+            _context.next = 3;
             return user.signUp();
 
-          case 6:
+          case 3:
             result = _context.sent;
             return _context.abrupt('return', (0, _immutable.Map)({
               id: result.id,
@@ -49,7 +40,7 @@ UserService.signUpWithUsernameAndPassword = function () {
               emailAddressVerified: result.get('emailVerified')
             }));
 
-          case 8:
+          case 5:
           case 'end':
             return _context.stop();
         }

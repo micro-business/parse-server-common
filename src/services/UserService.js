@@ -5,15 +5,7 @@ import ParseWrapperService from './ParseWrapperService';
 
 export default class UserService {
   static signUpWithUsernameAndPassword = async (username: string, password: string, emailAddress: ?string) => {
-    const user = ParseWrapperService.createNewUser();
-
-    user.setUsername(username);
-    user.setPassword(password);
-
-    if (emailAddress) {
-      user.setEmail(emailAddress);
-    }
-
+    const user = ParseWrapperService.createNewUser({ username, password, emailAddress });
     const result = await user.signUp();
 
     return Map({

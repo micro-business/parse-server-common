@@ -136,11 +136,30 @@ export default class ParseWrapperService {
   static getCachedConfig = () => Parse.Config.current();
   static getCurrentUser = () => Parse.User.current();
   static getCurrentUserAsync = () => Parse.User.currentAsync();
-  static createNewUser = () => new Parse.User();
+  static createNewUser = ({ username, password, emailAddress } = {}) => {
+    const user = new Parse.User();
+
+    if (username) {
+      user.setUsername(username);
+    }
+
+    if (password) {
+      user.setPassword(password);
+    }
+
+    if (emailAddress) {
+      user.setEmail(emailAddress);
+    }
+
+    return user;
+  };
   static createUserWithoutData = (userId: string) => Parse.User.createWithoutData(userId);
   static logIn = (username: string, password: string) => Parse.User.logIn(username, password);
   static logOut = () =>
     new Promise((resolve, reject) => {
-      Parse.User.logOut().then(() => resolve()).catch(error => reject(error));
+      Parse.User
+        .logOut()
+        .then(() => resolve())
+        .catch(error => reject(error));
     });
 }

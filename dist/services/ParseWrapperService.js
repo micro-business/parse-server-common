@@ -179,7 +179,26 @@ ParseWrapperService.getCurrentUserAsync = function () {
 };
 
 ParseWrapperService.createNewUser = function () {
-  return new _node2.default.User();
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      username = _ref.username,
+      password = _ref.password,
+      emailAddress = _ref.emailAddress;
+
+  var user = new _node2.default.User();
+
+  if (username) {
+    user.setUsername(username);
+  }
+
+  if (password) {
+    user.setPassword(password);
+  }
+
+  if (emailAddress) {
+    user.setEmail(emailAddress);
+  }
+
+  return user;
 };
 
 ParseWrapperService.createUserWithoutData = function (userId) {
