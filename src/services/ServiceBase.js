@@ -327,6 +327,30 @@ export default class ServiceBase {
     return false;
   };
 
+  static addExistenceQuery = (conditions, query, columnName) => {
+    if (conditions.has(`exist_${columnName}`)) {
+      const value = conditions.get(`exists_${columnName}`);
+
+      if (value) {
+        query.exists(columnName);
+
+        return true;
+      }
+    }
+
+    if (conditions.has(`doesNotExist_${columnName}`)) {
+      const value = conditions.get(`doesNotExist_${columnName}`);
+
+      if (value) {
+        query.doesNotExist(columnName);
+
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   constructor(ObjectType, buildSearchQueryFunc, buildIncludeQueryFunc, objectFriendlyName) {
     this.ObjectType = ObjectType;
     this.buildSearchQueryFunc = buildSearchQueryFunc;

@@ -363,6 +363,30 @@ ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
   return false;
 };
 
+ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
+  if (conditions.has('exist_' + columnName)) {
+    var value = conditions.get('exists_' + columnName);
+
+    if (value) {
+      query.exists(columnName);
+
+      return true;
+    }
+  }
+
+  if (conditions.has('doesNotExist_' + columnName)) {
+    var _value12 = conditions.get('doesNotExist_' + columnName);
+
+    if (_value12) {
+      query.doesNotExist(columnName);
+
+      return true;
+    }
+  }
+
+  return false;
+};
+
 var _initialiseProps = function _initialiseProps() {
   var _this = this;
 
