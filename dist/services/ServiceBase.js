@@ -42,7 +42,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var value = conditions.get(conditionPropKey);
 
     if (value) {
-      query.matches(columnName, new RegExp('^' + value + '$', 'i'));
+      query.matches(columnName, new RegExp('^' + value + '$'));
 
       return true;
     }
@@ -52,7 +52,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value = conditions.get('startsWith_' + conditionPropKey);
 
     if (_value) {
-      query.matches(columnName, new RegExp('^' + _value, 'i'));
+      query.matches(columnName, new RegExp('^' + _value));
 
       return true;
     }
@@ -62,7 +62,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value2 = conditions.get('endsWith_' + conditionPropKey);
 
     if (_value2) {
-      query.matches(columnName, new RegExp(_value2 + '$', 'i'));
+      query.matches(columnName, new RegExp(_value2 + '$'));
 
       return true;
     }
@@ -72,7 +72,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value3 = conditions.get('contains_' + conditionPropKey);
 
     if (_value3) {
-      query.matches(columnName, new RegExp('(?=.*' + _value3 + ')', 'i'));
+      query.matches(columnName, new RegExp('(?=.*' + _value3 + ')'));
 
       return true;
     }
@@ -83,6 +83,60 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (values && !values.isEmpty()) {
       query.matches(columnName, new RegExp(values.map(function (value) {
+        return '(?=.*' + value + ')';
+      }).reduce(function (reduction, value) {
+        return reduction + value;
+      })));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('ignoreCase_' + conditionPropKey)) {
+    var _value4 = conditions.get(conditionPropKey);
+
+    if (_value4) {
+      query.matches(columnName, new RegExp('^' + _value4 + '$', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('startsWith_ignoreCase_' + conditionPropKey)) {
+    var _value5 = conditions.get('startsWith_ignoreCase_' + conditionPropKey);
+
+    if (_value5) {
+      query.matches(columnName, new RegExp('^' + _value5, 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('endsWith_ignoreCase_' + conditionPropKey)) {
+    var _value6 = conditions.get('endsWith_ignoreCase_' + conditionPropKey);
+
+    if (_value6) {
+      query.matches(columnName, new RegExp(_value6 + '$', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('contains_ignoreCase_' + conditionPropKey)) {
+    var _value7 = conditions.get('contains_ignoreCase_' + conditionPropKey);
+
+    if (_value7) {
+      query.matches(columnName, new RegExp('(?=.*' + _value7 + ')', 'i'));
+
+      return true;
+    }
+  }
+
+  if (conditions.has('contains_ignoreCase_' + conditionPropKey + 's')) {
+    var _values = conditions.get('contains_ignoreCase_' + conditionPropKey + 's');
+
+    if (_values && !_values.isEmpty()) {
+      query.matches(columnName, new RegExp(_values.map(function (value) {
         return '(?=.*' + value + ')';
       }).reduce(function (reduction, value) {
         return reduction + value;
@@ -107,40 +161,40 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
   }
 
   if (conditions.has('withinGeoBox_' + conditionPropKey)) {
-    var _value4 = conditions.get('withinGeoBox_' + conditionPropKey);
+    var _value8 = conditions.get('withinGeoBox_' + conditionPropKey);
 
-    if (_value4) {
-      query.withinGeoBox(columnName, _value4.get('southwest'), _value4.get('northeast'));
+    if (_value8) {
+      query.withinGeoBox(columnName, _value8.get('southwest'), _value8.get('northeast'));
 
       return true;
     }
   }
 
   if (conditions.has('withinMiles_' + conditionPropKey)) {
-    var _value5 = conditions.get('withinMiles_' + conditionPropKey);
+    var _value9 = conditions.get('withinMiles_' + conditionPropKey);
 
-    if (_value5) {
-      query.withinMiles(columnName, _value5.get('point'), _value5.get('distance'));
+    if (_value9) {
+      query.withinMiles(columnName, _value9.get('point'), _value9.get('distance'));
 
       return true;
     }
   }
 
   if (conditions.has('withinKilometers_' + conditionPropKey)) {
-    var _value6 = conditions.get('withinKilometers_' + conditionPropKey);
+    var _value10 = conditions.get('withinKilometers_' + conditionPropKey);
 
-    if (_value6) {
-      query.withinKilometers(columnName, _value6.get('point'), _value6.get('distance'));
+    if (_value10) {
+      query.withinKilometers(columnName, _value10.get('point'), _value10.get('distance'));
 
       return true;
     }
   }
 
   if (conditions.has('withinRadians_' + conditionPropKey)) {
-    var _value7 = conditions.get('withinRadians_' + conditionPropKey);
+    var _value11 = conditions.get('withinRadians_' + conditionPropKey);
 
-    if (_value7) {
-      query.withinRadians(columnName, _value7.get('point'), _value7.get('distance'));
+    if (_value11) {
+      query.withinRadians(columnName, _value11.get('point'), _value11.get('distance'));
 
       return true;
     }
@@ -173,20 +227,20 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
   }
 
   if (conditions.has(conditionPropKey + 's')) {
-    var _value8 = conditions.get(conditionPropKey + 's');
+    var _value12 = conditions.get(conditionPropKey + 's');
 
-    if (_value8 && !_value8.isEmpty()) {
-      query.containedIn(columnName, _value8);
+    if (_value12 && !_value12.isEmpty()) {
+      query.containedIn(columnName, _value12);
 
       return true;
     }
   }
 
   if (conditions.has(conditionPropKey + 'Ids')) {
-    var _value9 = conditions.get(conditionPropKey + 'Ids');
+    var _value13 = conditions.get(conditionPropKey + 'Ids');
 
-    if (_value9 && !_value9.isEmpty()) {
-      query.containedIn(columnName, _value9.map(function (id) {
+    if (_value13 && !_value13.isEmpty()) {
+      query.containedIn(columnName, _value13.map(function (id) {
         return ObjectType.createWithoutData(id);
       }).toArray());
 
@@ -213,20 +267,20 @@ ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, co
   }
 
   if (conditions.has(conditionPropKey + 's')) {
-    var _value10 = conditions.get(conditionPropKey + 's');
+    var _value14 = conditions.get(conditionPropKey + 's');
 
-    if (_value10 && !_value10.isEmpty()) {
-      query.containedIn(columnName, _value10);
+    if (_value14 && !_value14.isEmpty()) {
+      query.containedIn(columnName, _value14);
 
       return true;
     }
   }
 
   if (conditions.has(conditionPropKey + 'Ids')) {
-    var _value11 = conditions.get(conditionPropKey + 'Ids');
+    var _value15 = conditions.get(conditionPropKey + 'Ids');
 
-    if (_value11 && !_value11.isEmpty()) {
-      query.containedIn(columnName, _value11.map(function (id) {
+    if (_value15 && !_value15.isEmpty()) {
+      query.containedIn(columnName, _value15.map(function (id) {
         return _ParseWrapperService2.default.createUserWithoutData(id);
       }).toArray());
 
@@ -375,9 +429,9 @@ ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
   }
 
   if (conditions.has('doesNotExist_' + columnName)) {
-    var _value12 = conditions.get('doesNotExist_' + columnName);
+    var _value16 = conditions.get('doesNotExist_' + columnName);
 
-    if (_value12) {
+    if (_value16) {
       query.doesNotExist(columnName);
 
       return true;
