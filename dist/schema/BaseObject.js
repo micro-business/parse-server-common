@@ -35,6 +35,13 @@ var BaseObject = function (_Parse$Object) {
   return BaseObject;
 }(_node2.default.Object);
 
+BaseObject.createStringColumn = function (object, info, columnName) {
+  var value = info.get(columnName);
+
+  object.set(columnName, value);
+  object.set(columnName + 'LowerCase', value ? value.toLowerCase() : undefined);
+};
+
 BaseObject.createUserPointer = function (object, info, columnName) {
   if (info.has(columnName + 'Id')) {
     var id = info.get(columnName + 'Id');

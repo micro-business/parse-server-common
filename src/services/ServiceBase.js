@@ -66,7 +66,7 @@ export default class ServiceBase {
       const value = conditions.get(conditionPropKey);
 
       if (value) {
-        query.matches(columnName, new RegExp(`^${value}$`, 'i'));
+        query.matches(columnName, new RegExp(`^${value.toLowerCase()}$`, 'i'));
 
         return true;
       }
@@ -76,7 +76,7 @@ export default class ServiceBase {
       const value = conditions.get(`startsWith_ignoreCase_${conditionPropKey}`);
 
       if (value) {
-        query.matches(columnName, new RegExp(`^${value}`, 'i'));
+        query.matches(columnName, new RegExp(`^${value.toLowerCase()}`, 'i'));
 
         return true;
       }
@@ -86,7 +86,7 @@ export default class ServiceBase {
       const value = conditions.get(`endsWith_ignoreCase_${conditionPropKey}`);
 
       if (value) {
-        query.matches(columnName, new RegExp(`${value}$`, 'i'));
+        query.matches(columnName, new RegExp(`${value.toLowerCase()}$`, 'i'));
 
         return true;
       }
@@ -96,7 +96,7 @@ export default class ServiceBase {
       const value = conditions.get(`contains_ignoreCase_${conditionPropKey}`);
 
       if (value) {
-        query.matches(columnName, new RegExp(`(?=.*${value})`, 'i'));
+        query.matches(columnName, new RegExp(`(?=.*${value.toLowerCase()})`, 'i'));
 
         return true;
       }
@@ -106,7 +106,11 @@ export default class ServiceBase {
       const values = conditions.get(`contains_ignoreCase_${conditionPropKey}s`);
 
       if (values && !values.isEmpty()) {
-        query.matches(columnName, new RegExp(values.map(value => `(?=.*${value})`).reduce((reduction, value) => reduction + value)), 'i');
+        query.matches(
+          columnName,
+          new RegExp(values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value)),
+          'i',
+        );
 
         return true;
       }

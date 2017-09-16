@@ -16,6 +16,13 @@ export default class BaseObject extends Parse.Object {
 
   getId = () => this.getObject().id;
 
+  static createStringColumn = (object, info, columnName) => {
+    const value = info.get(columnName);
+
+    object.set(columnName, value);
+    object.set(`${columnName}LowerCase`, value ? value.toLowerCase() : undefined);
+  };
+
   static createUserPointer = (object, info, columnName) => {
     if (info.has(`${columnName}Id`)) {
       const id = info.get(`${columnName}Id`);
