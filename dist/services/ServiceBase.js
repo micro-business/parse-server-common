@@ -42,7 +42,11 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var value = conditions.get(conditionPropKey);
 
     if (value) {
-      query.matches(columnName, new RegExp('^' + value + '$'));
+      if (columnName.endsWith('LowerCase')) {
+        query.matches(columnName, new RegExp('^' + value.toLowerCase() + '$'));
+      } else {
+        query.matches(columnName, new RegExp('^' + value + '$'));
+      }
 
       return true;
     }
@@ -52,7 +56,11 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value = conditions.get('startsWith_' + conditionPropKey);
 
     if (_value) {
-      query.matches(columnName, new RegExp('^' + _value));
+      if (columnName.endsWith('LowerCase')) {
+        query.matches(columnName, new RegExp('^' + _value.toLowerCase()));
+      } else {
+        query.matches(columnName, new RegExp('^' + _value));
+      }
 
       return true;
     }
@@ -62,7 +70,11 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value2 = conditions.get('endsWith_' + conditionPropKey);
 
     if (_value2) {
-      query.matches(columnName, new RegExp(_value2 + '$'));
+      if (columnName.endsWith('LowerCase')) {
+        query.matches(columnName, new RegExp(_value2.toLowerCase() + '$'));
+      } else {
+        query.matches(columnName, new RegExp(_value2 + '$'));
+      }
 
       return true;
     }
@@ -72,7 +84,11 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value3 = conditions.get('contains_' + conditionPropKey);
 
     if (_value3) {
-      query.matches(columnName, new RegExp('(?=.*' + _value3 + ')'));
+      if (columnName.endsWith('LowerCase')) {
+        query.matches(columnName, new RegExp('(?=.*' + _value3.toLowerCase() + ')'));
+      } else {
+        query.matches(columnName, new RegExp('(?=.*' + _value3 + ')'));
+      }
 
       return true;
     }
@@ -82,11 +98,19 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var values = conditions.get('contains_' + conditionPropKey + 's');
 
     if (values && !values.isEmpty()) {
-      query.matches(columnName, new RegExp(values.map(function (value) {
-        return '(?=.*' + value + ')';
-      }).reduce(function (reduction, value) {
-        return reduction + value;
-      })));
+      if (columnName.endsWith('LowerCase')) {
+        query.matches(columnName, new RegExp(values.map(function (value) {
+          return '(?=.*' + value.toLowerCase() + ')';
+        }).reduce(function (reduction, value) {
+          return reduction + value;
+        })));
+      } else {
+        query.matches(columnName, new RegExp(values.map(function (value) {
+          return '(?=.*' + value + ')';
+        }).reduce(function (reduction, value) {
+          return reduction + value;
+        })));
+      }
 
       return true;
     }
@@ -96,7 +120,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value4 = conditions.get(conditionPropKey);
 
     if (_value4) {
-      query.matches(columnName, new RegExp('^' + _value4.toLowerCase() + '$', 'i'));
+      query.matches(columnName, new RegExp('^' + _value4 + '$', 'i'));
 
       return true;
     }
@@ -106,7 +130,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value5 = conditions.get('startsWith_ignoreCase_' + conditionPropKey);
 
     if (_value5) {
-      query.matches(columnName, new RegExp('^' + _value5.toLowerCase(), 'i'));
+      query.matches(columnName, new RegExp('^' + _value5, 'i'));
 
       return true;
     }
@@ -116,7 +140,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value6 = conditions.get('endsWith_ignoreCase_' + conditionPropKey);
 
     if (_value6) {
-      query.matches(columnName, new RegExp(_value6.toLowerCase() + '$', 'i'));
+      query.matches(columnName, new RegExp(_value6 + '$', 'i'));
 
       return true;
     }
@@ -126,7 +150,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value7 = conditions.get('contains_ignoreCase_' + conditionPropKey);
 
     if (_value7) {
-      query.matches(columnName, new RegExp('(?=.*' + _value7.toLowerCase() + ')', 'i'));
+      query.matches(columnName, new RegExp('(?=.*' + _value7 + ')', 'i'));
 
       return true;
     }
@@ -137,7 +161,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (_values && !_values.isEmpty()) {
       query.matches(columnName, new RegExp(_values.map(function (value) {
-        return '(?=.*' + value.toLowerCase() + ')';
+        return '(?=.*' + value + ')';
       }).reduce(function (reduction, value) {
         return reduction + value;
       })), 'i');
