@@ -15,7 +15,7 @@ export default class ServiceBase {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
           query.matches(columnName, new RegExp(`^${value.toLowerCase()}$`));
         } else {
@@ -29,7 +29,7 @@ export default class ServiceBase {
     if (conditions.has(`startsWith_${conditionPropKey}`)) {
       const value = conditions.get(`startsWith_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
           query.matches(columnName, new RegExp(`^${value.toLowerCase()}`));
         } else {
@@ -43,7 +43,7 @@ export default class ServiceBase {
     if (conditions.has(`endsWith_${conditionPropKey}`)) {
       const value = conditions.get(`endsWith_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
           query.matches(columnName, new RegExp(`${value.toLowerCase()}$`));
         } else {
@@ -57,7 +57,7 @@ export default class ServiceBase {
     if (conditions.has(`contains_${conditionPropKey}`)) {
       const value = conditions.get(`contains_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
           query.matches(columnName, new RegExp(`(?=.*${value.toLowerCase()})`));
         } else {
@@ -71,7 +71,7 @@ export default class ServiceBase {
     if (conditions.has(`contains_${conditionPropKey}s`)) {
       const values = conditions.get(`contains_${conditionPropKey}s`);
 
-      if (values && !values.isEmpty()) {
+      if (typeof values !== 'undefined' && !values.isEmpty()) {
         if (columnName.endsWith('LowerCase')) {
           query.matches(columnName, new RegExp(values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value)));
         } else {
@@ -85,7 +85,7 @@ export default class ServiceBase {
     if (conditions.has(`ignoreCase_${conditionPropKey}`)) {
       const value = conditions.get(conditionPropKey);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.matches(columnName, new RegExp(`^${value}$`, 'i'));
 
         return true;
@@ -95,7 +95,7 @@ export default class ServiceBase {
     if (conditions.has(`startsWith_ignoreCase_${conditionPropKey}`)) {
       const value = conditions.get(`startsWith_ignoreCase_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.matches(columnName, new RegExp(`^${value}`, 'i'));
 
         return true;
@@ -105,7 +105,7 @@ export default class ServiceBase {
     if (conditions.has(`endsWith_ignoreCase_${conditionPropKey}`)) {
       const value = conditions.get(`endsWith_ignoreCase_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.matches(columnName, new RegExp(`${value}$`, 'i'));
 
         return true;
@@ -115,7 +115,7 @@ export default class ServiceBase {
     if (conditions.has(`contains_ignoreCase_${conditionPropKey}`)) {
       const value = conditions.get(`contains_ignoreCase_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.matches(columnName, new RegExp(`(?=.*${value})`, 'i'));
 
         return true;
@@ -125,7 +125,7 @@ export default class ServiceBase {
     if (conditions.has(`contains_ignoreCase_${conditionPropKey}s`)) {
       const values = conditions.get(`contains_ignoreCase_${conditionPropKey}s`);
 
-      if (values && !values.isEmpty()) {
+      if (typeof values !== 'undefined' && !values.isEmpty()) {
         query.matches(columnName, new RegExp(values.map(value => `(?=.*${value})`).reduce((reduction, value) => reduction + value)), 'i');
 
         return true;
@@ -139,7 +139,7 @@ export default class ServiceBase {
     if (conditions.has(`near_${conditionPropKey}`)) {
       const value = conditions.get(`near_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.near(columnName, value);
 
         return true;
@@ -149,7 +149,7 @@ export default class ServiceBase {
     if (conditions.has(`withinGeoBox_${conditionPropKey}`)) {
       const value = conditions.get(`withinGeoBox_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.withinGeoBox(columnName, value.get('southwest'), value.get('northeast'));
 
         return true;
@@ -159,7 +159,7 @@ export default class ServiceBase {
     if (conditions.has(`withinMiles_${conditionPropKey}`)) {
       const value = conditions.get(`withinMiles_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.withinMiles(columnName, value.get('point'), value.get('distance'));
 
         return true;
@@ -169,7 +169,7 @@ export default class ServiceBase {
     if (conditions.has(`withinKilometers_${conditionPropKey}`)) {
       const value = conditions.get(`withinKilometers_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.withinKilometers(columnName, value.get('point'), value.get('distance'));
 
         return true;
@@ -179,7 +179,7 @@ export default class ServiceBase {
     if (conditions.has(`withinRadians_${conditionPropKey}`)) {
       const value = conditions.get(`withinRadians_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.withinRadians(columnName, value.get('point'), value.get('distance'));
 
         return true;
@@ -203,7 +203,7 @@ export default class ServiceBase {
     if (conditions.has(`${conditionPropKey}Id`)) {
       const value = conditions.get(`${conditionPropKey}Id`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.equalTo(columnName, ObjectType.createWithoutData(value));
 
         return true;
@@ -211,20 +211,20 @@ export default class ServiceBase {
     }
 
     if (conditions.has(`${conditionPropKey}s`)) {
-      const value = conditions.get(`${conditionPropKey}s`);
+      const values = conditions.get(`${conditionPropKey}s`);
 
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value);
+      if (typeof values !== 'undefined' && !values.isEmpty()) {
+        query.containedIn(columnName, values.toArray());
 
         return true;
       }
     }
 
     if (conditions.has(`${conditionPropKey}Ids`)) {
-      const value = conditions.get(`${conditionPropKey}Ids`);
+      const values = conditions.get(`${conditionPropKey}Ids`);
 
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value.map(id => ObjectType.createWithoutData(id)).toArray());
+      if (typeof values !== 'undefined' && !values.isEmpty()) {
+        query.containedIn(columnName, values.map(id => ObjectType.createWithoutData(id)).toArray());
 
         return true;
       }
@@ -241,7 +241,7 @@ export default class ServiceBase {
     if (conditions.has(`${conditionPropKey}Id`)) {
       const value = conditions.get(`${conditionPropKey}Id`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.equalTo(columnName, ParseWrapperService.createUserWithoutData(value));
 
         return true;
@@ -249,20 +249,20 @@ export default class ServiceBase {
     }
 
     if (conditions.has(`${conditionPropKey}s`)) {
-      const value = conditions.get(`${conditionPropKey}s`);
+      const values = conditions.get(`${conditionPropKey}s`);
 
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value);
+      if (typeof values !== 'undefined' && !values.isEmpty()) {
+        query.containedIn(columnName, values.toArray());
 
         return true;
       }
     }
 
     if (conditions.has(`${conditionPropKey}Ids`)) {
-      const value = conditions.get(`${conditionPropKey}Ids`);
+      const values = conditions.get(`${conditionPropKey}Ids`);
 
-      if (value && !value.isEmpty()) {
-        query.containedIn(columnName, value.map(id => ParseWrapperService.createUserWithoutData(id)).toArray());
+      if (typeof values !== 'undefined' && !values.isEmpty()) {
+        query.containedIn(columnName, values.map(id => ParseWrapperService.createUserWithoutData(id)).toArray());
 
         return true;
       }
@@ -303,7 +303,7 @@ export default class ServiceBase {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.equalTo(columnName, value);
 
         return true;
@@ -317,7 +317,7 @@ export default class ServiceBase {
     if (conditions.has(`notEqual_${conditionPropKey}`)) {
       const value = conditions.get(`notEqual_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.notEqualTo(columnName, value);
 
         return true;
@@ -331,7 +331,7 @@ export default class ServiceBase {
     if (conditions.has(`lessThan_${conditionPropKey}`)) {
       const value = conditions.get(`lessThan_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.lessThan(columnName, value);
 
         return true;
@@ -345,7 +345,7 @@ export default class ServiceBase {
     if (conditions.has(`lessThanOrEqualTo_${conditionPropKey}`)) {
       const value = conditions.get(`lessThanOrEqualTo_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.lessThanOrEqualTo(columnName, value);
 
         return true;
@@ -359,7 +359,7 @@ export default class ServiceBase {
     if (conditions.has(`greaterThan_${conditionPropKey}`)) {
       const value = conditions.get(`greaterThan_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.greaterThan(columnName, value);
 
         return true;
@@ -373,7 +373,7 @@ export default class ServiceBase {
     if (conditions.has(`greaterThanOrEqualTo_${conditionPropKey}`)) {
       const value = conditions.get(`greaterThanOrEqualTo_${conditionPropKey}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.greaterThanOrEqualTo(columnName, value);
 
         return true;
@@ -387,7 +387,7 @@ export default class ServiceBase {
     if (criteria.has(`include_${columnName}`)) {
       const value = criteria.get(`include_${columnName}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.include(columnName);
 
         return true;
@@ -401,7 +401,7 @@ export default class ServiceBase {
     if (conditions.has(`exist_${columnName}`)) {
       const value = conditions.get(`exists_${columnName}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.exists(columnName);
 
         return true;
@@ -411,7 +411,7 @@ export default class ServiceBase {
     if (conditions.has(`doesNotExist_${columnName}`)) {
       const value = conditions.get(`doesNotExist_${columnName}`);
 
-      if (value) {
+      if (typeof value !== 'undefined') {
         query.doesNotExist(columnName);
 
         return true;
