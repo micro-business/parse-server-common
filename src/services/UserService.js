@@ -6,7 +6,10 @@ import ParseWrapperService from './ParseWrapperService';
 export default class UserService {
   static signUpWithUsernameAndPassword = async (username: string, password: string, emailAddress: ?string, userType: ?string) => {
     const user = ParseWrapperService.createNewUser({
-      username, password, emailAddress, userType,
+      username,
+      password,
+      emailAddress,
+      userType,
     });
     const result = await user.signUp();
 
@@ -15,6 +18,7 @@ export default class UserService {
       username: result.getUsername(),
       emailAddress: result.getEmail(),
       emailAddressVerified: result.get('emailVerified'),
+      userType: result.get('userType'),
     });
   };
 
@@ -26,6 +30,7 @@ export default class UserService {
       username: result.getUsername(),
       emailAddress: result.getEmail(),
       emailAddressVerified: result.get('emailVerified'),
+      userType: result.get('userType'),
     });
   };
 
@@ -62,6 +67,7 @@ export default class UserService {
       username: user.getUsername(),
       emailAddress: user.getEmail(),
       emailAddressVerified: user.get('emailVerified'),
+      userType: user.get('userType'),
     });
   };
 
@@ -109,6 +115,21 @@ export default class UserService {
     return Map({
       id: result.id,
       username: result.getUsername(),
+      emailAddress: result.getEmail(),
+      userType: result.get('userType'),
+      providerEmail: result.get('providerEmail'),
+    });
+  };
+
+  static getUserInfoById = async (id: string, sessionToken: ?string) => {
+    const result = await UserService.getUserById(id, sessionToken);
+
+    return Map({
+      id: result.id,
+      username: result.getUsername(),
+      emailAddress: result.getEmail(),
+      userType: result.get('userType'),
+      providerEmail: result.get('providerEmail'),
     });
   };
 }

@@ -28,7 +28,10 @@ UserService.signUpWithUsernameAndPassword = function () {
         switch (_context.prev = _context.next) {
           case 0:
             user = _ParseWrapperService2.default.createNewUser({
-              username: username, password: password, emailAddress: emailAddress, userType: userType
+              username: username,
+              password: password,
+              emailAddress: emailAddress,
+              userType: userType
             });
             _context.next = 3;
             return user.signUp();
@@ -39,7 +42,8 @@ UserService.signUpWithUsernameAndPassword = function () {
               id: result.id,
               username: result.getUsername(),
               emailAddress: result.getEmail(),
-              emailAddressVerified: result.get('emailVerified')
+              emailAddressVerified: result.get('emailVerified'),
+              userType: result.get('userType')
             }));
 
           case 5:
@@ -71,7 +75,8 @@ UserService.signInWithUsernameAndPassword = function () {
               id: result.id,
               username: result.getUsername(),
               emailAddress: result.getEmail(),
-              emailAddressVerified: result.get('emailVerified')
+              emailAddressVerified: result.get('emailVerified'),
+              userType: result.get('userType')
             }));
 
           case 4:
@@ -190,7 +195,8 @@ UserService.getCurrentUserInfo = _asyncToGenerator( /*#__PURE__*/regeneratorRunt
             id: user.id,
             username: user.getUsername(),
             emailAddress: user.getEmail(),
-            emailAddressVerified: user.get('emailVerified')
+            emailAddressVerified: user.get('emailVerified'),
+            userType: user.get('userType')
           }));
 
         case 4:
@@ -334,7 +340,10 @@ UserService.getUserInfo = function () {
             result = _context11.sent;
             return _context11.abrupt('return', (0, _immutable.Map)({
               id: result.id,
-              username: result.getUsername()
+              username: result.getUsername(),
+              emailAddress: result.getEmail(),
+              userType: result.get('userType'),
+              providerEmail: result.get('providerEmail')
             }));
 
           case 4:
@@ -347,6 +356,39 @@ UserService.getUserInfo = function () {
 
   return function (_x14, _x15) {
     return _ref11.apply(this, arguments);
+  };
+}();
+
+UserService.getUserInfoById = function () {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(id, sessionToken) {
+    var result;
+    return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.next = 2;
+            return UserService.getUserById(id, sessionToken);
+
+          case 2:
+            result = _context12.sent;
+            return _context12.abrupt('return', (0, _immutable.Map)({
+              id: result.id,
+              username: result.getUsername(),
+              emailAddress: result.getEmail(),
+              userType: result.get('userType'),
+              providerEmail: result.get('providerEmail')
+            }));
+
+          case 4:
+          case 'end':
+            return _context12.stop();
+        }
+      }
+    }, _callee12, undefined);
+  }));
+
+  return function (_x16, _x17) {
+    return _ref12.apply(this, arguments);
   };
 }();
 
