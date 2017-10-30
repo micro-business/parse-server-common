@@ -182,7 +182,8 @@ ParseWrapperService.createNewUser = function () {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       username = _ref.username,
       password = _ref.password,
-      emailAddress = _ref.emailAddress;
+      emailAddress = _ref.emailAddress,
+      userType = _ref.userType;
 
   var user = new _node2.default.User();
 
@@ -196,6 +197,10 @@ ParseWrapperService.createNewUser = function () {
 
   if (emailAddress) {
     user.setEmail(emailAddress);
+  }
+
+  if (userType) {
+    user.set('userType', userType);
   }
 
   return user;
