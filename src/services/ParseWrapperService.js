@@ -134,7 +134,9 @@ export default class ParseWrapperService {
   static getCachedConfig = () => Parse.Config.current();
   static getCurrentUser = () => Parse.User.current();
   static getCurrentUserAsync = () => Parse.User.currentAsync();
-  static createNewUser = ({ username, password, emailAddress } = {}) => {
+  static createNewUser = ({
+    username, password, emailAddress, userType,
+  } = {}) => {
     const user = new Parse.User();
 
     if (username) {
@@ -147,6 +149,10 @@ export default class ParseWrapperService {
 
     if (emailAddress) {
       user.setEmail(emailAddress);
+    }
+
+    if (userType) {
+      user.set('userType', userType);
     }
 
     return user;

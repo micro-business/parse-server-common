@@ -4,8 +4,10 @@ import { Map } from 'immutable';
 import ParseWrapperService from './ParseWrapperService';
 
 export default class UserService {
-  static signUpWithUsernameAndPassword = async (username: string, password: string, emailAddress: ?string) => {
-    const user = ParseWrapperService.createNewUser({ username, password, emailAddress });
+  static signUpWithUsernameAndPassword = async (username: string, password: string, emailAddress: ?string, userType: ?string) => {
+    const user = ParseWrapperService.createNewUser({
+      username, password, emailAddress, userType,
+    });
     const result = await user.signUp();
 
     return Map({
