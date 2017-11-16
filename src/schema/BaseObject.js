@@ -1,6 +1,6 @@
 // @flow
 
-import Parse from 'parse/node';
+import Parse from 'parse/node'; // eslint-disable-line import/no-extraneous-dependencies
 import { ParseWrapperService } from '../services';
 
 export default class BaseObject extends Parse.Object {
