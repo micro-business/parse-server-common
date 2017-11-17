@@ -24,15 +24,13 @@ export default class ParseWrapperService {
       const objectIds = criteria.get('ids');
 
       if (objectIds && !objectIds.isEmpty()) {
-        query = ParseWrapperService.createOrQuery(
-          objectIds.map(objectId => {
-            const objectIdQuery = new Parse.Query(object);
+        query = ParseWrapperService.createOrQuery(objectIds.map((objectId) => {
+          const objectIdQuery = new Parse.Query(object);
 
-            objectIdQuery.equalTo('objectId', objectId);
+          objectIdQuery.equalTo('objectId', objectId);
 
-            return objectIdQuery;
-          }),
-        );
+          return objectIdQuery;
+        }));
       }
     }
 
@@ -136,7 +134,9 @@ export default class ParseWrapperService {
   static getCachedConfig = () => Parse.Config.current();
   static getCurrentUser = () => Parse.User.current();
   static getCurrentUserAsync = () => Parse.User.currentAsync();
-  static createNewUser = ({ username, password, emailAddress, userType } = {}) => {
+  static createNewUser = ({
+    username, password, emailAddress, userType,
+  } = {}) => {
     const user = new Parse.User();
 
     if (username) {

@@ -12,7 +12,7 @@
     "test:watch": "jest --watch",
     "publish-package": "npm run build && npm publish",
     "flow": "flow",
-    "precommit": "lint-staged && npm run fixlint"
+    "precommit": "lint-staged"
   },
   "author": "Micro Business ltd<micro.business.ltd@gmail.com>",
   "homepage": "https://bitbucket.org/microbusiness/micro-business-parse-server-common#readme",
@@ -51,6 +51,7 @@
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
       "prettier --write --single-quote true --trailing-comma all --print-width 150",
+      "npm run fixlint",
       "git add"
     ]
   }
