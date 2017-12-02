@@ -11,15 +11,17 @@ export default class ServiceBase {
     }
   };
 
+  static escapeTextToUseInRegex = str => str.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+
   static addStringQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(conditionPropKey)) {
       const value = conditions.get(conditionPropKey);
 
       if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
-          query.matches(columnName, new RegExp(`^${value.toLowerCase()}$`));
+          query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value.toLowerCase())}$`));
         } else {
-          query.matches(columnName, new RegExp(`^${value}$`));
+          query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}$`));
         }
 
         return true;
@@ -31,9 +33,9 @@ export default class ServiceBase {
 
       if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
-          query.matches(columnName, new RegExp(`^${value.toLowerCase()}`));
+          query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value.toLowerCase())}`));
         } else {
-          query.matches(columnName, new RegExp(`^${value}`));
+          query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}`));
         }
 
         return true;
@@ -45,9 +47,9 @@ export default class ServiceBase {
 
       if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
-          query.matches(columnName, new RegExp(`${value.toLowerCase()}$`));
+          query.matches(columnName, new RegExp(`${ServiceBase.escapeTextToUseInRegex(value.toLowerCase())}$`));
         } else {
-          query.matches(columnName, new RegExp(`${value}$`));
+          query.matches(columnName, new RegExp(`${ServiceBase.escapeTextToUseInRegex(value)}$`));
         }
 
         return true;
@@ -59,9 +61,9 @@ export default class ServiceBase {
 
       if (typeof value !== 'undefined') {
         if (columnName.endsWith('LowerCase')) {
-          query.matches(columnName, new RegExp(`(?=.*${value.toLowerCase()})`));
+          query.matches(columnName, new RegExp(`(?=.*${ServiceBase.escapeTextToUseInRegex(value.toLowerCase())})`));
         } else {
-          query.matches(columnName, new RegExp(`(?=.*${value})`));
+          query.matches(columnName, new RegExp(`(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`));
         }
 
         return true;
@@ -73,9 +75,15 @@ export default class ServiceBase {
 
       if (typeof values !== 'undefined' && !values.isEmpty()) {
         if (columnName.endsWith('LowerCase')) {
-          query.matches(columnName, new RegExp(values.map(value => `(?=.*${value.toLowerCase()})`).reduce((reduction, value) => reduction + value)));
+          query.matches(
+            columnName,
+            new RegExp(values.map(value => `(?=.*${ServiceBase.escapeTextToUseInRegex(value.toLowerCase())})`).reduce((reduction, value) => reduction + value)),
+          );
         } else {
-          query.matches(columnName, new RegExp(values.map(value => `(?=.*${value})`).reduce((reduction, value) => reduction + value)));
+          query.matches(
+            columnName,
+            new RegExp(values.map(value => `(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`).reduce((reduction, value) => reduction + value)),
+          );
         }
 
         return true;
@@ -86,7 +94,7 @@ export default class ServiceBase {
       const value = conditions.get(conditionPropKey);
 
       if (typeof value !== 'undefined') {
-        query.matches(columnName, new RegExp(`^${value}$`, 'i'));
+        query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}$`, 'i'));
 
         return true;
       }
@@ -96,7 +104,7 @@ export default class ServiceBase {
       const value = conditions.get(`startsWith_ignoreCase_${conditionPropKey}`);
 
       if (typeof value !== 'undefined') {
-        query.matches(columnName, new RegExp(`^${value}`, 'i'));
+        query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}`, 'i'));
 
         return true;
       }
@@ -106,7 +114,7 @@ export default class ServiceBase {
       const value = conditions.get(`endsWith_ignoreCase_${conditionPropKey}`);
 
       if (typeof value !== 'undefined') {
-        query.matches(columnName, new RegExp(`${value}$`, 'i'));
+        query.matches(columnName, new RegExp(`${ServiceBase.escapeTextToUseInRegex(value)}$`, 'i'));
 
         return true;
       }
@@ -116,7 +124,7 @@ export default class ServiceBase {
       const value = conditions.get(`contains_ignoreCase_${conditionPropKey}`);
 
       if (typeof value !== 'undefined') {
-        query.matches(columnName, new RegExp(`(?=.*${value})`, 'i'));
+        query.matches(columnName, new RegExp(`(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`, 'i'));
 
         return true;
       }
@@ -126,7 +134,11 @@ export default class ServiceBase {
       const values = conditions.get(`contains_ignoreCase_${conditionPropKey}s`);
 
       if (typeof values !== 'undefined' && !values.isEmpty()) {
-        query.matches(columnName, new RegExp(values.map(value => `(?=.*${value})`).reduce((reduction, value) => reduction + value)), 'i');
+        query.matches(
+          columnName,
+          new RegExp(values.map(value => `(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`).reduce((reduction, value) => reduction + value)),
+          'i',
+        );
 
         return true;
       }

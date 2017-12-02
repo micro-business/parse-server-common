@@ -37,15 +37,19 @@ ServiceBase.setACL = function (object, acl) {
   }
 };
 
+ServiceBase.escapeTextToUseInRegex = function (str) {
+  return str.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
 ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
 
     if (typeof value !== 'undefined') {
       if (columnName.endsWith('LowerCase')) {
-        query.matches(columnName, new RegExp('^' + value.toLowerCase() + '$'));
+        query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(value.toLowerCase()) + '$'));
       } else {
-        query.matches(columnName, new RegExp('^' + value + '$'));
+        query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(value) + '$'));
       }
 
       return true;
@@ -57,9 +61,9 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (typeof _value !== 'undefined') {
       if (columnName.endsWith('LowerCase')) {
-        query.matches(columnName, new RegExp('^' + _value.toLowerCase()));
+        query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value.toLowerCase())));
       } else {
-        query.matches(columnName, new RegExp('^' + _value));
+        query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value)));
       }
 
       return true;
@@ -71,9 +75,9 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (typeof _value2 !== 'undefined') {
       if (columnName.endsWith('LowerCase')) {
-        query.matches(columnName, new RegExp(_value2.toLowerCase() + '$'));
+        query.matches(columnName, new RegExp(ServiceBase.escapeTextToUseInRegex(_value2.toLowerCase()) + '$'));
       } else {
-        query.matches(columnName, new RegExp(_value2 + '$'));
+        query.matches(columnName, new RegExp(ServiceBase.escapeTextToUseInRegex(_value2) + '$'));
       }
 
       return true;
@@ -85,9 +89,9 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (typeof _value3 !== 'undefined') {
       if (columnName.endsWith('LowerCase')) {
-        query.matches(columnName, new RegExp('(?=.*' + _value3.toLowerCase() + ')'));
+        query.matches(columnName, new RegExp('(?=.*' + ServiceBase.escapeTextToUseInRegex(_value3.toLowerCase()) + ')'));
       } else {
-        query.matches(columnName, new RegExp('(?=.*' + _value3 + ')'));
+        query.matches(columnName, new RegExp('(?=.*' + ServiceBase.escapeTextToUseInRegex(_value3) + ')'));
       }
 
       return true;
@@ -100,13 +104,13 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     if (typeof values !== 'undefined' && !values.isEmpty()) {
       if (columnName.endsWith('LowerCase')) {
         query.matches(columnName, new RegExp(values.map(function (value) {
-          return '(?=.*' + value.toLowerCase() + ')';
+          return '(?=.*' + ServiceBase.escapeTextToUseInRegex(value.toLowerCase()) + ')';
         }).reduce(function (reduction, value) {
           return reduction + value;
         })));
       } else {
         query.matches(columnName, new RegExp(values.map(function (value) {
-          return '(?=.*' + value + ')';
+          return '(?=.*' + ServiceBase.escapeTextToUseInRegex(value) + ')';
         }).reduce(function (reduction, value) {
           return reduction + value;
         })));
@@ -120,7 +124,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value4 = conditions.get(conditionPropKey);
 
     if (typeof _value4 !== 'undefined') {
-      query.matches(columnName, new RegExp('^' + _value4 + '$', 'i'));
+      query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value4) + '$', 'i'));
 
       return true;
     }
@@ -130,7 +134,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value5 = conditions.get('startsWith_ignoreCase_' + conditionPropKey);
 
     if (typeof _value5 !== 'undefined') {
-      query.matches(columnName, new RegExp('^' + _value5, 'i'));
+      query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value5), 'i'));
 
       return true;
     }
@@ -140,7 +144,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value6 = conditions.get('endsWith_ignoreCase_' + conditionPropKey);
 
     if (typeof _value6 !== 'undefined') {
-      query.matches(columnName, new RegExp(_value6 + '$', 'i'));
+      query.matches(columnName, new RegExp(ServiceBase.escapeTextToUseInRegex(_value6) + '$', 'i'));
 
       return true;
     }
@@ -150,7 +154,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
     var _value7 = conditions.get('contains_ignoreCase_' + conditionPropKey);
 
     if (typeof _value7 !== 'undefined') {
-      query.matches(columnName, new RegExp('(?=.*' + _value7 + ')', 'i'));
+      query.matches(columnName, new RegExp('(?=.*' + ServiceBase.escapeTextToUseInRegex(_value7) + ')', 'i'));
 
       return true;
     }
@@ -161,7 +165,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (typeof _values !== 'undefined' && !_values.isEmpty()) {
       query.matches(columnName, new RegExp(_values.map(function (value) {
-        return '(?=.*' + value + ')';
+        return '(?=.*' + ServiceBase.escapeTextToUseInRegex(value) + ')';
       }).reduce(function (reduction, value) {
         return reduction + value;
       })), 'i');
