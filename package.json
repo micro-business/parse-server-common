@@ -1,6 +1,6 @@
 {
   "name": "micro-business-parse-server-common",
-  "version": "1.0.2-alpha.39",
+  "version": "1.1.0",
   "description": "Micro Business Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "homepage": "https://bitbucket.org/microbusiness/micro-business-parse-server-common#readme",
   "dependencies": {
     "immutable": "^4.0.0-rc.9",
-    "micro-business-common-javascript": "^1.0.0-alpha.15"
+    "micro-business-common-javascript": "^1.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
