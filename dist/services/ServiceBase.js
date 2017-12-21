@@ -8,7 +8,7 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _microBusinessCommonJavascript = require('micro-business-common-javascript');
+var _commonJavascript = require('@microbusiness/common-javascript');
 
 var _ParseWrapperService = require('./ParseWrapperService');
 
@@ -650,7 +650,7 @@ var _initialiseProps = function _initialiseProps() {
   }();
 
   this.searchAll = function (criteria, sessionToken) {
-    var event = new _microBusinessCommonJavascript.NewSearchResultReceivedEvent();
+    var event = new _commonJavascript.NewSearchResultReceivedEvent();
     var promise = _this.buildSearchQueryFunc(criteria).each(function (result) {
       return event.raise(new _this.ObjectType(result).getInfo());
     }, { sessionToken: sessionToken });
