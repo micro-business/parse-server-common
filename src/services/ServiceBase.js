@@ -1,7 +1,7 @@
 // @flow
 
 import Immutable from 'immutable';
-import { NewSearchResultReceivedEvent } from '@microbusiness/common-javascript';
+import { NewSearchResultReceivedEvent } from '../extensions';
 import ParseWrapperService from './ParseWrapperService';
 
 export default class ServiceBase {
