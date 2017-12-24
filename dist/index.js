@@ -4,6 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extensions = require('./extensions');
+
+Object.defineProperty(exports, 'NewSearchResultReceivedEvent', {
+  enumerable: true,
+  get: function get() {
+    return _extensions.NewSearchResultReceivedEvent;
+  }
+});
+
 var _loaders = require('./loaders');
 
 Object.defineProperty(exports, 'createConfigLoader', {
