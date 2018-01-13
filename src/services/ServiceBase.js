@@ -147,6 +147,9 @@ export default class ServiceBase {
     return false;
   };
 
+  static addMultiLanguagesStringQuery = (conditions, query, conditionPropKey, columnName, language) =>
+    ServiceBase.addStringQuery(conditions, query, conditionPropKey, `${columnName}_${language}_`);
+
   static addGeoLocationQuery = (conditions, query, conditionPropKey, columnName) => {
     if (conditions.has(`near_${conditionPropKey}`)) {
       const value = conditions.get(`near_${conditionPropKey}`);

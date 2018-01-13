@@ -177,6 +177,10 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   return false;
 };
 
+ServiceBase.addMultiLanguagesStringQuery = function (conditions, query, conditionPropKey, columnName, language) {
+  return ServiceBase.addStringQuery(conditions, query, conditionPropKey, columnName + '_' + language + '_');
+};
+
 ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey, columnName) {
   if (conditions.has('near_' + conditionPropKey)) {
     var value = conditions.get('near_' + conditionPropKey);

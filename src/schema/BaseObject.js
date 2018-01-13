@@ -1,5 +1,6 @@
 // @flow
 
+import { Map } from 'immutable';
 import Parse from 'parse/node'; // eslint-disable-line import/no-extraneous-dependencies
 import { ParseWrapperService } from '../services';
 
@@ -21,6 +22,21 @@ export default class BaseObject extends Parse.Object {
 
     object.set(columnName, value);
     object.set(`${columnName}LowerCase`, value ? value.toLowerCase() : undefined);
+  };
+
+  static createMultiLanguagesStringColumn = (object, info, columnName) => {
+    const languages = info.get(columnName);
+
+    if (!Map.isMap(languages)) {
+      throw new Error('Provided value is not of type Map.');
+    }
+
+    languages.keySeq().forEach((language) => {
+      const value = languages.get(language);
+
+      object.set(`${columnName}_${language}`, value);
+      object.set(`${columnName}_${language}_LowerCase`, value ? value.toLowerCase() : undefined);
+    });
   };
 
   static createUserPointer = (object, info, columnName) => {

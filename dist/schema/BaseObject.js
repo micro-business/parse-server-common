@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _immutable = require('immutable');
+
 var _node = require('parse/node');
 
 var _node2 = _interopRequireDefault(_node);
@@ -41,6 +43,21 @@ BaseObject.createStringColumn = function (object, info, columnName) {
 
   object.set(columnName, value);
   object.set(columnName + 'LowerCase', value ? value.toLowerCase() : undefined);
+};
+
+BaseObject.createMultiLanguagesStringColumn = function (object, info, columnName) {
+  var languages = info.get(columnName);
+
+  if (!_immutable.Map.isMap(languages)) {
+    throw new Error('Provided value is not of type Map.');
+  }
+
+  languages.keySeq().forEach(function (language) {
+    var value = languages.get(language);
+
+    object.set(columnName + '_' + language, value);
+    object.set(columnName + '_' + language + '_LowerCase', value ? value.toLowerCase() : undefined);
+  });
 };
 
 BaseObject.createUserPointer = function (object, info, columnName) {
