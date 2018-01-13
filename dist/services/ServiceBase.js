@@ -178,7 +178,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 };
 
 ServiceBase.addMultiLanguagesStringQuery = function (conditions, query, conditionPropKey, columnName, language) {
-  return ServiceBase.addStringQuery(conditions, query, conditionPropKey, columnName + '_' + language + '_');
+  return ServiceBase.addStringQuery(conditions, query, conditionPropKey, language + '_' + columnName);
 };
 
 ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey, columnName) {

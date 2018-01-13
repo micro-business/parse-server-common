@@ -56,13 +56,13 @@ BaseObject.createMultiLanguagesStringColumn = function (object, info, columnName
 
   var allProvidedLanguages = languages.keySeq().toArray();
 
-  object.set(columnName + '_languages', allProvidedLanguages);
+  object.set('languages_' + columnName, allProvidedLanguages);
 
   allProvidedLanguages.forEach(function (language) {
     var value = languages.get(language);
 
-    object.set(columnName + '_' + language, value);
-    object.set(columnName + '_' + language + '_LowerCase', value ? value.toLowerCase() : undefined);
+    object.set(language + '_' + columnName, value);
+    object.set(language + '_' + columnName + 'LowerCase', value ? value.toLowerCase() : undefined);
   });
 };
 
@@ -159,14 +159,14 @@ var _initialiseProps = function _initialiseProps() {
 
   this.getMultiLanguagesString = function (columnName) {
     var object = _this2.getObject();
-    var languages = _immutable2.default.fromJS(object.get(columnName + '_languages'));
+    var languages = _immutable2.default.fromJS(object.get('languages_' + columnName));
 
     if (!languages) {
       return (0, _immutable.Map)();
     }
 
     return languages.reduce(function (reduction, language) {
-      return reduction.set(language, object.get(columnName + '_' + language));
+      return reduction.set(language, object.get(language + '_' + columnName));
     }, (0, _immutable.Map)());
   };
 };
