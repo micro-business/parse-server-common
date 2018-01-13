@@ -19,13 +19,13 @@ export default class BaseObject extends Parse.Object {
 
   getMultiLanguagesString = (columnName) => {
     const object = this.getObject();
-    const languages = Immutable.fromJS(object.get(`${columnName}_languages`));
+    const languages = Immutable.fromJS(object.get(`languages_${columnName}`));
 
     if (!languages) {
       return Map();
     }
 
-    return languages.reduce((reduction, language) => reduction.set(language, object.get(`${columnName}_${language}`)), Map());
+    return languages.reduce((reduction, language) => reduction.set(language, object.get(`${language}_${columnName}`)), Map());
   };
 
   static createStringColumn = (object, info, columnName) => {
@@ -44,13 +44,13 @@ export default class BaseObject extends Parse.Object {
 
     const allProvidedLanguages = languages.keySeq().toArray();
 
-    object.set(`${columnName}_languages`, allProvidedLanguages);
+    object.set(`languages_${columnName}`, allProvidedLanguages);
 
     allProvidedLanguages.forEach((language) => {
       const value = languages.get(language);
 
-      object.set(`${columnName}_${language}`, value);
-      object.set(`${columnName}_${language}_LowerCase`, value ? value.toLowerCase() : undefined);
+      object.set(`${language}_${columnName}`, value);
+      object.set(`${language}_${columnName}LowerCase`, value ? value.toLowerCase() : undefined);
     });
   };
 
