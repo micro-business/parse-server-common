@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _immutable = require('immutable');
 
+var _immutable2 = _interopRequireDefault(_immutable);
+
 var _node = require('parse/node');
 
 var _node2 = _interopRequireDefault(_node);
@@ -52,7 +54,11 @@ BaseObject.createMultiLanguagesStringColumn = function (object, info, columnName
     throw new Error('Provided value is not of type Map.');
   }
 
-  languages.keySeq().forEach(function (language) {
+  var allProvidedLanguages = languages.keySeq().toArray();
+
+  object.set(columnName + '_languages', allProvidedLanguages);
+
+  allProvidedLanguages.forEach(function (language) {
     var value = languages.get(language);
 
     object.set(columnName + '_' + language, value);
@@ -149,6 +155,19 @@ var _initialiseProps = function _initialiseProps() {
 
   this.getId = function () {
     return _this2.getObject().id;
+  };
+
+  this.getMultiLanguagesString = function (columnName) {
+    var object = _this2.getObject();
+    var languages = _immutable2.default.fromJS(object.get(columnName + '_languages'));
+
+    if (!languages) {
+      return (0, _immutable.Map)();
+    }
+
+    return languages.reduce(function (reduction, language) {
+      return reduction.set(language, object.get(columnName + '_' + language));
+    }, (0, _immutable.Map)());
   };
 };
 

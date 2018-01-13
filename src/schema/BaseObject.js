@@ -1,6 +1,6 @@
 // @flow
 
-import { Map } from 'immutable';
+import Immutable, { Map } from 'immutable';
 import Parse from 'parse/node'; // eslint-disable-line import/no-extraneous-dependencies
 import { ParseWrapperService } from '../services';
 
@@ -17,6 +17,17 @@ export default class BaseObject extends Parse.Object {
 
   getId = () => this.getObject().id;
 
+  getMultiLanguagesString = (columnName) => {
+    const object = this.getObject();
+    const languages = Immutable.fromJS(object.get(`${columnName}_languages`));
+
+    if (!languages) {
+      return Map();
+    }
+
+    return languages.reduce((reduction, language) => reduction.set(language, object.get(`${columnName}_${language}`)), Map());
+  };
+
   static createStringColumn = (object, info, columnName) => {
     const value = info.get(columnName);
 
@@ -31,7 +42,11 @@ export default class BaseObject extends Parse.Object {
       throw new Error('Provided value is not of type Map.');
     }
 
-    languages.keySeq().forEach((language) => {
+    const allProvidedLanguages = languages.keySeq().toArray();
+
+    object.set(`${columnName}_languages`, allProvidedLanguages);
+
+    allProvidedLanguages.forEach((language) => {
       const value = languages.get(language);
 
       object.set(`${columnName}_${language}`, value);
