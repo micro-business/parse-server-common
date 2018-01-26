@@ -67,31 +67,23 @@ BaseObject.createMultiLanguagesStringColumn = function (object, info, columnName
 };
 
 BaseObject.createUserPointer = function (object, info, columnName) {
-  if (info.has(columnName)) {
-    var refObject = info.get(columnName);
-
-    if (refObject) {
-      object.set(columnName, refObject);
-    }
-  } else if (info.has(columnName + 'Id')) {
+  if (info.has(columnName + 'Id')) {
     var id = info.get(columnName + 'Id');
 
     if (id) {
       object.set(columnName, _services.ParseWrapperService.createUserWithoutData(id));
     }
+  } else if (info.has(columnName)) {
+    var refObject = info.get(columnName);
+
+    if (refObject) {
+      object.set(columnName, refObject);
+    }
   }
 };
 
 BaseObject.createUserArrayPointer = function (object, info, columnName) {
-  if (info.has(columnName + 's')) {
-    var refObjects = info.get(columnName + 's');
-
-    if (refObjects && !refObjects.isEmpty()) {
-      object.set(columnName + 's', refObjects.toArray());
-    } else {
-      object.set(columnName + 's', []);
-    }
-  } else if (info.has(columnName + 'Ids')) {
+  if (info.has(columnName + 'Ids')) {
     var ids = info.get(columnName + 'Ids');
 
     if (ids && !ids.isEmpty()) {
@@ -101,27 +93,7 @@ BaseObject.createUserArrayPointer = function (object, info, columnName) {
     } else {
       object.set(columnName + 's', []);
     }
-  }
-};
-
-BaseObject.createPointer = function (object, info, columnName, ObjectType) {
-  if (info.has(columnName)) {
-    var refObject = info.get(columnName);
-
-    if (refObject) {
-      object.set(columnName, refObject);
-    }
-  } else if (info.has(columnName + 'Id')) {
-    var id = info.get(columnName + 'Id');
-
-    if (id) {
-      object.set(columnName, ObjectType.createWithoutData(id));
-    }
-  }
-};
-
-BaseObject.createArrayPointer = function (object, info, columnName, ObjectType) {
-  if (info.has(columnName + 's')) {
+  } else if (info.has(columnName + 's')) {
     var refObjects = info.get(columnName + 's');
 
     if (refObjects && !refObjects.isEmpty()) {
@@ -129,13 +101,41 @@ BaseObject.createArrayPointer = function (object, info, columnName, ObjectType) 
     } else {
       object.set(columnName + 's', []);
     }
-  } else if (info.has(columnName + 'Ids')) {
+  }
+};
+
+BaseObject.createPointer = function (object, info, columnName, ObjectType) {
+  if (info.has(columnName + 'Id')) {
+    var id = info.get(columnName + 'Id');
+
+    if (id) {
+      object.set(columnName, ObjectType.createWithoutData(id));
+    }
+  } else if (info.has(columnName)) {
+    var refObject = info.get(columnName);
+
+    if (refObject) {
+      object.set(columnName, refObject);
+    }
+  }
+};
+
+BaseObject.createArrayPointer = function (object, info, columnName, ObjectType) {
+  if (info.has(columnName + 'Ids')) {
     var ids = info.get(columnName + 'Ids');
 
     if (ids && !ids.isEmpty()) {
       object.set(columnName + 's', ids.map(function (id) {
         return ObjectType.createWithoutData(id);
       }).toArray());
+    } else {
+      object.set(columnName + 's', []);
+    }
+  } else if (info.has(columnName + 's')) {
+    var refObjects = info.get(columnName + 's');
+
+    if (refObjects && !refObjects.isEmpty()) {
+      object.set(columnName + 's', refObjects.toArray());
     } else {
       object.set(columnName + 's', []);
     }
