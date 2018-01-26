@@ -48,6 +48,9 @@
       ]
     }
   },
+  "globals": {
+    "fail": true,
+  },
   "env": {
     "jest/globals": true
   }

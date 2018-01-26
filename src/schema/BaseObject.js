@@ -55,23 +55,31 @@ export default class BaseObject extends Parse.Object {
   };
 
   static createUserPointer = (object, info, columnName) => {
-    if (info.has(`${columnName}Id`)) {
-      const id = info.get(`${columnName}Id`);
-
-      if (id) {
-        object.set(columnName, ParseWrapperService.createUserWithoutData(id));
-      }
-    } else if (info.has(columnName)) {
+    if (info.has(columnName)) {
       const refObject = info.get(columnName);
 
       if (refObject) {
         object.set(columnName, refObject);
       }
+    } else if (info.has(`${columnName}Id`)) {
+      const id = info.get(`${columnName}Id`);
+
+      if (id) {
+        object.set(columnName, ParseWrapperService.createUserWithoutData(id));
+      }
     }
   };
 
   static createUserArrayPointer = (object, info, columnName) => {
-    if (info.has(`${columnName}Ids`)) {
+    if (info.has(`${columnName}s`)) {
+      const refObjects = info.get(`${columnName}s`);
+
+      if (refObjects && !refObjects.isEmpty()) {
+        object.set(`${columnName}s`, refObjects.toArray());
+      } else {
+        object.set(`${columnName}s`, []);
+      }
+    } else if (info.has(`${columnName}Ids`)) {
       const ids = info.get(`${columnName}Ids`);
 
       if (ids && !ids.isEmpty()) {
@@ -79,47 +87,39 @@ export default class BaseObject extends Parse.Object {
       } else {
         object.set(`${columnName}s`, []);
       }
-    } else if (info.has(`${columnName}s`)) {
-      const refObjects = info.get(`${columnName}s`);
-
-      if (refObjects && !refObjects.isEmpty()) {
-        object.set(`${columnName}s`, refObjects.toArray());
-      } else {
-        object.set(`${columnName}s`, []);
-      }
     }
   };
 
   static createPointer = (object, info, columnName, ObjectType) => {
-    if (info.has(`${columnName}Id`)) {
-      const id = info.get(`${columnName}Id`);
-
-      if (id) {
-        object.set(columnName, ObjectType.createWithoutData(id));
-      }
-    } else if (info.has(columnName)) {
+    if (info.has(columnName)) {
       const refObject = info.get(columnName);
 
       if (refObject) {
         object.set(columnName, refObject);
       }
+    } else if (info.has(`${columnName}Id`)) {
+      const id = info.get(`${columnName}Id`);
+
+      if (id) {
+        object.set(columnName, ObjectType.createWithoutData(id));
+      }
     }
   };
 
   static createArrayPointer = (object, info, columnName, ObjectType) => {
-    if (info.has(`${columnName}Ids`)) {
-      const ids = info.get(`${columnName}Ids`);
-
-      if (ids && !ids.isEmpty()) {
-        object.set(`${columnName}s`, ids.map(id => ObjectType.createWithoutData(id)).toArray());
-      } else {
-        object.set(`${columnName}s`, []);
-      }
-    } else if (info.has(`${columnName}s`)) {
+    if (info.has(`${columnName}s`)) {
       const refObjects = info.get(`${columnName}s`);
 
       if (refObjects && !refObjects.isEmpty()) {
         object.set(`${columnName}s`, refObjects.toArray());
+      } else {
+        object.set(`${columnName}s`, []);
+      }
+    } else if (info.has(`${columnName}Ids`)) {
+      const ids = info.get(`${columnName}Ids`);
+
+      if (ids && !ids.isEmpty()) {
+        object.set(`${columnName}s`, ids.map(id => ObjectType.createWithoutData(id)).toArray());
       } else {
         object.set(`${columnName}s`, []);
       }

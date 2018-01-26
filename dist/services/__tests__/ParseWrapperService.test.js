@@ -95,7 +95,7 @@ describe('createQuery', function () {
 
 
             expect(foundObjects).toBeTruthy();
-            expect(foundObjects.length).toEqual(1);
+            expect(foundObjects).toHaveLength(1);
             expect(foundObjects[0].get('data')).toEqual(data);
 
           case 12:
@@ -136,7 +136,7 @@ describe('createQuery', function () {
 
 
             expect(foundObjects).toBeTruthy();
-            expect(foundObjects.length).toEqual(2);
+            expect(foundObjects).toHaveLength(2);
             expect(foundObjects[0].get('data')).toEqual(data1);
             expect(foundObjects[1].get('data')).toEqual(data2);
 
