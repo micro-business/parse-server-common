@@ -62,13 +62,17 @@ export default class UserService {
   static getCurrentUserInfo = async () => {
     const user = await ParseWrapperService.getCurrentUserAsync();
 
-    return Map({
-      id: user.id,
-      username: user.getUsername(),
-      emailAddress: user.getEmail(),
-      emailAddressVerified: user.get('emailVerified'),
-      userType: user.get('userType'),
-    });
+    if (user) {
+      return Map({
+        id: user.id,
+        username: user.getUsername(),
+        emailAddress: user.getEmail(),
+        emailAddressVerified: user.get('emailVerified'),
+        userType: user.get('userType'),
+      });
+    }
+
+    return undefined;
   };
 
   static getCurrentUserSession = async () => {

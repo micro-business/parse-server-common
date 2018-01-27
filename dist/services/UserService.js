@@ -191,6 +191,12 @@ UserService.getCurrentUserInfo = _asyncToGenerator( /*#__PURE__*/regeneratorRunt
 
         case 2:
           user = _context6.sent;
+
+          if (!user) {
+            _context6.next = 5;
+            break;
+          }
+
           return _context6.abrupt('return', (0, _immutable.Map)({
             id: user.id,
             username: user.getUsername(),
@@ -199,7 +205,10 @@ UserService.getCurrentUserInfo = _asyncToGenerator( /*#__PURE__*/regeneratorRunt
             userType: user.get('userType')
           }));
 
-        case 4:
+        case 5:
+          return _context6.abrupt('return', undefined);
+
+        case 6:
         case 'end':
           return _context6.stop();
       }

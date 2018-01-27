@@ -220,17 +220,6 @@ ParseWrapperService.logIn = function (username, password) {
   return _node2.default.User.logIn(username, password);
 };
 
-ParseWrapperService.logInWithFacebook = function (scope) {
-  return new Promise(function (resolve, reject) {
-    _node2.default.FacebookUtils.logIn(scope, {
-      success: resolve,
-      error: function error(user, _error) {
-        return reject(_error && _error.error || _error);
-      }
-    });
-  });
-};
-
 ParseWrapperService.logOut = function () {
   return new Promise(function (resolve, reject) {
     _node2.default.User.logOut().then(function () {

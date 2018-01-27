@@ -160,13 +160,6 @@ export default class ParseWrapperService {
   };
   static createUserWithoutData = (userId: string) => Parse.User.createWithoutData(userId);
   static logIn = (username: string, password: string) => Parse.User.logIn(username, password);
-  static logInWithFacebook = (scope: string) =>
-    new Promise((resolve, reject) => {
-      Parse.FacebookUtils.logIn(scope, {
-        success: resolve,
-        error: (user, error) => reject((error && error.error) || error),
-      });
-    });
   static logOut = () =>
     new Promise((resolve, reject) => {
       Parse.User.logOut()
