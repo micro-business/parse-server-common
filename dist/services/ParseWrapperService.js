@@ -157,7 +157,7 @@ ParseWrapperService.createACL = function (object) {
 };
 
 ParseWrapperService.createFile = function (name, data, type) {
-  return new _node2.default.ACL(name, data, type);
+  return new _node2.default.File(name, data, type);
 };
 
 ParseWrapperService.createGeoPoint = function (arg1, arg2) {

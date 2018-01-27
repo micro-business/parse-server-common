@@ -128,7 +128,7 @@ export default class ParseWrapperService {
   static createOrQuery = queries => Parse.Query.or.apply(this, queries.toArray());
   static createUserQuery = () => new Parse.Query(Parse.User);
   static createACL = object => new Parse.ACL(object);
-  static createFile = (name, data, type) => new Parse.ACL(name, data, type);
+  static createFile = (name, data, type) => new Parse.File(name, data, type);
   static createGeoPoint = (arg1, arg2) => new Parse.GeoPoint(arg1, arg2);
   static createSessionQuery = () => new Parse.Query(Parse.Session);
   static getConfig = () => Parse.Config.get();
