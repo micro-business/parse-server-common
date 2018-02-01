@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _commonJavascript = require('@microbusiness/common-javascript');
+
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -49,6 +51,16 @@ BaseObject.createStringColumn = function (object, info, columnName) {
 
 BaseObject.createMultiLanguagesStringColumn = function (object, info, columnName) {
   var languages = info.get(columnName);
+
+  if (_commonJavascript.Common.isUndefined(languages)) {
+    return;
+  }
+
+  if (languages === null) {
+    object.set('languages_' + columnName, []);
+
+    return;
+  }
 
   if (!_immutable.Map.isMap(languages)) {
     throw new Error('Provided value is not of type Map.');

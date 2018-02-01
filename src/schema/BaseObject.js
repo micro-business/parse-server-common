@@ -1,5 +1,6 @@
 // @flow
 
+import { Common } from '@microbusiness/common-javascript';
 import Immutable, { Map } from 'immutable';
 import Parse from 'parse/node'; // eslint-disable-line import/no-extraneous-dependencies
 import { ParseWrapperService } from '../services';
@@ -37,6 +38,16 @@ export default class BaseObject extends Parse.Object {
 
   static createMultiLanguagesStringColumn = (object, info, columnName) => {
     const languages = info.get(columnName);
+
+    if (Common.isUndefined(languages)) {
+      return;
+    }
+
+    if (languages === null) {
+      object.set(`languages_${columnName}`, []);
+
+      return;
+    }
 
     if (!Map.isMap(languages)) {
       throw new Error('Provided value is not of type Map.');
