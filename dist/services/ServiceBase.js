@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _commonJavascript = require('@microbusiness/common-javascript');
+
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -45,7 +47,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       if (columnName.endsWith('LowerCase')) {
         query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(value.toLowerCase()) + '$'));
       } else {
@@ -59,7 +61,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('startsWith_' + conditionPropKey)) {
     var _value = conditions.get('startsWith_' + conditionPropKey);
 
-    if (typeof _value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value)) {
       if (columnName.endsWith('LowerCase')) {
         query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value.toLowerCase())));
       } else {
@@ -73,7 +75,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('endsWith_' + conditionPropKey)) {
     var _value2 = conditions.get('endsWith_' + conditionPropKey);
 
-    if (typeof _value2 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value2)) {
       if (columnName.endsWith('LowerCase')) {
         query.matches(columnName, new RegExp(ServiceBase.escapeTextToUseInRegex(_value2.toLowerCase()) + '$'));
       } else {
@@ -87,7 +89,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('contains_' + conditionPropKey)) {
     var _value3 = conditions.get('contains_' + conditionPropKey);
 
-    if (typeof _value3 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value3)) {
       if (columnName.endsWith('LowerCase')) {
         query.matches(columnName, new RegExp('(?=.*' + ServiceBase.escapeTextToUseInRegex(_value3.toLowerCase()) + ')'));
       } else {
@@ -101,7 +103,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('contains_' + conditionPropKey + 's')) {
     var values = conditions.get('contains_' + conditionPropKey + 's');
 
-    if (typeof values !== 'undefined' && !values.isEmpty()) {
+    if (_commonJavascript.Common.isNotUndefined(values) && !values.isEmpty()) {
       if (columnName.endsWith('LowerCase')) {
         query.matches(columnName, new RegExp(values.map(function (value) {
           return '(?=.*' + ServiceBase.escapeTextToUseInRegex(value.toLowerCase()) + ')';
@@ -123,7 +125,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('ignoreCase_' + conditionPropKey)) {
     var _value4 = conditions.get(conditionPropKey);
 
-    if (typeof _value4 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value4)) {
       query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value4) + '$', 'i'));
 
       return true;
@@ -133,7 +135,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('startsWith_ignoreCase_' + conditionPropKey)) {
     var _value5 = conditions.get('startsWith_ignoreCase_' + conditionPropKey);
 
-    if (typeof _value5 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value5)) {
       query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value5), 'i'));
 
       return true;
@@ -143,7 +145,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('endsWith_ignoreCase_' + conditionPropKey)) {
     var _value6 = conditions.get('endsWith_ignoreCase_' + conditionPropKey);
 
-    if (typeof _value6 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value6)) {
       query.matches(columnName, new RegExp(ServiceBase.escapeTextToUseInRegex(_value6) + '$', 'i'));
 
       return true;
@@ -153,7 +155,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('contains_ignoreCase_' + conditionPropKey)) {
     var _value7 = conditions.get('contains_ignoreCase_' + conditionPropKey);
 
-    if (typeof _value7 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value7)) {
       query.matches(columnName, new RegExp('(?=.*' + ServiceBase.escapeTextToUseInRegex(_value7) + ')', 'i'));
 
       return true;
@@ -163,7 +165,7 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
   if (conditions.has('contains_ignoreCase_' + conditionPropKey + 's')) {
     var _values = conditions.get('contains_ignoreCase_' + conditionPropKey + 's');
 
-    if (typeof _values !== 'undefined' && !_values.isEmpty()) {
+    if (_commonJavascript.Common.isNotUndefined(_values) && !_values.isEmpty()) {
       query.matches(columnName, new RegExp(_values.map(function (value) {
         return '(?=.*' + ServiceBase.escapeTextToUseInRegex(value) + ')';
       }).reduce(function (reduction, value) {
@@ -185,7 +187,7 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
   if (conditions.has('near_' + conditionPropKey)) {
     var value = conditions.get('near_' + conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.near(columnName, value);
 
       return true;
@@ -195,7 +197,7 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
   if (conditions.has('withinGeoBox_' + conditionPropKey)) {
     var _value8 = conditions.get('withinGeoBox_' + conditionPropKey);
 
-    if (typeof _value8 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value8)) {
       query.withinGeoBox(columnName, _value8.get('southwest'), _value8.get('northeast'));
 
       return true;
@@ -205,7 +207,7 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
   if (conditions.has('withinMiles_' + conditionPropKey)) {
     var _value9 = conditions.get('withinMiles_' + conditionPropKey);
 
-    if (typeof _value9 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value9)) {
       query.withinMiles(columnName, _value9.get('point'), _value9.get('distance'));
 
       return true;
@@ -215,7 +217,7 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
   if (conditions.has('withinKilometers_' + conditionPropKey)) {
     var _value10 = conditions.get('withinKilometers_' + conditionPropKey);
 
-    if (typeof _value10 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value10)) {
       query.withinKilometers(columnName, _value10.get('point'), _value10.get('distance'));
 
       return true;
@@ -225,7 +227,7 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
   if (conditions.has('withinRadians_' + conditionPropKey)) {
     var _value11 = conditions.get('withinRadians_' + conditionPropKey);
 
-    if (typeof _value11 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value11)) {
       query.withinRadians(columnName, _value11.get('point'), _value11.get('distance'));
 
       return true;
@@ -251,7 +253,7 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
   if (conditions.has(conditionPropKey + 'Id')) {
     var value = conditions.get(conditionPropKey + 'Id');
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.equalTo(columnName, ObjectType.createWithoutData(value));
 
       return true;
@@ -261,7 +263,7 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
   if (conditions.has(conditionPropKey + 's')) {
     var values = conditions.get(conditionPropKey + 's');
 
-    if (typeof values !== 'undefined' && !values.isEmpty()) {
+    if (_commonJavascript.Common.isNotUndefined(values) && !values.isEmpty()) {
       query.containedIn(columnName, values.toArray());
 
       return true;
@@ -271,7 +273,7 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
   if (conditions.has(conditionPropKey + 'Ids')) {
     var _values2 = conditions.get(conditionPropKey + 'Ids');
 
-    if (typeof _values2 !== 'undefined' && !_values2.isEmpty()) {
+    if (_commonJavascript.Common.isNotUndefined(_values2) && !_values2.isEmpty()) {
       query.containedIn(columnName, _values2.map(function (id) {
         return ObjectType.createWithoutData(id);
       }).toArray());
@@ -291,7 +293,7 @@ ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, co
   if (conditions.has(conditionPropKey + 'Id')) {
     var value = conditions.get(conditionPropKey + 'Id');
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.equalTo(columnName, _ParseWrapperService2.default.createUserWithoutData(value));
 
       return true;
@@ -301,7 +303,7 @@ ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, co
   if (conditions.has(conditionPropKey + 's')) {
     var values = conditions.get(conditionPropKey + 's');
 
-    if (typeof values !== 'undefined' && !values.isEmpty()) {
+    if (_commonJavascript.Common.isNotUndefined(values) && !values.isEmpty()) {
       query.containedIn(columnName, values.toArray());
 
       return true;
@@ -311,7 +313,7 @@ ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, co
   if (conditions.has(conditionPropKey + 'Ids')) {
     var _values3 = conditions.get(conditionPropKey + 'Ids');
 
-    if (typeof _values3 !== 'undefined' && !_values3.isEmpty()) {
+    if (_commonJavascript.Common.isNotUndefined(_values3) && !_values3.isEmpty()) {
       query.containedIn(columnName, _values3.map(function (id) {
         return _ParseWrapperService2.default.createUserWithoutData(id);
       }).toArray());
@@ -355,7 +357,7 @@ ServiceBase.addEqualToQuery = function (conditions, query, conditionPropKey, col
   if (conditions.has(conditionPropKey)) {
     var value = conditions.get(conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.equalTo(columnName, value);
 
       return true;
@@ -369,7 +371,7 @@ ServiceBase.addNotEqualToQuery = function (conditions, query, conditionPropKey, 
   if (conditions.has('notEqual_' + conditionPropKey)) {
     var value = conditions.get('notEqual_' + conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.notEqualTo(columnName, value);
 
       return true;
@@ -383,7 +385,7 @@ ServiceBase.addLessThanToQuery = function (conditions, query, conditionPropKey, 
   if (conditions.has('lessThan_' + conditionPropKey)) {
     var value = conditions.get('lessThan_' + conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.lessThan(columnName, value);
 
       return true;
@@ -397,7 +399,7 @@ ServiceBase.addLessThanOrEqualToQuery = function (conditions, query, conditionPr
   if (conditions.has('lessThanOrEqualTo_' + conditionPropKey)) {
     var value = conditions.get('lessThanOrEqualTo_' + conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.lessThanOrEqualTo(columnName, value);
 
       return true;
@@ -411,7 +413,7 @@ ServiceBase.addGreaterThanToQuery = function (conditions, query, conditionPropKe
   if (conditions.has('greaterThan_' + conditionPropKey)) {
     var value = conditions.get('greaterThan_' + conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.greaterThan(columnName, value);
 
       return true;
@@ -425,7 +427,7 @@ ServiceBase.addGreaterThanOrEqualToQuery = function (conditions, query, conditio
   if (conditions.has('greaterThanOrEqualTo_' + conditionPropKey)) {
     var value = conditions.get('greaterThanOrEqualTo_' + conditionPropKey);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.greaterThanOrEqualTo(columnName, value);
 
       return true;
@@ -439,7 +441,7 @@ ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
   if (criteria.has('include_' + columnName)) {
     var value = criteria.get('include_' + columnName);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.include(columnName);
 
       return true;
@@ -453,7 +455,7 @@ ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
   if (conditions.has('exist_' + columnName)) {
     var value = conditions.get('exists_' + columnName);
 
-    if (typeof value !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(value)) {
       query.exists(columnName);
 
       return true;
@@ -463,7 +465,7 @@ ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
   if (conditions.has('doesNotExist_' + columnName)) {
     var _value12 = conditions.get('doesNotExist_' + columnName);
 
-    if (typeof _value12 !== 'undefined') {
+    if (_commonJavascript.Common.isNotUndefined(_value12)) {
       query.doesNotExist(columnName);
 
       return true;

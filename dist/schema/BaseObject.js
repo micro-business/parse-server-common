@@ -56,7 +56,7 @@ BaseObject.createMultiLanguagesStringColumn = function (object, info, columnName
     return;
   }
 
-  if (languages === null) {
+  if (_commonJavascript.Common.isNull(languages)) {
     object.set('languages_' + columnName, []);
 
     return;

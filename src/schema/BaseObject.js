@@ -43,7 +43,7 @@ export default class BaseObject extends Parse.Object {
       return;
     }
 
-    if (languages === null) {
+    if (Common.isNull(languages)) {
       object.set(`languages_${columnName}`, []);
 
       return;
