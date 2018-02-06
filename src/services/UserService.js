@@ -53,26 +53,26 @@ export default class UserService {
 
   static updateUserDetails = async ({
     username, password, emailAddress, userType,
-  } = {}) => {
-    const user = await ParseWrapperService.getCurrentUserAsync();
+  } = {}, user = null) => {
+    const finalUser = user || (await ParseWrapperService.getCurrentUserAsync());
 
     if (username) {
-      user.setUsername(username);
+      finalUser.setUsername(username);
     }
 
     if (password) {
-      user.setPassword(password);
+      finalUser.setPassword(password);
     }
 
     if (emailAddress) {
-      user.setEmail(emailAddress);
+      finalUser.setEmail(emailAddress);
     }
 
     if (userType) {
-      user.set('userType', userType);
+      finalUser.set('userType', userType);
     }
 
-    return user.save();
+    return finalUser.save();
   };
 
   static getCurrentUserInfo = async () => {

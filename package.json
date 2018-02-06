@@ -1,6 +1,6 @@
 {
   "name": "@microbusiness/parse-server-common",
-  "version": "1.1.25",
+  "version": "1.1.26",
   "description": "Micro Business Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
