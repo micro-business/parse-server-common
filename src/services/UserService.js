@@ -36,68 +36,38 @@ export default class UserService {
 
   static signOut = () => ParseWrapperService.logOut();
 
-  static sendEmailVerification = async () => {
-    const user = await ParseWrapperService.getCurrentUserAsync();
-
+  static sendEmailVerification = async (user) => {
     // Re-saving the email address triggers the logic in parse server back-end to re-send the verification email
     user.setEmail(user.getEmail());
 
     return user.save();
   };
 
-  static resetPassword = async (emailAddress: string) => {
-    const user = await ParseWrapperService.getCurrentUserAsync();
-
-    return user.requestPasswordReset(emailAddress);
-  };
+  static resetPassword = async (user, emailAddress: string) => user.requestPasswordReset(emailAddress);
 
   static updateUserDetails = async ({
     username, password, emailAddress, userType,
-  } = {}, user, sessionToken, useMasterKey) => {
-    const finalUser = user || (await ParseWrapperService.getCurrentUserAsync());
-
+  } = {}, user, sessionToken, useMasterKey: ?boolean) => {
     if (username) {
-      finalUser.setUsername(username);
+      user.setUsername(username);
     }
 
     if (password) {
-      finalUser.setPassword(password);
+      user.setPassword(password);
     }
 
     if (emailAddress) {
-      finalUser.setEmail(emailAddress);
+      user.setEmail(emailAddress);
     }
 
     if (userType) {
-      finalUser.set('userType', userType);
+      user.set('userType', userType);
     }
 
-    return finalUser.save(null, { sessionToken, useMasterKey });
+    return user.save(null, { sessionToken, useMasterKey });
   };
 
-  static getCurrentUserInfo = async () => {
-    const user = await ParseWrapperService.getCurrentUserAsync();
-
-    if (user) {
-      return Map({
-        id: user.id,
-        username: user.getUsername(),
-        emailAddress: user.getEmail(),
-        emailAddressVerified: user.get('emailVerified'),
-        userType: user.get('userType'),
-      });
-    }
-
-    return undefined;
-  };
-
-  static getCurrentUserSession = async () => {
-    const user = await ParseWrapperService.getCurrentUserAsync();
-
-    return user ? user.getSessionToken() : null;
-  };
-
-  static getUserForProvidedSessionToken = async (sessionToken, useMasterKey) => {
+  static getUserForProvidedSessionToken = async (sessionToken, useMasterKey: ?boolean) => {
     const result = await ParseWrapperService.createSessionQuery()
       .equalTo('sessionToken', sessionToken)
       .first({ useMasterKey });
@@ -105,7 +75,7 @@ export default class UserService {
     return result ? result.get('user') : null;
   };
 
-  static getUserById = async (id: string, sessionToken: ?string, useMasterKey) => {
+  static getUserById = async (id: string, sessionToken: ?string, useMasterKey: ?boolean) => {
     const result = await ParseWrapperService.createUserQuery()
       .equalTo('objectId', id)
       .first({ sessionToken, useMasterKey });
@@ -117,7 +87,7 @@ export default class UserService {
     throw new Error(`No user found with id: ${id}`);
   };
 
-  static getUser = async (username: string, sessionToken: ?string, useMasterKey) => {
+  static getUser = async (username: string, sessionToken: ?string, useMasterKey: ?boolean) => {
     const result = await ParseWrapperService.createUserQuery()
       .equalTo('username', username)
       .first({ sessionToken, useMasterKey });
@@ -129,8 +99,8 @@ export default class UserService {
     throw new Error(`No user found with username: ${username}`);
   };
 
-  static getUserInfo = async (username: string, sessionToken: ?string, useMasterKey) => {
-    const result = await UserService.getUser(username, sessionToken, useMasterKey);
+  static getUserInfo = async (username: string, sessionToken: ?string, useMasterKey: ?boolean) => {
+    const result = await UserService.getUser(username, sessionToken, (useMasterKey: ?boolean));
 
     return Map({
       id: result.id,
@@ -141,8 +111,8 @@ export default class UserService {
     });
   };
 
-  static getUserInfoById = async (id: string, sessionToken: ?string, useMasterKey) => {
-    const result = await UserService.getUserById(id, sessionToken, useMasterKey);
+  static getUserInfoById = async (id: string, sessionToken: ?string, useMasterKey: ?boolean) => {
+    const result = await UserService.getUserById(id, sessionToken, (useMasterKey: ?boolean));
 
     return Map({
       id: result.id,
