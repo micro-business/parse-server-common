@@ -176,14 +176,6 @@ ParseWrapperService.getCachedConfig = function () {
   return _node2.default.Config.current();
 };
 
-ParseWrapperService.getCurrentUser = function () {
-  return _node2.default.User.current();
-};
-
-ParseWrapperService.getCurrentUserAsync = function () {
-  return _node2.default.User.currentAsync();
-};
-
 ParseWrapperService.createNewUser = function () {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       username = _ref.username,

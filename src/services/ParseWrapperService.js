@@ -133,8 +133,6 @@ export default class ParseWrapperService {
   static createSessionQuery = () => new Parse.Query(Parse.Session);
   static getConfig = () => Parse.Config.get();
   static getCachedConfig = () => Parse.Config.current();
-  static getCurrentUser = () => Parse.User.current();
-  static getCurrentUserAsync = () => Parse.User.currentAsync();
   static createNewUser = ({
     username, password, emailAddress, userType,
   } = {}) => {
