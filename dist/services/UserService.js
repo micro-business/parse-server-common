@@ -149,8 +149,8 @@ UserService.resetPassword = function () {
   };
 }();
 
-UserService.updatePassword = function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(newPassword) {
+UserService.updateUserDetails = function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(username, password, emailAddress, userType) {
     var user;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -163,11 +163,25 @@ UserService.updatePassword = function () {
             user = _context5.sent;
 
 
-            user.setPassword(newPassword);
+            if (username) {
+              user.setUsername(username);
+            }
+
+            if (password) {
+              user.setPassword(password);
+            }
+
+            if (emailAddress) {
+              user.setEmail(emailAddress);
+            }
+
+            if (userType) {
+              user.set('userType', userType);
+            }
 
             return _context5.abrupt('return', user.save());
 
-          case 5:
+          case 8:
           case 'end':
             return _context5.stop();
         }
@@ -175,7 +189,7 @@ UserService.updatePassword = function () {
     }, _callee5, undefined);
   }));
 
-  return function (_x8) {
+  return function (_x8, _x9, _x10, _x11) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -258,7 +272,7 @@ UserService.getUserForProvidedSessionToken = function () {
     }, _callee8, undefined);
   }));
 
-  return function (_x9) {
+  return function (_x12) {
     return _ref8.apply(this, arguments);
   };
 }();
@@ -294,7 +308,7 @@ UserService.getUserById = function () {
     }, _callee9, undefined);
   }));
 
-  return function (_x10, _x11) {
+  return function (_x13, _x14) {
     return _ref9.apply(this, arguments);
   };
 }();
@@ -330,7 +344,7 @@ UserService.getUser = function () {
     }, _callee10, undefined);
   }));
 
-  return function (_x12, _x13) {
+  return function (_x15, _x16) {
     return _ref10.apply(this, arguments);
   };
 }();
@@ -363,7 +377,7 @@ UserService.getUserInfo = function () {
     }, _callee11, undefined);
   }));
 
-  return function (_x14, _x15) {
+  return function (_x17, _x18) {
     return _ref11.apply(this, arguments);
   };
 }();
@@ -396,7 +410,7 @@ UserService.getUserInfoById = function () {
     }, _callee12, undefined);
   }));
 
-  return function (_x16, _x17) {
+  return function (_x19, _x20) {
     return _ref12.apply(this, arguments);
   };
 }();
