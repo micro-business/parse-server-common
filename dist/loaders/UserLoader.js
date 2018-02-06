@@ -27,7 +27,7 @@ var createUserLoaderBySessionToken = function createUserLoaderBySessionToken() {
                     while (1) {
                       switch (_context.prev = _context.next) {
                         case 0:
-                          return _context.abrupt('return', _services.UserService.getUserForProvidedSessionToken(sessionToken));
+                          return _context.abrupt('return', _services.UserService.getUserForProvidedSessionToken(sessionToken, true));
 
                         case 1:
                         case 'end':

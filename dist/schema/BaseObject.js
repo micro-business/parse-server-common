@@ -161,8 +161,8 @@ var _initialiseProps = function _initialiseProps() {
     return _this2.object || _this2;
   };
 
-  this.saveObject = function (sessionToken) {
-    return _this2.getObject().save(null, { sessionToken: sessionToken });
+  this.saveObject = function (sessionToken, useMasterKey) {
+    return _this2.getObject().save(null, { sessionToken: sessionToken, useMasterKey: useMasterKey });
   };
 
   this.getId = function () {

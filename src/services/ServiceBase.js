@@ -444,20 +444,20 @@ export default class ServiceBase {
     this.messagePrefix = `No ${objectFriendlyName} found with Id: `;
   }
 
-  create = async (info, acl, sessionToken) => {
+  create = async (info, acl, sessionToken, useMasterKey) => {
     const object = this.ObjectType.spawn(info);
 
     ServiceBase.setACL(object, acl);
 
-    const result = await object.save(null, { sessionToken });
+    const result = await object.save(null, { sessionToken, useMasterKey });
 
     return result.id;
   };
 
-  read = async (id, criteria, sessionToken) => {
+  read = async (id, criteria, sessionToken, useMasterKey) => {
     const query = ParseWrapperService.createQuery(this.ObjectType).equalTo('objectId', id);
     const finalQuery = this.buildIncludeQueryFunc ? this.buildIncludeQueryFunc(query, criteria) : query;
-    const result = await finalQuery.first({ sessionToken });
+    const result = await finalQuery.first({ sessionToken, useMasterKey });
 
     if (result) {
       return new this.ObjectType(result).getInfo();
@@ -466,7 +466,7 @@ export default class ServiceBase {
     throw new Error(this.messagePrefix + id);
   };
 
-  update = async (info, sessionToken) => {
+  update = async (info, sessionToken, useMasterKey) => {
     const result = await ParseWrapperService.createQuery(this.ObjectType)
       .equalTo('objectId', info.get('id'))
       .first({ sessionToken });
@@ -474,7 +474,7 @@ export default class ServiceBase {
     if (result) {
       const object = new this.ObjectType(result);
 
-      await object.updateInfo(info).saveObject(sessionToken);
+      await object.updateInfo(info).saveObject(sessionToken, useMasterKey);
 
       return object.getId();
     }
@@ -482,7 +482,7 @@ export default class ServiceBase {
     throw new Error(this.messagePrefix + info.get('id'));
   };
 
-  delete = async (id, sessionToken) => {
+  delete = async (id, sessionToken, useMasterKey) => {
     const result = await ParseWrapperService.createQuery(this.ObjectType)
       .equalTo('objectId', id)
       .first({ sessionToken });
@@ -491,18 +491,21 @@ export default class ServiceBase {
       throw new Error(this.messagePrefix + id);
     }
 
-    await result.destroy({ sessionToken });
+    await result.destroy({ sessionToken, useMasterKey });
   };
 
-  search = async (criteria, sessionToken) => {
-    const results = await this.buildSearchQueryFunc(criteria).find({ sessionToken });
+  search = async (criteria, sessionToken, useMasterKey) => {
+    const results = await this.buildSearchQueryFunc(criteria).find({ sessionToken, useMasterKey });
 
     return Immutable.fromJS(results).map(result => new this.ObjectType(result).getInfo());
   };
 
-  searchAll = (criteria, sessionToken) => {
+  searchAll = (criteria, sessionToken, useMasterKey) => {
     const event = new NewSearchResultReceivedEvent();
-    const promise = this.buildSearchQueryFunc(criteria).each(result => event.raise(new this.ObjectType(result).getInfo()), { sessionToken });
+    const promise = this.buildSearchQueryFunc(criteria).each(result => event.raise(new this.ObjectType(result).getInfo()), {
+      sessionToken,
+      useMasterKey,
+    });
 
     return {
       event,
@@ -510,7 +513,7 @@ export default class ServiceBase {
     };
   };
 
-  count = async (criteria, sessionToken) => this.buildSearchQueryFunc(criteria).count({ sessionToken });
+  count = async (criteria, sessionToken, useMasterKey) => this.buildSearchQueryFunc(criteria).count({ sessionToken, useMasterKey });
 
-  exists = async (criteria, sessionToken) => (await this.count(criteria, sessionToken)) > 0;
+  exists = async (criteria, sessionToken, useMasterKey) => (await this.count(criteria, sessionToken, useMasterKey)) > 0;
 }

@@ -159,6 +159,7 @@ UserService.updateUserDetails = function () {
 
     var user = arguments[1];
     var sessionToken = arguments[2];
+    var useMasterKey = arguments[3];
     var finalUser;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -197,7 +198,7 @@ UserService.updateUserDetails = function () {
               finalUser.set('userType', userType);
             }
 
-            return _context5.abrupt('return', finalUser.save(null, { sessionToken: sessionToken }));
+            return _context5.abrupt('return', finalUser.save(null, { sessionToken: sessionToken, useMasterKey: useMasterKey }));
 
           case 11:
           case 'end':
@@ -269,14 +270,14 @@ UserService.getCurrentUserSession = _asyncToGenerator( /*#__PURE__*/regeneratorR
 }));
 
 UserService.getUserForProvidedSessionToken = function () {
-  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(sessionToken) {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(sessionToken, useMasterKey) {
     var result;
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
             _context8.next = 2;
-            return _ParseWrapperService2.default.createSessionQuery().equalTo('sessionToken', sessionToken).first({ useMasterKey: true });
+            return _ParseWrapperService2.default.createSessionQuery().equalTo('sessionToken', sessionToken).first({ useMasterKey: useMasterKey });
 
           case 2:
             result = _context8.sent;
@@ -290,20 +291,20 @@ UserService.getUserForProvidedSessionToken = function () {
     }, _callee8, undefined);
   }));
 
-  return function (_x9) {
+  return function (_x9, _x10) {
     return _ref9.apply(this, arguments);
   };
 }();
 
 UserService.getUserById = function () {
-  var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(id, sessionToken) {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(id, sessionToken, useMasterKey) {
     var result;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.next = 2;
-            return _ParseWrapperService2.default.createUserQuery().equalTo('objectId', id).first({ sessionToken: sessionToken });
+            return _ParseWrapperService2.default.createUserQuery().equalTo('objectId', id).first({ sessionToken: sessionToken, useMasterKey: useMasterKey });
 
           case 2:
             result = _context9.sent;
@@ -326,20 +327,20 @@ UserService.getUserById = function () {
     }, _callee9, undefined);
   }));
 
-  return function (_x10, _x11) {
+  return function (_x11, _x12, _x13) {
     return _ref10.apply(this, arguments);
   };
 }();
 
 UserService.getUser = function () {
-  var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(username, sessionToken) {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(username, sessionToken, useMasterKey) {
     var result;
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.next = 2;
-            return _ParseWrapperService2.default.createUserQuery().equalTo('username', username).first({ sessionToken: sessionToken });
+            return _ParseWrapperService2.default.createUserQuery().equalTo('username', username).first({ sessionToken: sessionToken, useMasterKey: useMasterKey });
 
           case 2:
             result = _context10.sent;
@@ -362,20 +363,20 @@ UserService.getUser = function () {
     }, _callee10, undefined);
   }));
 
-  return function (_x12, _x13) {
+  return function (_x14, _x15, _x16) {
     return _ref11.apply(this, arguments);
   };
 }();
 
 UserService.getUserInfo = function () {
-  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(username, sessionToken) {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(username, sessionToken, useMasterKey) {
     var result;
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
             _context11.next = 2;
-            return UserService.getUser(username, sessionToken);
+            return UserService.getUser(username, sessionToken, useMasterKey);
 
           case 2:
             result = _context11.sent;
@@ -395,20 +396,20 @@ UserService.getUserInfo = function () {
     }, _callee11, undefined);
   }));
 
-  return function (_x14, _x15) {
+  return function (_x17, _x18, _x19) {
     return _ref12.apply(this, arguments);
   };
 }();
 
 UserService.getUserInfoById = function () {
-  var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(id, sessionToken) {
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(id, sessionToken, useMasterKey) {
     var result;
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.next = 2;
-            return UserService.getUserById(id, sessionToken);
+            return UserService.getUserById(id, sessionToken, useMasterKey);
 
           case 2:
             result = _context12.sent;
@@ -428,7 +429,7 @@ UserService.getUserInfoById = function () {
     }, _callee12, undefined);
   }));
 
-  return function (_x16, _x17) {
+  return function (_x20, _x21, _x22) {
     return _ref13.apply(this, arguments);
   };
 }();

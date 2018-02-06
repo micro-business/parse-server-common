@@ -53,7 +53,7 @@ export default class UserService {
 
   static updateUserDetails = async ({
     username, password, emailAddress, userType,
-  } = {}, user, sessionToken) => {
+  } = {}, user, sessionToken, useMasterKey) => {
     const finalUser = user || (await ParseWrapperService.getCurrentUserAsync());
 
     if (username) {
@@ -72,7 +72,7 @@ export default class UserService {
       finalUser.set('userType', userType);
     }
 
-    return finalUser.save(null, { sessionToken });
+    return finalUser.save(null, { sessionToken, useMasterKey });
   };
 
   static getCurrentUserInfo = async () => {
@@ -97,18 +97,18 @@ export default class UserService {
     return user ? user.getSessionToken() : null;
   };
 
-  static getUserForProvidedSessionToken = async (sessionToken) => {
+  static getUserForProvidedSessionToken = async (sessionToken, useMasterKey) => {
     const result = await ParseWrapperService.createSessionQuery()
       .equalTo('sessionToken', sessionToken)
-      .first({ useMasterKey: true });
+      .first({ useMasterKey });
 
     return result ? result.get('user') : null;
   };
 
-  static getUserById = async (id: string, sessionToken: ?string) => {
+  static getUserById = async (id: string, sessionToken: ?string, useMasterKey) => {
     const result = await ParseWrapperService.createUserQuery()
       .equalTo('objectId', id)
-      .first({ sessionToken });
+      .first({ sessionToken, useMasterKey });
 
     if (result) {
       return result;
@@ -117,10 +117,10 @@ export default class UserService {
     throw new Error(`No user found with id: ${id}`);
   };
 
-  static getUser = async (username: string, sessionToken: ?string) => {
+  static getUser = async (username: string, sessionToken: ?string, useMasterKey) => {
     const result = await ParseWrapperService.createUserQuery()
       .equalTo('username', username)
-      .first({ sessionToken });
+      .first({ sessionToken, useMasterKey });
 
     if (result) {
       return result;
@@ -129,8 +129,8 @@ export default class UserService {
     throw new Error(`No user found with username: ${username}`);
   };
 
-  static getUserInfo = async (username: string, sessionToken: ?string) => {
-    const result = await UserService.getUser(username, sessionToken);
+  static getUserInfo = async (username: string, sessionToken: ?string, useMasterKey) => {
+    const result = await UserService.getUser(username, sessionToken, useMasterKey);
 
     return Map({
       id: result.id,
@@ -141,8 +141,8 @@ export default class UserService {
     });
   };
 
-  static getUserInfoById = async (id: string, sessionToken: ?string) => {
-    const result = await UserService.getUserById(id, sessionToken);
+  static getUserInfoById = async (id: string, sessionToken: ?string, useMasterKey) => {
+    const result = await UserService.getUserById(id, sessionToken, useMasterKey);
 
     return Map({
       id: result.id,
