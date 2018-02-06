@@ -53,7 +53,7 @@ export default class UserService {
 
   static updateUserDetails = async ({
     username, password, emailAddress, userType,
-  } = {}, user = null) => {
+  } = {}, user, sessionToken) => {
     const finalUser = user || (await ParseWrapperService.getCurrentUserAsync());
 
     if (username) {
@@ -72,7 +72,7 @@ export default class UserService {
       finalUser.set('userType', userType);
     }
 
-    return finalUser.save();
+    return finalUser.save(null, { sessionToken });
   };
 
   static getCurrentUserInfo = async () => {

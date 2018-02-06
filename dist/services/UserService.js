@@ -157,7 +157,8 @@ UserService.updateUserDetails = function () {
         emailAddress = _ref6.emailAddress,
         userType = _ref6.userType;
 
-    var user = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var user = arguments[1];
+    var sessionToken = arguments[2];
     var finalUser;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
@@ -196,7 +197,7 @@ UserService.updateUserDetails = function () {
               finalUser.set('userType', userType);
             }
 
-            return _context5.abrupt('return', finalUser.save());
+            return _context5.abrupt('return', finalUser.save(null, { sessionToken: sessionToken }));
 
           case 11:
           case 'end':
@@ -289,7 +290,7 @@ UserService.getUserForProvidedSessionToken = function () {
     }, _callee8, undefined);
   }));
 
-  return function (_x10) {
+  return function (_x9) {
     return _ref9.apply(this, arguments);
   };
 }();
@@ -325,7 +326,7 @@ UserService.getUserById = function () {
     }, _callee9, undefined);
   }));
 
-  return function (_x11, _x12) {
+  return function (_x10, _x11) {
     return _ref10.apply(this, arguments);
   };
 }();
@@ -361,7 +362,7 @@ UserService.getUser = function () {
     }, _callee10, undefined);
   }));
 
-  return function (_x13, _x14) {
+  return function (_x12, _x13) {
     return _ref11.apply(this, arguments);
   };
 }();
@@ -394,7 +395,7 @@ UserService.getUserInfo = function () {
     }, _callee11, undefined);
   }));
 
-  return function (_x15, _x16) {
+  return function (_x14, _x15) {
     return _ref12.apply(this, arguments);
   };
 }();
@@ -427,7 +428,7 @@ UserService.getUserInfoById = function () {
     }, _callee12, undefined);
   }));
 
-  return function (_x17, _x18) {
+  return function (_x16, _x17) {
     return _ref13.apply(this, arguments);
   };
 }();
