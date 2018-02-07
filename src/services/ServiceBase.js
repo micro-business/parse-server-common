@@ -24,8 +24,6 @@ export default class ServiceBase {
         } else {
           query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}$`));
         }
-
-        return true;
       }
     }
 
@@ -38,8 +36,6 @@ export default class ServiceBase {
         } else {
           query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}`));
         }
-
-        return true;
       }
     }
 
@@ -52,8 +48,6 @@ export default class ServiceBase {
         } else {
           query.matches(columnName, new RegExp(`${ServiceBase.escapeTextToUseInRegex(value)}$`));
         }
-
-        return true;
       }
     }
 
@@ -66,8 +60,6 @@ export default class ServiceBase {
         } else {
           query.matches(columnName, new RegExp(`(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`));
         }
-
-        return true;
       }
     }
 
@@ -86,8 +78,6 @@ export default class ServiceBase {
             new RegExp(values.map(value => `(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`).reduce((reduction, value) => reduction + value)),
           );
         }
-
-        return true;
       }
     }
 
@@ -96,8 +86,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}$`, 'i'));
-
-        return true;
       }
     }
 
@@ -106,8 +94,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.matches(columnName, new RegExp(`^${ServiceBase.escapeTextToUseInRegex(value)}`, 'i'));
-
-        return true;
       }
     }
 
@@ -116,8 +102,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.matches(columnName, new RegExp(`${ServiceBase.escapeTextToUseInRegex(value)}$`, 'i'));
-
-        return true;
       }
     }
 
@@ -126,8 +110,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.matches(columnName, new RegExp(`(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`, 'i'));
-
-        return true;
       }
     }
 
@@ -140,12 +122,8 @@ export default class ServiceBase {
           new RegExp(values.map(value => `(?=.*${ServiceBase.escapeTextToUseInRegex(value)})`).reduce((reduction, value) => reduction + value)),
           'i',
         );
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addMultiLanguagesStringQuery = (conditions, query, conditionPropKey, columnName, language) =>
@@ -157,8 +135,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.near(columnName, value);
-
-        return true;
       }
     }
 
@@ -167,8 +143,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.withinGeoBox(columnName, value.get('southwest'), value.get('northeast'));
-
-        return true;
       }
     }
 
@@ -177,8 +151,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.withinMiles(columnName, value.get('point'), value.get('distance'));
-
-        return true;
       }
     }
 
@@ -187,8 +159,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.withinKilometers(columnName, value.get('point'), value.get('distance'));
-
-        return true;
       }
     }
 
@@ -197,12 +167,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.withinRadians(columnName, value.get('point'), value.get('distance'));
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addDateTimeQuery = (conditions, query, conditionPropKey, columnName) =>
@@ -212,17 +178,13 @@ export default class ServiceBase {
     ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
   static addLinkQuery = (conditions, query, conditionPropKey, columnName, ObjectType) => {
-    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
+    ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
     if (conditions.has(`${conditionPropKey}Id`)) {
       const value = conditions.get(`${conditionPropKey}Id`);
 
       if (Common.isNotUndefined(value)) {
         query.equalTo(columnName, ObjectType.createWithoutData(value));
-
-        return true;
       }
     }
 
@@ -231,8 +193,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(values) && !values.isEmpty()) {
         query.containedIn(columnName, values.toArray());
-
-        return true;
       }
     }
 
@@ -241,26 +201,18 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(values) && !values.isEmpty()) {
         query.containedIn(columnName, values.map(id => ObjectType.createWithoutData(id)).toArray());
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addUserLinkQuery = (conditions, query, conditionPropKey, columnName) => {
-    if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
+    ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
     if (conditions.has(`${conditionPropKey}Id`)) {
       const value = conditions.get(`${conditionPropKey}Id`);
 
       if (Common.isNotUndefined(value)) {
         query.equalTo(columnName, ParseWrapperService.createUserWithoutData(value));
-
-        return true;
       }
     }
 
@@ -269,8 +221,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(values) && !values.isEmpty()) {
         query.containedIn(columnName, values.toArray());
-
-        return true;
       }
     }
 
@@ -279,40 +229,17 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(values) && !values.isEmpty()) {
         query.containedIn(columnName, values.map(id => ParseWrapperService.createUserWithoutData(id)).toArray());
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addEqualityQuery = (conditions, query, conditionPropKey, columnName) => {
-    if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-      return true;
-    }
-
-    return false;
+    ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName);
+    ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName);
+    ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName);
+    ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName);
+    ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName);
+    ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName);
   };
 
   static addEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
@@ -321,12 +248,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.equalTo(columnName, value);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addNotEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
@@ -335,12 +258,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.notEqualTo(columnName, value);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addLessThanToQuery = (conditions, query, conditionPropKey, columnName) => {
@@ -349,12 +268,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.lessThan(columnName, value);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addLessThanOrEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
@@ -363,12 +278,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.lessThanOrEqualTo(columnName, value);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addGreaterThanToQuery = (conditions, query, conditionPropKey, columnName) => {
@@ -377,12 +288,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.greaterThan(columnName, value);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addGreaterThanOrEqualToQuery = (conditions, query, conditionPropKey, columnName) => {
@@ -391,12 +298,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.greaterThanOrEqualTo(columnName, value);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addIncludeQuery = (criteria, query, columnName) => {
@@ -405,12 +308,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.include(columnName);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   static addExistenceQuery = (conditions, query, columnName) => {
@@ -419,8 +318,6 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.exists(columnName);
-
-        return true;
       }
     }
 
@@ -429,12 +326,8 @@ export default class ServiceBase {
 
       if (Common.isNotUndefined(value)) {
         query.doesNotExist(columnName);
-
-        return true;
       }
     }
-
-    return false;
   };
 
   constructor(ObjectType, buildSearchQueryFunc, buildIncludeQueryFunc, objectFriendlyName) {

@@ -53,8 +53,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
       } else {
         query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(value) + '$'));
       }
-
-      return true;
     }
   }
 
@@ -67,8 +65,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
       } else {
         query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value)));
       }
-
-      return true;
     }
   }
 
@@ -81,8 +77,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
       } else {
         query.matches(columnName, new RegExp(ServiceBase.escapeTextToUseInRegex(_value2) + '$'));
       }
-
-      return true;
     }
   }
 
@@ -95,8 +89,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
       } else {
         query.matches(columnName, new RegExp('(?=.*' + ServiceBase.escapeTextToUseInRegex(_value3) + ')'));
       }
-
-      return true;
     }
   }
 
@@ -117,8 +109,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
           return reduction + value;
         })));
       }
-
-      return true;
     }
   }
 
@@ -127,8 +117,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (_commonJavascript.Common.isNotUndefined(_value4)) {
       query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value4) + '$', 'i'));
-
-      return true;
     }
   }
 
@@ -137,8 +125,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (_commonJavascript.Common.isNotUndefined(_value5)) {
       query.matches(columnName, new RegExp('^' + ServiceBase.escapeTextToUseInRegex(_value5), 'i'));
-
-      return true;
     }
   }
 
@@ -147,8 +133,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (_commonJavascript.Common.isNotUndefined(_value6)) {
       query.matches(columnName, new RegExp(ServiceBase.escapeTextToUseInRegex(_value6) + '$', 'i'));
-
-      return true;
     }
   }
 
@@ -157,8 +141,6 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
 
     if (_commonJavascript.Common.isNotUndefined(_value7)) {
       query.matches(columnName, new RegExp('(?=.*' + ServiceBase.escapeTextToUseInRegex(_value7) + ')', 'i'));
-
-      return true;
     }
   }
 
@@ -171,12 +153,8 @@ ServiceBase.addStringQuery = function (conditions, query, conditionPropKey, colu
       }).reduce(function (reduction, value) {
         return reduction + value;
       })), 'i');
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addMultiLanguagesStringQuery = function (conditions, query, conditionPropKey, columnName, language) {
@@ -189,8 +167,6 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.near(columnName, value);
-
-      return true;
     }
   }
 
@@ -199,8 +175,6 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
 
     if (_commonJavascript.Common.isNotUndefined(_value8)) {
       query.withinGeoBox(columnName, _value8.get('southwest'), _value8.get('northeast'));
-
-      return true;
     }
   }
 
@@ -209,8 +183,6 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
 
     if (_commonJavascript.Common.isNotUndefined(_value9)) {
       query.withinMiles(columnName, _value9.get('point'), _value9.get('distance'));
-
-      return true;
     }
   }
 
@@ -219,8 +191,6 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
 
     if (_commonJavascript.Common.isNotUndefined(_value10)) {
       query.withinKilometers(columnName, _value10.get('point'), _value10.get('distance'));
-
-      return true;
     }
   }
 
@@ -229,12 +199,8 @@ ServiceBase.addGeoLocationQuery = function (conditions, query, conditionPropKey,
 
     if (_commonJavascript.Common.isNotUndefined(_value11)) {
       query.withinRadians(columnName, _value11.get('point'), _value11.get('distance'));
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addDateTimeQuery = function (conditions, query, conditionPropKey, columnName) {
@@ -246,17 +212,13 @@ ServiceBase.addNumberQuery = function (conditions, query, conditionPropKey, colu
 };
 
 ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, columnName, ObjectType) {
-  if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
+  ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
   if (conditions.has(conditionPropKey + 'Id')) {
     var value = conditions.get(conditionPropKey + 'Id');
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.equalTo(columnName, ObjectType.createWithoutData(value));
-
-      return true;
     }
   }
 
@@ -265,8 +227,6 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
 
     if (_commonJavascript.Common.isNotUndefined(values) && !values.isEmpty()) {
       query.containedIn(columnName, values.toArray());
-
-      return true;
     }
   }
 
@@ -277,26 +237,18 @@ ServiceBase.addLinkQuery = function (conditions, query, conditionPropKey, column
       query.containedIn(columnName, _values2.map(function (id) {
         return ObjectType.createWithoutData(id);
       }).toArray());
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
+  ServiceBase.addEqualityQuery(conditions, query, conditionPropKey, columnName);
 
   if (conditions.has(conditionPropKey + 'Id')) {
     var value = conditions.get(conditionPropKey + 'Id');
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.equalTo(columnName, _ParseWrapperService2.default.createUserWithoutData(value));
-
-      return true;
     }
   }
 
@@ -305,8 +257,6 @@ ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, co
 
     if (_commonJavascript.Common.isNotUndefined(values) && !values.isEmpty()) {
       query.containedIn(columnName, values.toArray());
-
-      return true;
     }
   }
 
@@ -317,40 +267,17 @@ ServiceBase.addUserLinkQuery = function (conditions, query, conditionPropKey, co
       query.containedIn(columnName, _values3.map(function (id) {
         return _ParseWrapperService2.default.createUserWithoutData(id);
       }).toArray());
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addEqualityQuery = function (conditions, query, conditionPropKey, columnName) {
-  if (ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  if (ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName)) {
-    return true;
-  }
-
-  return false;
+  ServiceBase.addEqualToQuery(conditions, query, conditionPropKey, columnName);
+  ServiceBase.addNotEqualToQuery(conditions, query, conditionPropKey, columnName);
+  ServiceBase.addLessThanToQuery(conditions, query, conditionPropKey, columnName);
+  ServiceBase.addLessThanOrEqualToQuery(conditions, query, conditionPropKey, columnName);
+  ServiceBase.addGreaterThanToQuery(conditions, query, conditionPropKey, columnName);
+  ServiceBase.addGreaterThanOrEqualToQuery(conditions, query, conditionPropKey, columnName);
 };
 
 ServiceBase.addEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
@@ -359,12 +286,8 @@ ServiceBase.addEqualToQuery = function (conditions, query, conditionPropKey, col
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.equalTo(columnName, value);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addNotEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
@@ -373,12 +296,8 @@ ServiceBase.addNotEqualToQuery = function (conditions, query, conditionPropKey, 
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.notEqualTo(columnName, value);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addLessThanToQuery = function (conditions, query, conditionPropKey, columnName) {
@@ -387,12 +306,8 @@ ServiceBase.addLessThanToQuery = function (conditions, query, conditionPropKey, 
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.lessThan(columnName, value);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addLessThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
@@ -401,12 +316,8 @@ ServiceBase.addLessThanOrEqualToQuery = function (conditions, query, conditionPr
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.lessThanOrEqualTo(columnName, value);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addGreaterThanToQuery = function (conditions, query, conditionPropKey, columnName) {
@@ -415,12 +326,8 @@ ServiceBase.addGreaterThanToQuery = function (conditions, query, conditionPropKe
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.greaterThan(columnName, value);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addGreaterThanOrEqualToQuery = function (conditions, query, conditionPropKey, columnName) {
@@ -429,12 +336,8 @@ ServiceBase.addGreaterThanOrEqualToQuery = function (conditions, query, conditio
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.greaterThanOrEqualTo(columnName, value);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
@@ -443,12 +346,8 @@ ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.include(columnName);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
@@ -457,8 +356,6 @@ ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
 
     if (_commonJavascript.Common.isNotUndefined(value)) {
       query.exists(columnName);
-
-      return true;
     }
   }
 
@@ -467,12 +364,8 @@ ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
 
     if (_commonJavascript.Common.isNotUndefined(_value12)) {
       query.doesNotExist(columnName);
-
-      return true;
     }
   }
-
-  return false;
 };
 
 var _initialiseProps = function _initialiseProps() {

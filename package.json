@@ -1,6 +1,6 @@
 {
   "name": "@microbusiness/parse-server-common",
-  "version": "1.1.30",
+  "version": "1.1.31",
   "description": "Micro Business Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "eslint-plugin-jest": "^21.7.0",
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "^7.6.1",
-    "flow-bin": "^0.64.0",
+    "flow-bin": "^0.65.0",
     "husky": "^0.14.3",
     "jest": "^22.1.4",
     "lint-staged": "^6.1.0",
