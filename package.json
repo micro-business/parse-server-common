@@ -1,6 +1,6 @@
 {
   "name": "@microbusiness/parse-server-common",
-  "version": "1.1.31",
+  "version": "1.1.32",
   "description": "Micro Business Parse Server Common",
   "main": "./dist/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "author": "Micro Business ltd<micro.business.ltd@gmail.com>",
   "homepage": "https://bitbucket.org/microbusiness/micro-business-parse-server-common#readme",
   "dependencies": {
-    "@microbusiness/common-javascript": "^1.1.10",
+    "@microbusiness/common-javascript": "^1.1.11",
     "dataloader": "^1.4.0",
     "immutable": "^4.0.0-rc.9"
   },
@@ -30,8 +30,9 @@
     "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-flowtype": "^2.43.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.8.0",
+    "eslint-plugin-jest": "^21.12.1",
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "^7.6.1",
     "flow-bin": "^0.65.0",
