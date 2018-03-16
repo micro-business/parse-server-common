@@ -1,14 +1,14 @@
 // @flow
 
-import uuid from 'uuid/v4';
+import cuid from 'cuid';
 import '../../../bootstrap';
 import { UserService } from '../';
 
 describe('signUpWithUsernameAndPassword', () => {
   test('should return the new signed up user', async () => {
-    const username: string = uuid();
-    const emailAddress: string = `${uuid()}@email.com`;
-    const result = await UserService.signUpWithUsernameAndPassword(username, uuid(), emailAddress);
+    const username: string = cuid();
+    const emailAddress: string = `${cuid()}@email.com`;
+    const result = await UserService.signUpWithUsernameAndPassword(username, cuid(), emailAddress);
 
     expect(result.get('id')).toBeTruthy();
     expect(result.get('username')).toBe(username);
@@ -20,8 +20,8 @@ describe('signUpWithUsernameAndPassword', () => {
 describe('signInWithUsernameAndPassword', () => {
   test('should fail if email address does not exist', async () => {
     try {
-      const username: string = uuid();
-      await UserService.signInWithUsernameAndPassword(username, uuid());
+      const username: string = cuid();
+      await UserService.signInWithUsernameAndPassword(username, cuid());
       fail(`User signed in for email that does not exist. Email: ${username}`);
     } catch (error) {
       expect(error).toBeTruthy();
@@ -30,10 +30,10 @@ describe('signInWithUsernameAndPassword', () => {
 
   test('should fail if password is wrong', async () => {
     try {
-      const username: string = uuid();
+      const username: string = cuid();
 
-      await UserService.signUpWithUsernameAndPassword(username, uuid(), `${uuid()}@email.com`);
-      await UserService.signInWithUsernameAndPassword(username, uuid());
+      await UserService.signUpWithUsernameAndPassword(username, cuid(), `${cuid()}@email.com`);
+      await UserService.signInWithUsernameAndPassword(username, cuid());
       fail('User signed in for incorrect password.');
     } catch (error) {
       expect(error).toBeTruthy();
@@ -41,9 +41,9 @@ describe('signInWithUsernameAndPassword', () => {
   });
 
   test('should return the signed in user', async () => {
-    const username: string = uuid();
-    const emailAddress: string = `${uuid()}@email.com`;
-    const password: string = uuid();
+    const username: string = cuid();
+    const emailAddress: string = `${cuid()}@email.com`;
+    const password: string = cuid();
 
     await UserService.signUpWithUsernameAndPassword(username, password, emailAddress);
 
@@ -58,7 +58,7 @@ describe('signInWithUsernameAndPassword', () => {
 
 describe('getUserInfo', () => {
   test('should reject if username does not exist', async () => {
-    const username: string = uuid();
+    const username: string = cuid();
 
     try {
       await UserService.getUserInfo(username);
@@ -70,9 +70,9 @@ describe('getUserInfo', () => {
   });
 
   test('should return the user info', async () => {
-    const username: string = uuid();
+    const username: string = cuid();
 
-    await UserService.signUpWithUsernameAndPassword(username, uuid(), `${uuid()}@email.com`);
+    await UserService.signUpWithUsernameAndPassword(username, cuid(), `${cuid()}@email.com`);
     const result = await UserService.getUserInfo(username);
 
     expect(result.get('id')).toBeTruthy();

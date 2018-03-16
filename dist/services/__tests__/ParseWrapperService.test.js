@@ -2,9 +2,9 @@
 
 var _immutable = require('immutable');
 
-var _v = require('uuid/v4');
+var _cuid = require('cuid');
 
-var _v2 = _interopRequireDefault(_v);
+var _cuid2 = _interopRequireDefault(_cuid);
 
 require('../../../bootstrap');
 
@@ -76,7 +76,7 @@ describe('createQuery', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            data = (0, _v2.default)();
+            data = (0, _cuid2.default)();
             _context.next = 3;
             return TestObject.spawn((0, _immutable.Map)({ data: data })).save();
 
@@ -112,8 +112,8 @@ describe('createQuery', function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            data1 = (0, _v2.default)();
-            data2 = (0, _v2.default)();
+            data1 = (0, _cuid2.default)();
+            data2 = (0, _cuid2.default)();
             _context2.next = 4;
             return TestObject.spawn((0, _immutable.Map)({ data: data1 })).save();
 

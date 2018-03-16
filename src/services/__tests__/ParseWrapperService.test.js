@@ -1,13 +1,13 @@
 // @flow
 
 import { List, Map } from 'immutable';
-import uuid from 'uuid/v4';
+import cuid from 'cuid';
 import '../../../bootstrap';
 import { BaseObject } from '../../schema';
 import { ParseWrapperService } from '../';
 
 class TestObject extends BaseObject {
-  static spawn = (info) => {
+  static spawn = info => {
     const object = new TestObject();
 
     TestObject.updateInfoInternal(object, info);
@@ -23,7 +23,7 @@ class TestObject extends BaseObject {
     super(object, 'TestObject');
   }
 
-  updateInfo = (info) => {
+  updateInfo = info => {
     const object = this.getObject();
 
     TestObject.updateInfoInternal(object, info);
@@ -40,7 +40,7 @@ class TestObject extends BaseObject {
 
 describe('createQuery', () => {
   test('should return the object when existing id provided.', async () => {
-    const data = uuid();
+    const data = cuid();
     const object = await TestObject.spawn(Map({ data })).save();
     const criteria = Map({
       fields: List.of('data'),
@@ -55,8 +55,8 @@ describe('createQuery', () => {
   });
 
   test('should return the object when existing ids provided.', async () => {
-    const data1 = uuid();
-    const data2 = uuid();
+    const data1 = cuid();
+    const data2 = cuid();
     const object1 = await TestObject.spawn(Map({ data: data1 })).save();
     const object2 = await TestObject.spawn(Map({ data: data2 })).save();
     const criteria = Map({

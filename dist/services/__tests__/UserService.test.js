@@ -1,8 +1,8 @@
 'use strict';
 
-var _v = require('uuid/v4');
+var _cuid = require('cuid');
 
-var _v2 = _interopRequireDefault(_v);
+var _cuid2 = _interopRequireDefault(_cuid);
 
 require('../../../bootstrap');
 
@@ -19,10 +19,10 @@ describe('signUpWithUsernameAndPassword', function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            username = (0, _v2.default)();
-            emailAddress = (0, _v2.default)() + '@email.com';
+            username = (0, _cuid2.default)();
+            emailAddress = (0, _cuid2.default)() + '@email.com';
             _context.next = 4;
-            return _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), emailAddress);
+            return _.UserService.signUpWithUsernameAndPassword(username, (0, _cuid2.default)(), emailAddress);
 
           case 4:
             result = _context.sent;
@@ -50,9 +50,9 @@ describe('signInWithUsernameAndPassword', function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
-            username = (0, _v2.default)();
+            username = (0, _cuid2.default)();
             _context2.next = 4;
-            return _.UserService.signInWithUsernameAndPassword(username, (0, _v2.default)());
+            return _.UserService.signInWithUsernameAndPassword(username, (0, _cuid2.default)());
 
           case 4:
             fail('User signed in for email that does not exist. Email: ' + username);
@@ -80,13 +80,13 @@ describe('signInWithUsernameAndPassword', function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            username = (0, _v2.default)();
+            username = (0, _cuid2.default)();
             _context3.next = 4;
-            return _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), (0, _v2.default)() + '@email.com');
+            return _.UserService.signUpWithUsernameAndPassword(username, (0, _cuid2.default)(), (0, _cuid2.default)() + '@email.com');
 
           case 4:
             _context3.next = 6;
-            return _.UserService.signInWithUsernameAndPassword(username, (0, _v2.default)());
+            return _.UserService.signInWithUsernameAndPassword(username, (0, _cuid2.default)());
 
           case 6:
             fail('User signed in for incorrect password.');
@@ -113,9 +113,9 @@ describe('signInWithUsernameAndPassword', function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            username = (0, _v2.default)();
-            emailAddress = (0, _v2.default)() + '@email.com';
-            password = (0, _v2.default)();
+            username = (0, _cuid2.default)();
+            emailAddress = (0, _cuid2.default)() + '@email.com';
+            password = (0, _cuid2.default)();
             _context4.next = 5;
             return _.UserService.signUpWithUsernameAndPassword(username, password, emailAddress);
 
@@ -148,7 +148,7 @@ describe('getUserInfo', function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            username = (0, _v2.default)();
+            username = (0, _cuid2.default)();
             _context5.prev = 1;
             _context5.next = 4;
             return _.UserService.getUserInfo(username);
@@ -179,9 +179,9 @@ describe('getUserInfo', function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            username = (0, _v2.default)();
+            username = (0, _cuid2.default)();
             _context6.next = 3;
-            return _.UserService.signUpWithUsernameAndPassword(username, (0, _v2.default)(), (0, _v2.default)() + '@email.com');
+            return _.UserService.signUpWithUsernameAndPassword(username, (0, _cuid2.default)(), (0, _cuid2.default)() + '@email.com');
 
           case 3:
             _context6.next = 5;
