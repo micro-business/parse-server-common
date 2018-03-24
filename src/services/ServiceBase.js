@@ -1,7 +1,7 @@
 // @flow
 
 import { Common } from '@microbusiness/common-javascript';
-import Immutable from 'immutable';
+import Immutable, { List } from 'immutable';
 import { NewSearchResultReceivedEvent } from '../extensions';
 import ParseWrapperService from './ParseWrapperService';
 
@@ -70,7 +70,9 @@ export default class ServiceBase {
         if (columnName.endsWith('LowerCase')) {
           query.matches(
             columnName,
-            new RegExp(values.map(value => `(?=.*${ServiceBase.escapeTextToUseInRegex(value.toLowerCase())})`).reduce((reduction, value) => reduction + value)),
+            new RegExp(
+              values.map(value => `(?=.*${ServiceBase.escapeTextToUseInRegex(value.toLowerCase())})`).reduce((reduction, value) => reduction + value),
+            ),
           );
         } else {
           query.matches(
@@ -388,6 +390,10 @@ export default class ServiceBase {
   };
 
   search = async (criteria, sessionToken, useMasterKey) => {
+    if (this.shouldReturnEmptyResultSet(criteria)) {
+      return List();
+    }
+
     const results = await this.buildSearchQueryFunc(criteria).find({ sessionToken, useMasterKey });
 
     return Immutable.fromJS(results).map(result => new this.ObjectType(result).getInfo());
@@ -395,6 +401,14 @@ export default class ServiceBase {
 
   searchAll = (criteria, sessionToken, useMasterKey) => {
     const event = new NewSearchResultReceivedEvent();
+
+    if (this.shouldReturnEmptyResultSet(criteria)) {
+      return {
+        event,
+        promise: Promise.resolve(),
+      };
+    }
+
     const promise = this.buildSearchQueryFunc(criteria).each(result => event.raise(new this.ObjectType(result).getInfo()), {
       sessionToken,
       useMasterKey,
@@ -406,7 +420,25 @@ export default class ServiceBase {
     };
   };
 
-  count = async (criteria, sessionToken, useMasterKey) => this.buildSearchQueryFunc(criteria).count({ sessionToken, useMasterKey });
+  count = async (criteria, sessionToken, useMasterKey) => {
+    if (this.shouldReturnEmptyResultSet(criteria)) {
+      return List();
+    }
+
+    return await this.buildSearchQueryFunc(criteria).count({ sessionToken, useMasterKey });
+  };
 
   exists = async (criteria, sessionToken, useMasterKey) => (await this.count(criteria, sessionToken, useMasterKey)) > 0;
+
+  shouldReturnEmptyResultSet = criteria => {
+    if (criteria && criteria.has('ids')) {
+      const objectIds = criteria.get('ids');
+
+      if (objectIds && objectIds.isEmpty()) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 }

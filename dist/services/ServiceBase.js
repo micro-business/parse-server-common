@@ -526,16 +526,24 @@ var _initialiseProps = function _initialiseProps() {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.next = 2;
-              return _this.buildSearchQueryFunc(criteria).find({ sessionToken: sessionToken, useMasterKey: useMasterKey });
+              if (!_this.shouldReturnEmptyResultSet(criteria)) {
+                _context5.next = 2;
+                break;
+              }
+
+              return _context5.abrupt('return', (0, _immutable.List)());
 
             case 2:
+              _context5.next = 4;
+              return _this.buildSearchQueryFunc(criteria).find({ sessionToken: sessionToken, useMasterKey: useMasterKey });
+
+            case 4:
               results = _context5.sent;
               return _context5.abrupt('return', _immutable2.default.fromJS(results).map(function (result) {
                 return new _this.ObjectType(result).getInfo();
               }));
 
-            case 4:
+            case 6:
             case 'end':
               return _context5.stop();
           }
@@ -550,6 +558,14 @@ var _initialiseProps = function _initialiseProps() {
 
   this.searchAll = function (criteria, sessionToken, useMasterKey) {
     var event = new _extensions.NewSearchResultReceivedEvent();
+
+    if (_this.shouldReturnEmptyResultSet(criteria)) {
+      return {
+        event: event,
+        promise: Promise.resolve()
+      };
+    }
+
     var promise = _this.buildSearchQueryFunc(criteria).each(function (result) {
       return event.raise(new _this.ObjectType(result).getInfo());
     }, {
@@ -569,9 +585,21 @@ var _initialiseProps = function _initialiseProps() {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              return _context6.abrupt('return', _this.buildSearchQueryFunc(criteria).count({ sessionToken: sessionToken, useMasterKey: useMasterKey }));
+              if (!_this.shouldReturnEmptyResultSet(criteria)) {
+                _context6.next = 2;
+                break;
+              }
 
-            case 1:
+              return _context6.abrupt('return', (0, _immutable.List)());
+
+            case 2:
+              _context6.next = 4;
+              return _this.buildSearchQueryFunc(criteria).count({ sessionToken: sessionToken, useMasterKey: useMasterKey });
+
+            case 4:
+              return _context6.abrupt('return', _context6.sent);
+
+            case 5:
             case 'end':
               return _context6.stop();
           }
@@ -609,6 +637,18 @@ var _initialiseProps = function _initialiseProps() {
       return _ref7.apply(this, arguments);
     };
   }();
+
+  this.shouldReturnEmptyResultSet = function (criteria) {
+    if (criteria && criteria.has('ids')) {
+      var objectIds = criteria.get('ids');
+
+      if (objectIds && objectIds.isEmpty()) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 };
 
 exports.default = ServiceBase;
