@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _commonJavascript = require('@microbusiness/common-javascript');
+
 var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
@@ -39,7 +41,7 @@ var createConfigLoader = function createConfigLoader() {
                           configs = _context.sent;
                           config = configs.get(key);
 
-                          if (!config) {
+                          if (!_commonJavascript.Common.isNotUndefined(config)) {
                             _context.next = 6;
                             break;
                           }
