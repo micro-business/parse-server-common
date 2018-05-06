@@ -308,7 +308,7 @@ export default class ServiceBase {
     if (criteria.has(`include_${columnName}`)) {
       const value = criteria.get(`include_${columnName}`);
 
-      if (Common.isNotUndefined(value)) {
+      if (Common.isNotUndefined(value) && value) {
         query.include(columnName);
       }
     }
@@ -318,7 +318,7 @@ export default class ServiceBase {
     if (conditions.has(`exist_${columnName}`)) {
       const value = conditions.get(`exists_${columnName}`);
 
-      if (Common.isNotUndefined(value)) {
+      if (Common.isNotUndefined(value) && value) {
         query.exists(columnName);
       }
     }
@@ -326,7 +326,7 @@ export default class ServiceBase {
     if (conditions.has(`doesNotExist_${columnName}`)) {
       const value = conditions.get(`doesNotExist_${columnName}`);
 
-      if (Common.isNotUndefined(value)) {
+      if (Common.isNotUndefined(value) && value) {
         query.doesNotExist(columnName);
       }
     }

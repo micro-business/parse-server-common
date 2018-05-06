@@ -344,7 +344,7 @@ ServiceBase.addIncludeQuery = function (criteria, query, columnName) {
   if (criteria.has('include_' + columnName)) {
     var value = criteria.get('include_' + columnName);
 
-    if (_commonJavascript.Common.isNotUndefined(value)) {
+    if (_commonJavascript.Common.isNotUndefined(value) && value) {
       query.include(columnName);
     }
   }
@@ -354,7 +354,7 @@ ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
   if (conditions.has('exist_' + columnName)) {
     var value = conditions.get('exists_' + columnName);
 
-    if (_commonJavascript.Common.isNotUndefined(value)) {
+    if (_commonJavascript.Common.isNotUndefined(value) && value) {
       query.exists(columnName);
     }
   }
@@ -362,7 +362,7 @@ ServiceBase.addExistenceQuery = function (conditions, query, columnName) {
   if (conditions.has('doesNotExist_' + columnName)) {
     var _value12 = conditions.get('doesNotExist_' + columnName);
 
-    if (_commonJavascript.Common.isNotUndefined(_value12)) {
+    if (_commonJavascript.Common.isNotUndefined(_value12) && _value12) {
       query.doesNotExist(columnName);
     }
   }
