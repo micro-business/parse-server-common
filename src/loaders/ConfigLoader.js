@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import Dataloader from 'dataloader';
 import { ParseWrapperService } from '../services';
 
-const createConfigLoader = () =>
+const createConfigLoaderByKey = () =>
   new Dataloader(async keys =>
     Promise.all(
       keys.map(async key => {
@@ -21,4 +21,4 @@ const createConfigLoader = () =>
     ),
   );
 
-export default createConfigLoader;
+export default createConfigLoaderByKey;

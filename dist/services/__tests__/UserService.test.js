@@ -6,7 +6,7 @@ var _cuid2 = _interopRequireDefault(_cuid);
 
 require('../../../bootstrap');
 
-var _ = require('../');
+var _ = require('..');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

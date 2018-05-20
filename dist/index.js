@@ -15,10 +15,10 @@ Object.defineProperty(exports, 'NewSearchResultReceivedEvent', {
 
 var _loaders = require('./loaders');
 
-Object.defineProperty(exports, 'createConfigLoader', {
+Object.defineProperty(exports, 'createConfigLoaderByKey', {
   enumerable: true,
   get: function get() {
-    return _loaders.createConfigLoader;
+    return _loaders.createConfigLoaderByKey;
   }
 });
 Object.defineProperty(exports, 'createUserLoaderBySessionToken', {

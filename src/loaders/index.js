@@ -1,4 +1,4 @@
 // @flow
 
-export createConfigLoader from './ConfigLoader';
+export createConfigLoaderByKey from './ConfigLoader';
 export createUserLoaderBySessionToken from './UserLoader';

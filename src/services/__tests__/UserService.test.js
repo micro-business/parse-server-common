@@ -2,7 +2,7 @@
 
 import cuid from 'cuid';
 import '../../../bootstrap';
-import { UserService } from '../';
+import { UserService } from '..';
 
 describe('signUpWithUsernameAndPassword', () => {
   test('should return the new signed up user', async () => {

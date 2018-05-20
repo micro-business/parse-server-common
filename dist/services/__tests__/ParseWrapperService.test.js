@@ -10,7 +10,7 @@ require('../../../bootstrap');
 
 var _schema = require('../../schema');
 
-var _ = require('../');
+var _ = require('..');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

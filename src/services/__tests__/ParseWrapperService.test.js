@@ -4,7 +4,7 @@ import { List, Map } from 'immutable';
 import cuid from 'cuid';
 import '../../../bootstrap';
 import { BaseObject } from '../../schema';
-import { ParseWrapperService } from '../';
+import { ParseWrapperService } from '..';
 
 class TestObject extends BaseObject {
   static spawn = info => {
